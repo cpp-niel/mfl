@@ -1,0 +1,54 @@
+name: continuous-integration
+on: [push]
+
+jobs:
+    macos_build:
+        name: build and test (macos)
+        runs-on: macos-latest
+        steps:
+            - uses: actions/checkout@v1
+            - name: install dependencies
+              run: |
+                  export CXX="$(brew --prefix)/opt/llvm/bin/clang++" CC="$(brew --prefix)/opt/llvm/bin/clang"
+                  export LDFLAGS="-L$(brew --prefix)/opt/llvm/lib -Wl,-rpath,$(brew --prefix)/opt/llvm/lib"
+                  vcpkg update
+                  vcpkg install range-v3 fmt cairo harfbuzz freetype
+            - name: build & test
+              run: |
+                  export CXX="$(brew --prefix)/opt/llvm/bin/clang++" CC="$(brew --prefix)/opt/llvm/bin/clang"
+                  export LDFLAGS="-L$(brew --prefix)/opt/llvm/lib -Wl,-rpath,$(brew --prefix)/opt/llvm/lib"
+                  cd ../mfl
+                  mkdir build
+                  cd build
+                  cmake ./.. -DCMAKE_TOOLCHAIN_FILE=/usr/local/share/vcpkg/scripts/buildsystems/vcpkg.cmake
+                  cmake --build . -- -j2
+                  ./tests/unit_tests/unit_tests
+                  ./tests/approval_tests/approval_tests
+
+    linux_build:
+        name: build and test (linux)
+        runs-on: ubuntu-latest
+        steps:
+            - uses: actions/checkout@v1
+            - name: update gcc
+              run: |
+                  sudo add-apt-repository ppa:ubuntu-toolchain-r/test -y
+                  sudo apt-get update -q
+                  sudo apt-get install gcc-10 -y
+                  sudo apt-get install g++-10 -y
+            - name: install dependencies
+              run: |
+                  export CXX="g++-10" CC="gcc-10"
+                  git clone https://github.com/Microsoft/vcpkg.git
+                  cd vcpkg
+                  ./bootstrap-vcpkg.sh -disableMetrics
+                  ./vcpkg integrate install
+                  ./vcpkg install range-v3 fmt cairo harfbuzz freetype
+            - name: build & test
+              run: |
+                  cd ../mfl
+                  mkdir build
+                  cd build
+                  cmake ./.. -DCMAKE_CXX_COMPILER=g++-10 -DCMAKE_TOOLCHAIN_FILE=./../vcpkg/scripts/buildsystems/vcpkg.cmake
+                  cmake --build . -- -j2
+                  ./tests/unit_tests/unit_tests

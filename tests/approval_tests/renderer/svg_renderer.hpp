@@ -1,0 +1,27 @@
+#pragma once
+
+#include "fonts_for_tests/freetype.hpp"
+#include "mfl/layout.hpp"
+
+#include <iosfwd>
+#include <memory>
+#include <string>
+
+namespace mfl
+{
+    class svg_renderer
+    {
+    public:
+        svg_renderer(std::ostream& os, const pixels width, const pixels height, const dots_per_inch dpi,
+                     const fft::freetype& ft);
+
+        ~svg_renderer();
+
+        void render(const pixels x, const pixels y, const layout_elements& elements);
+        void render_tt_text(const pixels x, const pixels y, const std::string& text);
+
+    private:
+        class impl;
+        std::unique_ptr<impl> impl_;
+    };
+}

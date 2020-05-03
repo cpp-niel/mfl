@@ -1,0 +1,23 @@
+#pragma once
+
+#include "node/node.hpp"
+
+#include <vector>
+#include <utility>
+
+namespace mfl
+{
+    struct vlist
+    {
+        std::vector<node_variant> nodes;
+    };
+
+    [[nodiscard]] dist_t vlist_size(const vlist& l);
+
+    [[nodiscard]] vlist make_vlist(node auto&&... nodes)
+    {
+        vlist result;
+        (result.nodes.emplace_back(std::forward<decltype(nodes)>(nodes)), ...);
+        return result;
+    }
+}
