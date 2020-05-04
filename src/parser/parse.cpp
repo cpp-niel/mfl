@@ -13,7 +13,7 @@ namespace mfl
     {
         struct string_view_buf : std::streambuf
         {
-            string_view_buf(const std::string_view s)
+            explicit string_view_buf(const std::string_view s)
             {
                 auto* first = const_cast<char*>(s.data());
                 this->setg(first, first, first + s.size());

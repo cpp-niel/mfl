@@ -9,7 +9,6 @@ namespace mfl
 {
     struct radical
     {
-        size_t delim_index = 0;
         std::optional<std::vector<noad>> degree;
         std::vector<noad> radicand;
     };

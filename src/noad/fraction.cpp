@@ -26,14 +26,13 @@ namespace mfl
         {
             auto stroke = rule{.width = width, .height = thickness / 2, .depth = thickness / 2};
 
-            const auto min_dist = frac_numerator_min_gap(s);
             const auto dist_num_to_axis = frac_numerator_shift(s) - axis_height(s);
             const auto dist_num_base_to_stroke =
-                    std::max(dist_num_to_axis - (thickness / 2) - num.dims.depth, min_dist);
+                    std::max(dist_num_to_axis - (thickness / 2) - num.dims.depth, frac_numerator_min_gap(s));
 
             const auto dist_den_to_axis = frac_denominator_shift(s) + axis_height(s);
             const auto dist_den_top_to_stroke =
-                    std::max(dist_den_to_axis - (thickness / 2) - den.dims.height, min_dist);
+                    std::max(dist_den_to_axis - (thickness / 2) - den.dims.height, frac_denominator_min_gap(s));
 
             auto result =
                     make_vbox(width, stroke, make_fraction_vlist(dist_num_base_to_stroke, std::forward<box>(num)),
