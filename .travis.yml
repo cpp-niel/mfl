@@ -22,7 +22,7 @@ before_script:
   - pip install --user cpp-coveralls
 
 after_success:
-  - coveralls --root . --include include --include src --include tests/unit_tests -E *doctest.v.* --gcov-options '\-lp'
+  - coveralls --root . --include include --include src --include tests/unit_tests -E .*doctest\.v\..* --gcov-options '\-lp'
 
 script:
   - |
