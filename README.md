@@ -4,7 +4,7 @@
 
 [![GitHub build](https://github.com/cpp-niel/mfl/workflows/continuous-integration/badge.svg)](https://github.com/cpp-niel/mfl/workflows/continuous-integration/badge.svg)
 [![Travis build](https://travis-ci.org/cpp-niel/mfl.svg?branch=master)](https://travis-ci.org/cpp-niel/mfl)
-[![Coverage Status](https://coveralls.io/repos/github/cpp-niel/mfl/badge.svg?branch=master)](https://coveralls.io/github/cpp-niel/mfl?branch=master)
+[![Coverage Status](https://coveralls.io/repos/github/cpp-niel/mfl/badge.svg)](https://coveralls.io/github/cpp-niel/mfl)
 [![Codacy Badge](https://api.codacy.com/project/badge/Grade/7c69b659287948279110d52066f1d9d5)](https://www.codacy.com/manual/cpp-niel/mfl?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=cpp-niel/mfl&amp;utm_campaign=Badge_Grade)
 [![GitHub license](https://img.shields.io/badge/license-MIT-blue.svg)](https://github.com/cpp-niel/mfl/blob/master/LICENSE)
 
