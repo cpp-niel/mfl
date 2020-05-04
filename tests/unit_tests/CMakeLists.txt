@@ -5,6 +5,7 @@ project (unit_tests)
 add_executable (unit_tests
         dist.cpp
         framework/mock_font_face.cpp
+        layout.cpp
         main.cpp
         noad/accent.cpp
         noad/big_op.cpp
