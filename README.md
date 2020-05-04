@@ -2,7 +2,9 @@
 
 ## mathematical formula layout
 
-![](https://github.com/cpp-niel/mfl/workflows/continuous-integration/badge.svg)
+[![GitHub build](https://github.com/cpp-niel/mfl/workflows/continuous-integration/badge.svg)](https://github.com/cpp-niel/mfl/workflows/continuous-integration/badge.svg)
+[![Travis build](https://travis-ci.org/cpp-niel/mfl.svg?branch=master)](https://travis-ci.org/cpp-niel/mfl)
+[![Coverage Status](https://coveralls.io/repos/github/cpp-niel/mfl/badge.svg?branch=feature/travis_support)](https://coveralls.io/github/cpp-niel/mfl?branch=feature/travis_support)
 [![GitHub license](https://img.shields.io/badge/license-MIT-blue.svg)](https://github.com/cpp-niel/mfl/blob/master/LICENSE)
 
 **A C++ library which computes the layout information for mathematical formulas provided
