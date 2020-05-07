@@ -7,10 +7,6 @@
 #include <array>
 #include <string>
 
-// static analysis does not like the freetype macro magic
-#pragma clang diagnostic push
-#pragma ide diagnostic ignored "UnusedMacroInspection"
-
 #undef FTERRORS_H_
 // NOLINTNEXTLINE
 #define FT_ERRORDEF(e, v, s) {e, s},
@@ -18,8 +14,6 @@
 #define FT_ERROR_START_LIST {
 // NOLINTNEXTLINE
 #define FT_ERROR_END_LIST }
-
-#pragma clang diagnostic pop
 
 namespace mfl::fft
 {
