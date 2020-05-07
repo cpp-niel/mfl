@@ -12,8 +12,8 @@ namespace mfl
 {
     struct shaped_glyph
     {
-        font_family family;
-        size_t index;
+        font_family family = font_family::roman;
+        size_t index = 0;
         points size;
         points x;
         points y;

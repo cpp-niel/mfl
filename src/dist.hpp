@@ -12,8 +12,6 @@ namespace mfl
 
     [[nodiscard]] constexpr dist_t points_to_dist(const points p)
     {
-        return static_cast<dist_t>(p.value * static_cast<double>(unit_distance));
+        return static_cast<dist_t>(p.value() * static_cast<double>(unit_distance));
     }
-
-    [[nodiscard]] dist_t ratio_to_dist(const int numerator, const int denominator);
 }

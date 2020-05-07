@@ -96,7 +96,7 @@
   <use xlink:href="#glyph0-1" x="10" y="30"/>
 </g>
 <g style="fill:rgb(0%,0%,0%);fill-opacity:1;">
-  <use xlink:href="#glyph1-1" x="20.876736" y="21.250059"/>
+  <use xlink:href="#glyph1-1" x="20.876736" y="19.0625"/>
 </g>
 <g style="fill:rgb(0%,0%,0%);fill-opacity:1;">
   <use xlink:href="#glyph0-2" x="36.189236" y="30"/>
@@ -110,10 +110,10 @@
 <g style="fill:rgb(0%,0%,0%);fill-opacity:1;">
   <use xlink:href="#glyph0-5" x="97.135417" y="30"/>
 </g>
-<path style=" stroke:none;fill-rule:nonzero;fill:rgb(0%,0%,0%);fill-opacity:1;" d="M 10 10.136719 L 107.039062 10.136719 L 107.039062 9.359375 L 10 9.359375 L 10 10.136719 "/>
-<path style=" stroke:none;fill-rule:nonzero;fill:rgb(0%,0%,0%);fill-opacity:1;" d="M 10 18.339844 L 20.875 18.339844 L 20.875 17.5625 L 10 17.5625 L 10 18.339844 "/>
-<path style=" stroke:none;fill-rule:nonzero;fill:rgb(0%,0%,0%);fill-opacity:1;" d="M 97.136719 18.308594 L 107.039062 18.308594 L 107.039062 17.53125 L 97.136719 17.53125 L 97.136719 18.308594 "/>
-<path style=" stroke:none;fill-rule:nonzero;fill:rgb(0%,0%,0%);fill-opacity:1;" d="M 57.972656 37.394531 L 107.039062 37.394531 L 107.039062 36.617188 L 57.972656 36.617188 L 57.972656 37.394531 "/>
+<path style=" stroke:none;fill-rule:nonzero;fill:rgb(0%,0%,0%);fill-opacity:1;" d="M 10 6.878906 L 107.039062 6.878906 L 107.039062 5.542969 L 10 5.542969 L 10 6.878906 "/>
+<path style=" stroke:none;fill-rule:nonzero;fill:rgb(0%,0%,0%);fill-opacity:1;" d="M 10 17.269531 L 20.875 17.269531 L 20.875 15.933594 L 10 15.933594 L 10 17.269531 "/>
+<path style=" stroke:none;fill-rule:nonzero;fill:rgb(0%,0%,0%);fill-opacity:1;" d="M 97.136719 17.238281 L 107.039062 17.238281 L 107.039062 15.902344 L 97.136719 15.902344 L 97.136719 17.238281 "/>
+<path style=" stroke:none;fill-rule:nonzero;fill:rgb(0%,0%,0%);fill-opacity:1;" d="M 57.972656 39.023438 L 107.039062 39.023438 L 107.039062 37.6875 L 57.972656 37.6875 L 57.972656 39.023438 "/>
 <g style="fill:rgb(0%,5%,35%);fill-opacity:1;">
   <use xlink:href="#glyph2-1" x="160" y="30"/>
   <use xlink:href="#glyph2-2" x="168.19458" y="30"/>

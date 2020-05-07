@@ -26,7 +26,7 @@ namespace mfl::parser
             const auto [num_triple_primes, final_num_primes] = std::div(num_primes, 3);
 
             std::vector<noad> result;
-            result.reserve(std::size_t(num_triple_primes) + ((final_num_primes > 0) ? 1u : 0u));
+            result.reserve(std::size_t(num_triple_primes) + ((final_num_primes > 0) ? 1U : 0U));
             for (auto i = 0; i < num_triple_primes; ++i)
             {
                 result.emplace_back(math_char{.kind = item_kind::ord, .char_code = prime_char_code + 2});

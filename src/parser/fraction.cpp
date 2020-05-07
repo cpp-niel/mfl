@@ -36,7 +36,7 @@ namespace mfl::parser
         [[maybe_unused]] const auto math_style = parse_required_group(state);  // TODO support this??
         if (state.error()) return {};
 
-        const auto numerator = parse_required_group(state);
+        auto numerator = parse_required_group(state);
         if (state.error()) return {};
 
         return {.left_delim_code = ldelim_code,

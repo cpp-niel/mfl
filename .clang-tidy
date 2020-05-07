@@ -1,6 +1,10 @@
 
-Checks: '*,-fuchsia-*,-google-*,-zircon-*,-abseil-*,-modernize-use-trailing-return-type,-hicpp-braces-around-statements,-readability-braces-around-statements,-readability-avoid-const-params-in-decls,-llvm-*'
+Checks: '*,-fuchsia-*,-google-*,-zircon-*,-abseil-*,-llvmlibc-*,-*-magic-numbers,-modernize-use-trailing-return-type,-hicpp-no-assembler,-hicpp-braces-around-statements,-readability-named-parameter,-readability-braces-around-statements,-readability-avoid-const-params-in-decls,-llvm-*'
 WarningsAsErrors: '1'
-HeaderFilterRegex: ''
+HeaderFilterRegex: '.*[a-z]\.hpp'  # hack to exclude the doctest and approval test code from analysis (they are the only headers with a digit before the .hpp)
 FormatStyle: none
-
+CheckOptions:
+  - key:   cppcoreguidelines-special-member-functions.AllowSoleDefaultDtor
+    value: '1'
+  - key:   hicpp-special-member-functions.AllowSoleDefaultDtor
+    value: '1'

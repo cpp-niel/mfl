@@ -15,7 +15,7 @@ namespace mfl::parser
     public:
         void increment_column() { ++column_; }
 
-        size_t column() const { return column_; }
+        [[nodiscard]] size_t column() const { return column_; }
 
     private:
         size_t column_ = 1;
@@ -28,10 +28,8 @@ namespace mfl::parser
 
         [[nodiscard]] bool is_at_end() const;
         [[nodiscard]] char current_char() const;
-        [[nodiscard]] char peek_next_char() const;
 
         void skip_whitespace();
-        void skip_line();
         void skip_char();
 
         [[nodiscard]] std::string take_while(const predicate<char> auto& is_predicate_true)

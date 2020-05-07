@@ -12,42 +12,44 @@ namespace mfl
         constexpr auto normal_font_size = 10_pt;
         constexpr auto small_font_size = 7_pt;
         constexpr auto tiny_font_size = 5_pt;
+        constexpr auto math_unit_divisor = 18;  // a math unit is defined as one eighteenth of a quad
+        constexpr auto null_delimiter_gap_size = 1.2_pt;
 
         struct font_parameters
         {
-            font_parameters(const points size, const font_library& fonts)
-            {
-                const auto& face = fonts.get_face(font_family::roman, size);
-
-                const auto x_index = face.glyph_index_from_code_point('x', false);
-                x_height = face.glyph_info(x_index).height;
-
-                const auto capital_m_index = face.glyph_index_from_code_point('M', false);
-                capital_m_width = face.glyph_info(capital_m_index).width;
-
-                math_info = face.constants();
-            }
-
             dist_t x_height = 0;
             dist_t capital_m_width = 0;
             math_constants math_info;
         };
 
+        font_parameters make_font_parameters(const points size, const font_library& fonts)
+        {
+            const auto& face = fonts.get_face(font_family::roman, size);
+
+            const auto x_index = face.glyph_index_from_code_point('x', false);
+            const auto x_height = face.glyph_info(x_index).height;
+
+            const auto capital_m_index = face.glyph_index_from_code_point('M', false);
+            const auto capital_m_width = face.glyph_info(capital_m_index).width;
+
+            return {.x_height = x_height, .capital_m_width = capital_m_width, .math_info = face.constants()};
+        }
+
         const auto& params_normal(const font_library& fonts)
         {
-            const static auto p = font_parameters(normal_font_size, fonts);
+            const static auto p = make_font_parameters(normal_font_size, fonts);
             return p;
         }
 
         const auto& params_small(const font_library& fonts)
         {
-            const static auto p = font_parameters(small_font_size, fonts);
+            const static auto p = make_font_parameters(small_font_size, fonts);
             return p;
         }
 
         const auto& params_tiny(const font_library& fonts)
         {
-            const static auto p = font_parameters(tiny_font_size, fonts);
+            const static auto p = make_font_parameters(tiny_font_size, fonts);
             return p;
         }
 
@@ -60,20 +62,11 @@ namespace mfl
             return params_normal(*s.fonts);
         }
 
-        int style_size(const settings s)
-        {
-            if (s.style == formula_style::script_script) return 5;
-            if (s.style == formula_style::script) return 7;
-            return 10;
-        }
-
         settings script_base_style(const settings s)
         {
-            if (s.style == formula_style::script_script)
-                return {.style = formula_style::script, .fonts = s.fonts};
+            if (s.style == formula_style::script_script) return {.style = formula_style::script, .fonts = s.fonts};
 
-            if (s.style == formula_style::script)
-                return {.style = formula_style::text, .fonts = s.fonts};
+            if (s.style == formula_style::script) return {.style = formula_style::text, .fonts = s.fonts};
 
             return {.style = formula_style::display, .fonts = s.fonts};
         }
@@ -103,63 +96,39 @@ namespace mfl
 
     dist_t quad(const settings s) { return params(s).capital_m_width; }
 
-    dist_t math_unit(const settings s) { return quad(s) / 18; }
+    dist_t math_unit(const settings s) { return quad(s) / math_unit_divisor; }
 
     dist_t axis_height(const settings s) { return params(s).math_info.axis_height; }
 
-    dist_t rule_thickness(const settings s)
-    {
-        auto num = 20;
-        if (s.style == formula_style::script)
-            num = 17;
-        else if (s.style == formula_style::script_script)
-            num = 15;
+    dist_t rule_thickness(const settings s) { return params(s).math_info.fraction_rule_thickness; }
 
-        return ratio_to_dist(num, 50);
-    }
+    dist_t overline_gap(const settings s) { return params(s).math_info.overline_gap; }
 
-    dist_t line_gap(const settings s) { return rule_thickness(s) * 3; }
+    dist_t overline_thickness(const settings s) { return params(s).math_info.overline_thickness; }
 
-    dist_t line_thickness(const settings s) { return rule_thickness(s); }
+    dist_t overline_padding(const settings s) { return params(s).math_info.overline_padding; }
 
-    dist_t line_padding(const settings s) { return rule_thickness(s); }
+    dist_t underline_gap(const settings s) { return params(s).math_info.underline_gap; }
 
-    dist_t null_delimiter_space() { return points_to_dist(1.2_pt); }
+    dist_t underline_thickness(const settings s) { return params(s).math_info.underline_thickness; }
 
-    dist_t atop_numerator_shift(const settings s)
-    {
-        return atop_params(s).numerator_shift_up;
-    }
+    dist_t underline_padding(const settings s) { return params(s).math_info.underline_padding; }
 
-    dist_t atop_min_gap(const settings s)
-    {
-        return atop_params(s).numerator_min_gap;
-    }
+    dist_t null_delimiter_space() { return points_to_dist(null_delimiter_gap_size); }
 
-    dist_t frac_numerator_shift(const settings s)
-    {
-        return frac_params(s).numerator_shift_up;
-    }
+    dist_t atop_numerator_shift(const settings s) { return atop_params(s).numerator_shift_up; }
 
-    dist_t frac_numerator_min_gap(const settings s)
-    {
-        return frac_params(s).numerator_min_gap;
-    }
+    dist_t atop_min_gap(const settings s) { return atop_params(s).numerator_min_gap; }
 
-    dist_t atop_denominator_shift(const settings s)
-    {
-        return atop_params(s).denominator_shift_down;
-    }
+    dist_t frac_numerator_shift(const settings s) { return frac_params(s).numerator_shift_up; }
 
-    dist_t frac_denominator_shift(const settings s)
-    {
-        return frac_params(s).denominator_shift_down;
-    }
+    dist_t frac_numerator_min_gap(const settings s) { return frac_params(s).numerator_min_gap; }
 
-    dist_t frac_denominator_min_gap(const settings s)
-    {
-        return frac_params(s).denominator_min_gap;
-    }
+    dist_t atop_denominator_shift(const settings s) { return atop_params(s).denominator_shift_down; }
+
+    dist_t frac_denominator_shift(const settings s) { return frac_params(s).denominator_shift_down; }
+
+    dist_t frac_denominator_min_gap(const settings s) { return frac_params(s).denominator_min_gap; }
 
     dist_t superscript_shift(const settings s, const bool is_cramped)
     {
@@ -185,40 +154,21 @@ namespace mfl
 
     dist_t script_space(const settings s) { return params(script_base_style(s)).math_info.space_after_script; }
 
-    dist_t big_op_superscript_clearance(const settings s) { return ratio_to_dist(style_size(s), 9); }
+    dist_t big_op_superscript_clearance(const settings s) { return params(s).math_info.upper_limit_min_gap; }
 
-    dist_t big_op_subscript_clearance(const settings s) { return ratio_to_dist(style_size(s), 6); }
-
-    dist_t big_op_superscript_position(const settings s) { return ratio_to_dist(style_size(s), 5); }
-
-    dist_t big_op_subscript_position(const settings s) { return ratio_to_dist(4 + 5 * style_size(s), 9); }
+    dist_t big_op_subscript_clearance(const settings s) { return params(s).math_info.lower_limit_min_gap; }
 
     dist_t big_op_padding() { return unit_distance; }
 
-    dist_t radical_vertical_gap(const settings s)
-    {
-        return params(s).math_info.radical_vertical_gap;
-    }
+    dist_t radical_vertical_gap(const settings s) { return params(s).math_info.radical_vertical_gap; }
 
-    dist_t radical_rule_thickness(const settings s)
-    {
-        return params(s).math_info.radical_rule_thickness;
-    }
+    dist_t radical_rule_thickness(const settings s) { return params(s).math_info.radical_rule_thickness; }
 
-    dist_t radical_extra_ascender(const settings s)
-    {
-        return params(s).math_info.radical_extra_ascender;
-    }
+    dist_t radical_extra_ascender(const settings s) { return params(s).math_info.radical_extra_ascender; }
 
-    dist_t radical_kern_before_degree(const settings s)
-    {
-        return params(s).math_info.radical_kern_before_degree;
-    }
+    dist_t radical_kern_before_degree(const settings s) { return params(s).math_info.radical_kern_before_degree; }
 
-    dist_t radical_kern_after_degree(const settings s)
-    {
-        return params(s).math_info.radical_kern_after_degree;
-    }
+    dist_t radical_kern_after_degree(const settings s) { return params(s).math_info.radical_kern_after_degree; }
 
     dist_t radical_degree_bottom_raise_percent(const settings s)
     {

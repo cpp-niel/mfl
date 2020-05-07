@@ -10,32 +10,32 @@
 
 namespace mfl
 {
-    TEST_SUITE("math_char noad")
+    TEST_CASE("math_char noad")
     {
         const auto fonts = font_library(create_mock_font_face);
         const auto display_style = settings{.style = formula_style::display, .fonts = &fonts};
 
-        TEST_CASE("[math_char] math char translates to glyph")
+        SUBCASE("[math_char] math char translates to glyph")
         {
             const auto result = math_char_to_hlist(display_style, math_char{.char_code = lowercase_x});
             CHECK(node_types_are<glyph>(result.nodes));
         }
 
-        TEST_CASE("[math_char] translation finds the correct glyph index")
+        SUBCASE("[math_char] translation finds the correct glyph index")
         {
             const auto result = math_char_to_hlist(display_style, math_char{.char_code = lowercase_x});
             CHECK(std::get<glyph>(result.nodes[0]).index == 120);
         }
 
-        TEST_CASE("[math_char] use normal char when no variants exist")
+        SUBCASE("[math_char] use normal char when no variants exist")
         {
             const auto result = make_auto_height_glyph(display_style, font_family::roman, lowercase_x, 100);
             CHECK(result.first.index == lowercase_x);
         }
 
-        TEST_CASE("[math_char] find correct height variant of glyph")
+        SUBCASE("[math_char] find correct height variant of glyph")
         {
-            const auto char_index_for_height = [](const dist_t h)
+            const auto char_index_for_height = [&](const dist_t h)
             {
                 return make_auto_height_glyph(display_style, font_family::roman, 1, h).first.index;
             };
@@ -47,9 +47,9 @@ namespace mfl
             CHECK(char_index_for_height(40) == 4);
         }
 
-        TEST_CASE("[math_char] find correct width variant of glyph")
+        SUBCASE("[math_char] find correct width variant of glyph")
         {
-            const auto char_index_for_width = [](const dist_t w)
+            const auto char_index_for_width = [&](const dist_t w)
             {
                 return make_auto_width_glyph(display_style, font_family::roman, 1, w).first.index;
             };

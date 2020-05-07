@@ -11,7 +11,7 @@ namespace mfl
     class font_library
     {
     public:
-        font_library(const font_face_creator& create_face);
+        explicit font_library(font_face_creator  create_face);
 
         const abstract_font_face& get_face(const font_family family, const points size) const;
 

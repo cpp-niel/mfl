@@ -24,5 +24,5 @@ namespace mfl::parser
     class parser_state;
 
     [[nodiscard]] code_point unicode_index(const std::string_view name, parser_state& state);
-    [[nodiscard]] code_point math_alpha_index(const code_point cp, const font_choice font);
+    [[nodiscard]] code_point math_alpha_index(const code_point code, const font_choice font);
 }

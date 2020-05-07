@@ -15,8 +15,10 @@ namespace mfl
         {
             explicit string_view_buf(const std::string_view s)
             {
-                auto* first = const_cast<char*>(s.data());
-                this->setg(first, first, first + s.size());
+                // const cast and pointer arithmetic look nasty, but they should be ok
+                // (https://stackoverflow.com/questions/13059091/creating-an-input-stream-from-constant-memory)
+                auto* first = const_cast<char*>(s.data());   // NOLINT(cppcoreguidelines-pro-type-const-cast)
+                this->setg(first, first, first + s.size());  // NOLINT(cppcoreguidelines-pro-bounds-pointer-arithmetic)
             }
         };
 

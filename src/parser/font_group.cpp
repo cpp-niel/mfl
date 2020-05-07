@@ -7,24 +7,25 @@
 #include <range/v3/algorithm/find_if.hpp>
 
 #include <array>
+#include <string_view>
 
 namespace mfl::parser
 {
     namespace
     {
-        using namespace std::string_literals;
+        using namespace std::string_view_literals;
 
-        const std::array<std::pair<std::string, font_choice>, 9> font_commands = {
-            std::pair{"mathcal"s, font_choice::calligraphic},
-            {"mathnormal"s, font_choice::normal},
-            {"mathbf"s, font_choice::bold},
-            {"mathit"s, font_choice::italic},
-            {"mathrm"s, font_choice::roman},
-            {"mathsf"s, font_choice::sans},
-            {"mathtt"s, font_choice::mono},
-            {"mathbb"s, font_choice::blackboard},
-            {"mathfrak"s, font_choice::fraktur},
-        };
+        const auto font_commands = std::array<std::pair<std::string_view, font_choice>, 9>{{
+            {"mathcal"sv, font_choice::calligraphic},
+            {"mathnormal"sv, font_choice::normal},
+            {"mathbf"sv, font_choice::bold},
+            {"mathit"sv, font_choice::italic},
+            {"mathrm"sv, font_choice::roman},
+            {"mathsf"sv, font_choice::sans},
+            {"mathtt"sv, font_choice::mono},
+            {"mathbb"sv, font_choice::blackboard},
+            {"mathfrak"sv, font_choice::fraktur},
+        }};
     }
     bool is_font_choice(const std::string& name)
     {
@@ -34,7 +35,7 @@ namespace mfl::parser
     std::vector<noad> create_font_group(parser_state& state)
     {
         const auto name = state.consume_lexer_value();
-        const auto it = ranges::find_if(font_commands, [&](const auto c) { return c.first == name; });
+        const auto *const it = ranges::find_if(font_commands, [&](const auto c) { return c.first == name; });
         scoped_state s(state, {.font = it->second});
 
         return parse_expression(state);

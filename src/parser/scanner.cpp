@@ -16,7 +16,7 @@ namespace mfl::parser
     {
         bool ok = true;
         char c = ' ';
-        while (std::isspace(c) && ok)
+        while ((std::isspace(c) != 0) && ok)
             ok = get_char(c);
 
         current_char_ = c;

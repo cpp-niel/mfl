@@ -13,14 +13,14 @@
 
 namespace mfl
 {
-    TEST_SUITE("big_op noad")
+    TEST_CASE("big_op noad")
     {
         const auto fonts = font_library(create_mock_font_face);
         const auto display_style = settings{.style = formula_style::display, .fonts = &fonts};
         const noad x_noad = math_char{.char_code = lowercase_x};
         const noad prod_noad = math_char{.char_code = product_big_op};
 
-        TEST_CASE("with no scripts translates to box with glue inside vbox")
+        SUBCASE("with no scripts translates to box with glue inside vbox")
         {
             const auto result = big_op_to_hlist(display_style, false, big_op{.nucleus = {prod_noad}});
             CHECK(node_types_are<box>(result.nodes));
@@ -32,7 +32,7 @@ namespace mfl
             CHECK(node_types_are<glue_spec, box, glue_spec>(hb.nodes));
         }
 
-        TEST_CASE("with subscript in limit mode translates to vbox with op, gap, limit, and spacing")
+        SUBCASE("with subscript in limit mode translates to vbox with op, gap, limit, and spacing")
         {
             const auto result =
                 big_op_to_hlist(display_style, false, big_op{.nucleus = {prod_noad}, .sub = std::vector{x_noad}});
@@ -40,7 +40,7 @@ namespace mfl
             CHECK(node_types_are<box, kern, box, kern>(vb.nodes));  // big op, gap, sub limit, spacing
         }
 
-        TEST_CASE("with superscript in limit mode translates to vbox with spacing, limit, gap, and big op")
+        SUBCASE("with superscript in limit mode translates to vbox with spacing, limit, gap, and big op")
         {
             const auto result =
                 big_op_to_hlist(display_style, false, big_op{.nucleus = {prod_noad}, .sup = std::vector{x_noad}});
@@ -48,7 +48,7 @@ namespace mfl
             CHECK(node_types_are<kern, box, kern, box>(vb.nodes));  // spacing, sup limit, gap, big op
         }
 
-        TEST_CASE("with dual scripts in limit mode translates to vbox with both limits")
+        SUBCASE("with dual scripts in limit mode translates to vbox with both limits")
         {
             const auto result =
                 big_op_to_hlist(display_style, false,
@@ -58,7 +58,7 @@ namespace mfl
                 vb.nodes));  // spacing, sup limit, gap, big op, gap, sub limit, spacing
         }
 
-        TEST_CASE("with subscript in non-limit mode translates to nucleus, down-shifted script, and kern")
+        SUBCASE("with subscript in non-limit mode translates to nucleus, down-shifted script, and kern")
         {
             const auto result = big_op_to_hlist(
                 display_style, false,
@@ -68,7 +68,7 @@ namespace mfl
             CHECK(sub_box.shift == 137216);
         }
 
-        TEST_CASE("with superscript in non-limit mode translates to nucleus, up-shifted script, and kern")
+        SUBCASE("with superscript in non-limit mode translates to nucleus, up-shifted script, and kern")
         {
             const auto result = big_op_to_hlist(
                 display_style, false,
@@ -78,7 +78,7 @@ namespace mfl
             CHECK(sup_box.shift == -235520);
         }
 
-        TEST_CASE("with dual scripts in non-limit mode translates to nucleus, vbox with scripts, and kern")
+        SUBCASE("with dual scripts in non-limit mode translates to nucleus, vbox with scripts, and kern")
         {
             const auto result = big_op_to_hlist(display_style, false,
                                                 big_op{.limits = big_op_limits::no,

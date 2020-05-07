@@ -73,7 +73,13 @@ namespace mfl
                                         limit_sub_list(s, w + italic_correction, -shift, std::move(sub_node))));
         }
 
-        dist_t almost_x_height(const settings s) { return (x_height(s) * 4) / 5; }
+        dist_t almost_x_height(const settings s)
+        {
+            // four fifths of the xheight is what was used in TeX
+            constexpr auto factor = dist_t(4);
+            constexpr auto divisor = dist_t(5);
+            return (x_height(s) * factor) / divisor;
+        }
 
         dist_t sub_pos0(const settings s, const bool is_nucleus_single_character, const dist_t nuc_depth)
         {

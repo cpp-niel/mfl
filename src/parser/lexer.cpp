@@ -20,13 +20,17 @@ namespace mfl::parser
         {
             if (c == '{')
                 return {true, tokens::open_brace};
-            else if (c == '}')
+
+            if (c == '}')
                 return {true, tokens::close_brace};
-            else if (c == '_')
+
+            if (c == '_')
                 return {true, tokens::subscript};
-            else if (c == '^')
+
+            if (c == '^')
                 return {true, tokens::superscript};
-            else if (c == '\'')
+
+            if (c == '\'')
                 return {true, tokens::prime};
 
             return {false, tokens::unknown};
@@ -36,7 +40,7 @@ namespace mfl::parser
         {
             while (!s.is_at_end())
             {
-                if (isspace(s.current_char()))
+                if (isspace(s.current_char()) != 0)
                     s.skip_whitespace();
                 else
                     break;

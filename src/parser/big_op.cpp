@@ -27,7 +27,8 @@ namespace mfl::parser
                 state.consume_token(tokens::command);
                 return big_op_limits::yes;
             }
-            else if (state.lexer_value() == "nolimits")
+
+            if (state.lexer_value() == "nolimits")
             {
                 state.consume_token(tokens::command);
                 return big_op_limits::no;

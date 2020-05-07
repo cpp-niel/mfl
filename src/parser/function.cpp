@@ -8,20 +8,21 @@
 #include <range/v3/algorithm/contains.hpp>
 
 #include <array>
+#include <string_view>
 
 namespace mfl::parser
 {
     namespace
     {
-        using namespace std::string_literals;
+        using namespace std::string_view_literals;
 
         const auto function_names = std::array{
-            "arccos"s, "csc"s, "ker"s, "min"s,    "arcsin"s, "deg"s, "lg"s,   "Pr"s,     "arctan"s, "det"s,  "lim"s,
-            "sec"s,    "arg"s, "dim"s, "liminf"s, "sin"s,    "cos"s, "exp"s,  "limsup"s, "sinh"s,   "cosh"s, "gcd"s,
-            "ln"s,     "sup"s, "cot"s, "hom"s,    "log"s,    "tan"s, "coth"s, "inf"s,    "max"s,    "tanh"s};
+            "arccos"sv, "csc"sv, "ker"sv, "min"sv,    "arcsin"sv, "deg"sv, "lg"sv,   "Pr"sv,     "arctan"sv, "det"sv,  "lim"sv,
+            "sec"sv,    "arg"sv, "dim"sv, "liminf"sv, "sin"sv,    "cos"sv, "exp"sv,  "limsup"sv, "sinh"sv,   "cosh"sv, "gcd"sv,
+            "ln"sv,     "sup"sv, "cot"sv, "hom"sv,    "log"sv,    "tan"sv, "coth"sv, "inf"sv,    "max"sv,    "tanh"sv};
 
         const auto sub_function_names =
-            std::array{"det"s, "gcd"s, "inf"s, "lim"s, "liminf"s, "limsup"s, "max"s, "min"s, "Pr"s, "sup"s};
+            std::array{"det"sv, "gcd"sv, "inf"sv, "lim"sv, "liminf"sv, "limsup"sv, "max"sv, "min"sv, "Pr"sv, "sup"sv};
 
         bool is_sub_function(const std::string& name) { return ranges::contains(sub_function_names, name); }
     }

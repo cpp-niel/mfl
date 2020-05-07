@@ -18,8 +18,6 @@ namespace mfl
             if (!ignore_line && (aline != rline)) return false;
         }
 
-        if (std::getline(rstream, rline)) return false;
-
-        return true;
+        return !static_cast<bool>(std::getline(rstream, rline));
     }
 }

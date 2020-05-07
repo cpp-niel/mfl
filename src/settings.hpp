@@ -39,11 +39,8 @@ namespace mfl
     [[nodiscard]] dist_t superscript_drop(const settings s);
     [[nodiscard]] dist_t subscript_drop(const settings s);
     [[nodiscard]] dist_t script_space(const settings s);
-    [[nodiscard]] dist_t delimiter_size(const settings s);
     [[nodiscard]] dist_t big_op_superscript_clearance(const settings s);
     [[nodiscard]] dist_t big_op_subscript_clearance(const settings s);
-    [[nodiscard]] dist_t big_op_superscript_position(const settings s);
-    [[nodiscard]] dist_t big_op_subscript_position(const settings s);
     [[nodiscard]] dist_t big_op_padding();
     [[nodiscard]] dist_t radical_vertical_gap(const settings s);
     [[nodiscard]] dist_t radical_rule_thickness(const settings s);
@@ -52,8 +49,11 @@ namespace mfl
     [[nodiscard]] dist_t radical_kern_after_degree(const settings s);
     [[nodiscard]] dist_t radical_degree_bottom_raise_percent(const settings s);
     [[nodiscard]] dist_t null_delimiter_space();
-    [[nodiscard]] dist_t line_gap(const settings s);
-    [[nodiscard]] dist_t line_thickness(const settings s);
-    [[nodiscard]] dist_t line_padding(const settings s);
+    [[nodiscard]] dist_t overline_gap(const settings s);
+    [[nodiscard]] dist_t overline_thickness(const settings s);
+    [[nodiscard]] dist_t overline_padding(const settings s);
+    [[nodiscard]] dist_t underline_gap(const settings s);
+    [[nodiscard]] dist_t underline_thickness(const settings s);
+    [[nodiscard]] dist_t underline_padding(const settings s);
     [[nodiscard]] points font_size(const settings s);
 }

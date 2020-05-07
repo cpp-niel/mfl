@@ -5,6 +5,8 @@
 
 #include <range/v3/algorithm/contains.hpp>
 
+#include <string>
+
 namespace mfl::parser
 {
     namespace
@@ -20,15 +22,17 @@ namespace mfl::parser
         };
 
         const auto command_delimiter_names =
-            std::array{"\\|"s,         "\\lfloor"s,      "\\rfloor"s,      "\\lceil"s,   "\\rceil"s,
-                       "\\langle"s,    "\\rangle"s,      "\\uparrow"s,     "\\Uparrow"s, "\\downarrow"s,
-                       "\\Downarrow"s, "\\updownarrow"s, "\\Updownarrow"s, "\\vert"s,    "\\Vert"s};
+            std::array{"|"sv,         "lfloor"sv,      "rfloor"sv,      "lceil"sv,   "rceil"sv,
+                       "langle"sv,    "rangle"sv,      "uparrow"sv,     "Uparrow"sv, "downarrow"sv,
+                       "Downarrow"sv, "updownarrow"sv, "Updownarrow"sv, "vert"sv,    "Vert"sv};
 
         delimiter_type get_delimiter_type(const std::string_view name)
         {
-            if ((name.length() == 1) and ("()[]{}|/\\"sv.find(name[0]) != std::string::npos)) return delimiter_type::symbol;
+            if ((name.length() == 1) and (R"(()[]{}|/\)"sv.find(name[0]) != std::string::npos))
+                return delimiter_type::symbol;
 
-            if (name.starts_with("\\") and (ranges::contains(command_delimiter_names, name)))
+            if (name.starts_with("\\")
+                and (ranges::contains(command_delimiter_names, name.substr(1, name.length() - 1))))
                 return delimiter_type::command;
 
             return delimiter_type::none;
@@ -68,8 +72,7 @@ namespace mfl::parser
             }
         }
 
-        if (is_closing_brace_expected)
-            state.consume_token(tokens::close_brace);
+        if (is_closing_brace_expected) state.consume_token(tokens::close_brace);
 
         return result;
     }

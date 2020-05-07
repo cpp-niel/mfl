@@ -13,7 +13,7 @@
 
 namespace mfl
 {
-    TEST_SUITE("script noad")
+    TEST_CASE("script noad")
     {
         const auto fonts = font_library(create_mock_font_face);
         const auto display_style = settings{.style = formula_style::display, .fonts = &fonts};
@@ -22,13 +22,13 @@ namespace mfl
         const auto script_script_style = settings{.style = formula_style::script_script, .fonts = &fonts};
         const noad x_noad = math_char{.char_code = lowercase_x};
 
-        TEST_CASE("nucleus with no scripts translates to just the nucleus")
+        SUBCASE("nucleus with no scripts translates to just the nucleus")
         {
             const auto result = script_to_hlist(display_style, false, script{.nucleus = {x_noad}});
             CHECK(node_types_are<glyph>(result.nodes));
         }
 
-        TEST_CASE("nucleus with subscript has subscript box shifted down")
+        SUBCASE("nucleus with subscript has subscript box shifted down")
         {
             const auto result =
                 script_to_hlist(display_style, false, script{.nucleus = {x_noad}, .sub = std::vector{x_noad}});
@@ -37,7 +37,7 @@ namespace mfl
             CHECK(b.shift == 137216);
         }
 
-        TEST_CASE("nucleus with superscript has superscript box shifted up")
+        SUBCASE("nucleus with superscript has superscript box shifted up")
         {
             const auto result =
                 script_to_hlist(display_style, false, script{.nucleus = {x_noad}, .sup = std::vector{x_noad}});
@@ -46,7 +46,7 @@ namespace mfl
             CHECK(b.shift == -235520);
         }
 
-        TEST_CASE("dual scripts translate to vbox with scripts separated by kern")
+        SUBCASE("dual scripts translate to vbox with scripts separated by kern")
         {
             const auto result =
                 script_to_hlist(display_style, false,
@@ -59,7 +59,7 @@ namespace mfl
             CHECK(k.size == 98304);
         }
 
-        TEST_CASE("text style")
+        SUBCASE("text style")
         {
             const auto result =
                 script_to_hlist(text_style, false, script{.nucleus = {x_noad}, .sub = std::vector{x_noad}});
@@ -67,7 +67,7 @@ namespace mfl
             CHECK(b.shift == 137216);
         }
 
-        TEST_CASE("script style")
+        SUBCASE("script style")
         {
             const auto result =
                 script_to_hlist(script_style, false, script{.nucleus = {x_noad}, .sub = std::vector{x_noad}});
@@ -75,7 +75,7 @@ namespace mfl
             CHECK(b.shift == 137216);
         }
 
-        TEST_CASE("script script style")
+        SUBCASE("script script style")
         {
             const auto result =
                 script_to_hlist(script_script_style, false, script{.nucleus = {x_noad}, .sub = std::vector{x_noad}});
@@ -83,7 +83,7 @@ namespace mfl
             CHECK(b.shift == 137216);
         }
 
-        TEST_CASE("nucleus with multiple noads and subscript has subscript box shifted down")
+        SUBCASE("nucleus with multiple noads and subscript has subscript box shifted down")
         {
             const auto result =
                 script_to_hlist(display_style, false, script{.nucleus = {x_noad, x_noad}, .sub = std::vector{x_noad}});

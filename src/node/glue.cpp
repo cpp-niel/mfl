@@ -57,7 +57,8 @@ namespace mfl
     {
         if (width_diff > 0)
             return calculate_glue_param(width_diff, nodes, &glue_spec::stretch, 1.0);
-        else if (width_diff < 0)
+
+        if (width_diff < 0)
             return calculate_glue_param(width_diff, nodes, &glue_spec::shrink, -1.0);
 
         return {};

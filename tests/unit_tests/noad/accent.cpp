@@ -13,13 +13,13 @@
 
 namespace mfl
 {
-    TEST_SUITE("accent noad")
+    TEST_CASE("accent noad")
     {
         const noad x_noad = math_char{.char_code = lowercase_x};
         const auto fonts = font_library(create_mock_font_face);
         const auto display_style = settings{.style = formula_style::display, .fonts = &fonts};
 
-        TEST_CASE("accent box over empty content box and kern if there are no noads under the accent")
+        SUBCASE("accent box over empty content box and kern if there are no noads under the accent")
         {
             const auto result = accent_to_hlist(display_style, false, {.noads = {}});
             CHECK(node_types_are<box>(result.nodes));
@@ -31,7 +31,7 @@ namespace mfl
             CHECK(node_types_are<glyph>(accent_box.nodes));
         }
 
-        TEST_CASE("positive shift when there are no noads under the accent")
+        SUBCASE("positive shift when there are no noads under the accent")
         {
             const auto result = accent_to_hlist(display_style, false, {.noads = {}});
             const box& b = std::get<wrapped_box>(result.nodes[0]);
@@ -39,7 +39,7 @@ namespace mfl
             CHECK(accent_box.shift == 310272);
         }
 
-        TEST_CASE("no shift when there are is one noad under the accent")
+        SUBCASE("no shift when there are is one noad under the accent")
         {
             // There is no shift in this case because the accent positioning is the difference of the
             // accent positions defined for the content and accent glyphs in the font face. The mock
@@ -50,7 +50,7 @@ namespace mfl
             CHECK(accent_box.shift == 0);
         }
 
-        TEST_CASE("positive shift when there are multiple noads under the accent")
+        SUBCASE("positive shift when there are multiple noads under the accent")
         {
             const auto result = accent_to_hlist(display_style, false, {.noads = {x_noad, x_noad, x_noad}});
             const box& b = std::get<wrapped_box>(result.nodes[0]);

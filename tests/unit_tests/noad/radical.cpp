@@ -13,21 +13,21 @@
 
 namespace mfl
 {
-    TEST_SUITE("radical noad")
+    TEST_CASE("radical noad")
     {
         const auto fonts = font_library(create_mock_font_face);
         const auto display_style = settings{.style = formula_style::display, .fonts = &fonts};
         const noad x_noad = math_char{.char_code = lowercase_x};
         const auto degree_noads = std::vector<noad>{x_noad};
 
-        TEST_CASE("has an hbox for the radical symbol and a vbox for the overlined radicand")
+        SUBCASE("has an hbox for the radical symbol and a vbox for the overlined radicand")
         {
             const auto result = radical_to_hlist(
                 display_style, false, radical{.degree = degree_noads, .radicand = {x_noad}});
             CHECK(node_types_are<box, box>(result.nodes));
         }
 
-        TEST_CASE("the radical symbol box contains the a box for the degree, a kern and the actual symbol")
+        SUBCASE("the radical symbol box contains the a box for the degree, a kern and the actual symbol")
         {
             const auto result = radical_to_hlist(
                 display_style, false, radical{.degree = degree_noads, .radicand = {x_noad}});
@@ -37,7 +37,7 @@ namespace mfl
             CHECK(node_types_are<kern, box, kern, glyph>(symbol_box.nodes));
         }
 
-        TEST_CASE("kern in the degree box is negative so degree is rendered on top of radical symbol")
+        SUBCASE("kern in the degree box is negative so degree is rendered on top of radical symbol")
         {
             // the negative value is a mathematical font constant which should normally be negative and in our
             // case in this test must be negative because the corresponding property in the mock font face that
@@ -50,7 +50,7 @@ namespace mfl
             CHECK(kern_after_degree.size < 0);
         }
 
-        TEST_CASE("the radicand box contains the overline between two kerns and the content box")
+        SUBCASE("the radicand box contains the overline between two kerns and the content box")
         {
             const auto result = radical_to_hlist(
                 display_style, false, radical{.degree = degree_noads, .radicand = {x_noad}});

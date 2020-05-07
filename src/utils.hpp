@@ -20,9 +20,16 @@ namespace mfl
     {
     public:
         recursive_wrapper() = default;
-        recursive_wrapper(T&& x) : p_(std::make_shared<T>(std::forward<T>(x))) {}
-        operator const T&() const { return *p_; }
-        operator T&() { return *p_; }
+
+        // This is one of the rare cases where the implicit conversions are intentional. The recursive
+        // wrapper allows us to declare a variant where one of the types in the variant has a
+        // a member of the variant type. For instance the node_variant type has a box member which holds
+        // node_variants. To achieve this the variant actually has a recursive_wrapper<box> alternative
+        // and box is forward declared. But we want the wrapper to behave like a box so we allow
+        // implicit conversions.
+        recursive_wrapper(T&& x) : p_(std::make_shared<T>(std::forward<T>(x))) {} // NOLINT(hicpp-explicit-conversions)
+        operator const T&() const { return *p_; } // NOLINT(hicpp-explicit-conversions)
+        operator T&() { return *p_; } // NOLINT(hicpp-explicit-conversions)
 
     private:
         std::shared_ptr<T> p_;

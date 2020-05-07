@@ -1,10 +1,11 @@
 #include "font_library.hpp"
 
 #include <range/v3/algorithm.hpp>
+#include <utility>
 
 namespace mfl
 {
-    font_library::font_library(const font_face_creator& create_face) : create_face_(create_face)
+    font_library::font_library(font_face_creator create_face) : create_face_(std::move(create_face))
     {
     }
 

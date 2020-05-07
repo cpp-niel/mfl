@@ -1,7 +1,6 @@
 #include "noad/noad.hpp"
 
 #include "font_library.hpp"
-#include "node/hlist.hpp"
 #include "noad/accent.hpp"
 #include "noad/big_op.hpp"
 #include "noad/fraction.hpp"
@@ -14,6 +13,7 @@
 #include "noad/underline.hpp"
 #include "noad/vcenter.hpp"
 #include "node/glyph.hpp"
+#include "node/hlist.hpp"
 #include "node/kern.hpp"
 #include "settings.hpp"
 
@@ -95,6 +95,17 @@ namespace mfl
                     const auto space = math_space{.space = kern{.size = 100}, .is_math_units = false};
                     const auto result = to_hlist(display_style, false, false, {c, space, c});
                     CHECK((node_types_are<glyph, kern, glyph>(result.nodes)));
+                }
+
+                SUBCASE("can translate all empty noads")
+                {
+                    const std::vector<noad> noads = {
+                        math_char{}, math_space{}, radical{}, accent{}, vcenter{}, overline{},        underline{},
+                        fraction{},  left_right{}, script{},  big_op{}, mlist{},   mlist_with_kind{},
+                    };
+
+                    const auto result = to_hlist(display_style, false, false, noads);
+                    CHECK(!result.nodes.empty());
                 }
             }
 

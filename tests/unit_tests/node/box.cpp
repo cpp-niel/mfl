@@ -10,12 +10,12 @@
 
 namespace mfl
 {
-    TEST_SUITE("box node")
+    TEST_CASE("box node")
     {
         const auto fonts = font_library(create_mock_font_face);
         const auto display_style = settings{.style = formula_style::display, .fonts = &fonts};
 
-        TEST_CASE("Create box from empty hlist")
+        SUBCASE("Create box from empty hlist")
         {
             const auto b = make_hbox(hlist{});
             CHECK(b.dims.width == 0);
@@ -23,7 +23,7 @@ namespace mfl
             CHECK(b.dims.depth == 0);
         }
 
-        TEST_CASE("Creating a box from hlist with single box returns that box")
+        SUBCASE("Creating a box from hlist with single box returns that box")
         {
             auto empty_box = make_empty_box();
             empty_box.shift = 42;
@@ -31,7 +31,7 @@ namespace mfl
             CHECK(b.shift == 42);
         }
 
-        TEST_CASE("An hlist box adopts the dimensions from it contents")
+        SUBCASE("An hlist box adopts the dimensions from it contents")
         {
             const auto b =
                 make_hbox(make_hlist(glyph{.width = 200, .height = 20, .depth = 2},
@@ -41,14 +41,14 @@ namespace mfl
             CHECK(b.dims.depth == 4);
         }
 
-        TEST_CASE("center on axis")
+        SUBCASE("center on axis")
         {
             const auto b =
                 center_on_axis(display_style, make_hbox({.height = unit_distance * 3, .depth = unit_distance}, {}));
             CHECK(b.shift == -(axis_height(display_style) - unit_distance));
         }
 
-        TEST_CASE("rebox")
+        SUBCASE("rebox")
         {
             const auto b = rebox(100 * unit_distance, make_hbox(make_hlist(glyph{.width = 20 * unit_distance})));
             CHECK(b.dims.width == 100 * unit_distance);
@@ -60,14 +60,14 @@ namespace mfl
             CHECK(b.glue.order == infinity_order::fil);
         }
 
-        TEST_CASE("make_vbox")
+        SUBCASE("make_vbox")
         {
             auto ref_node = rule{.width = 42, .height = 2, .depth = 4};
             auto up_list = make_vlist(glyph{.width = 10, .height = 10, .depth = 10},
                                       glyph{.width = 20, .height = 20, .depth = 20});
             auto down_list = make_vlist(glyph{.width = 30, .height = 30, .depth = 30},
                                         glyph{.width = 40, .height = 40, .depth = 40});
-            const auto b = make_vbox(42, std::move(ref_node), std::move(up_list), std::move(down_list));
+            const auto b = make_vbox(42, ref_node, std::move(up_list), std::move(down_list));
 
             CHECK(b.nodes.size() == 5);
             CHECK(b.dims.width == 42);
@@ -80,7 +80,7 @@ namespace mfl
             CHECK(std::get<glyph>(b.nodes[4]).width == 40);
         }
 
-        TEST_CASE("make_down_vbox")
+        SUBCASE("make_down_vbox")
         {
             hlist l;
             l.nodes.emplace_back(rule{.width = 42, .height = 2, .depth = 4});
@@ -99,7 +99,7 @@ namespace mfl
             CHECK(std::get<glyph>(b.nodes[2]).width == 40);
         }
 
-        TEST_CASE("make_up_vbox")
+        SUBCASE("make_up_vbox")
         {
             hlist l;
             l.nodes.emplace_back(rule{.width = 42, .height = 2, .depth = 4});

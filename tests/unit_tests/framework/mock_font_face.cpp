@@ -6,6 +6,7 @@ namespace mfl
     {
         // These values are taken from an actual font face
         return {.axis_height = 168960,
+                .fraction_rule_thickness = 45056,
                 .subscript_drop = 104448,
                 .subscript_shift_down = 137216,
                 .superscript_drop = 150528,
@@ -20,6 +21,14 @@ namespace mfl
                 .radical_kern_before_degree = 43008,
                 .radical_kern_after_degree = -219136,
                 .radical_degree_bottom_raise_percent = 55,
+                .overline_gap = 135168,
+                .overline_padding = 45056,
+                .overline_thickness = 45056,
+                .underline_gap = 135168,
+                .underline_padding = 45056,
+                .underline_thickness = 45056,
+                .lower_limit_min_gap = 135168,
+                .upper_limit_min_gap = 135168,
                 .default_fraction = {.numerator_shift_up = 95744,
                                      .denominator_shift_down = 95744,
                                      .numerator_min_gap = 45056,
@@ -40,11 +49,9 @@ namespace mfl
 
     math_glyph_info mock_font_face::glyph_info(const size_t glyph_index) const
     {
-        if (glyph_index == 10)
-            return {.glyph_index = glyph_index, .width = 316416, .depth = 310272};
+        if (glyph_index == 10) return {.glyph_index = glyph_index, .width = 316416, .depth = 310272};
 
-        if (glyph_index == 11)
-            return {.glyph_index = glyph_index, .width = 316416, .height = 620272};
+        if (glyph_index == 11) return {.glyph_index = glyph_index, .width = 316416, .height = 620272};
 
         return {.glyph_index = glyph_index, .width = 316416, .height = 310272, .accent_hpos = 42};
     }

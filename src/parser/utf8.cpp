@@ -1,11 +1,13 @@
 #include "parser/utf8.hpp"
 
+#include <array>
+
 namespace mfl::parser::utf8
 {
     // Copyright (c) 2008-2009 Bjoern Hoehrmann <bjoern@hoehrmann.de>
     // See http://bjoern.hoehrmann.de/utf-8/decoder/dfa/ for details.
 
-    static const uint8_t utf8d[] = {
+    static constexpr auto utf8d = std::array<uint8_t, 400>{
         0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,
         0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,  // 00..1f
         0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,
@@ -35,12 +37,12 @@ namespace mfl::parser::utf8
 
     uint32_t decode(uint32_t* state, uint32_t* codep, const char c)
     {
-        const uint32_t byte = reinterpret_cast<const uint8_t&>(c);
-        uint32_t type = utf8d[byte];
+        const uint32_t byte = reinterpret_cast<const uint8_t&>(c);  // NOLINT
+        uint32_t type = utf8d[byte];  // NOLINT
 
-        *codep = (*state != accept_utf8_decoding) ? (byte & 0x3fu) | (*codep << 6) : (0xff >> type) & (byte);
+        *codep = (*state != accept_utf8_decoding) ? (byte & 0x3fu) | (*codep << 6) : (0xff >> type) & (byte); // NOLINT
 
-        *state = utf8d[256 + *state * 16 + type];
+        *state = utf8d[256 + *state * 16 + type]; // NOLINT
         return *state;
     }
 

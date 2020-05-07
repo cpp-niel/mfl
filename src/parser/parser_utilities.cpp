@@ -88,7 +88,7 @@ namespace mfl::parser
         std::vector<noad> result;
         auto tok = state.lexer_token();
         if (tok == tokens::symbol)
-            result.push_back(create_math_char(state));
+            result.emplace_back(create_math_char(state));
         else if (tok == tokens::command)
         {
             auto noads = create_command(state);
@@ -121,7 +121,9 @@ namespace mfl::parser
         state.consume_token(tokens::close_brace);
 
         char* str_end = nullptr;
-        auto value = std::strtod(number_string.c_str(), &str_end);
+        const auto value = std::strtod(number_string.c_str(), &str_end);
+        // using the C function std::strtod until from_chars is available, so we have to do some pointer arithmetic
+        // NOLINTNEXTLINE(cppcoreguidelines-pro-bounds-pointer-arithmetic)
         if (str_end != number_string.data() + number_string.size())
             state.set_error(fmt::format("'{}' does not represent a valid floating point value.", number_string));
 

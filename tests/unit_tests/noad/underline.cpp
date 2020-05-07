@@ -13,19 +13,19 @@
 
 namespace mfl
 {
-    TEST_SUITE("underline noad")
+    TEST_CASE("underline noad")
     {
         const auto fonts = font_library(create_mock_font_face);
         const auto display_style = settings{.style = formula_style::display, .fonts = &fonts};
         const noad x_noad = math_char{.char_code = lowercase_x};
 
-        TEST_CASE("no nodes created when underline contents have no noads")
+        SUBCASE("no nodes created when underline contents have no noads")
         {
             const auto result = underline_to_hlist(display_style, false, {.noads = {}});
             CHECK(result.nodes.empty());
         }
 
-        TEST_CASE("becomes box containing box, kern, rule and kern")
+        SUBCASE("becomes box containing box, kern, rule and kern")
         {
             const auto result = underline_to_hlist(display_style, false, {.noads = {x_noad}});
             CHECK(node_types_are<box>(result.nodes));
@@ -33,7 +33,7 @@ namespace mfl
             CHECK(node_types_are<box, kern, rule, kern>(b.nodes));
         }
 
-        TEST_CASE("width of outer box, rule and inner box are all the same")
+        SUBCASE("width of outer box, rule and inner box are all the same")
         {
             const auto result = underline_to_hlist(display_style, false, {.noads = {x_noad}});
             const box& outer_box = std::get<wrapped_box>(result.nodes[0]);

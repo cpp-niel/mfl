@@ -120,7 +120,7 @@ namespace mfl
                         ((e.right == right) or (e.right == item_kind::any)));
             };
 
-            if (const auto it = ranges::find_if(table, is_entry_for_items); it != table.end())
+            if (const auto* const it = ranges::find_if(table, is_entry_for_items); it != table.end())
                 return it->space;
 
             return std::nullopt;
@@ -183,6 +183,7 @@ namespace mfl
                                                                                          : item_kind::bin;
         }
 
+        // NOLINTNEXTLINE(misc-no-recursion)
         void intermediate_terms_to_hlist(const settings s, const bool has_penalties, const item_kind prev_kind,
                                          const range_of<intermediate_term> auto& iterms, hlist& result)
         {

@@ -53,6 +53,6 @@ namespace mfl
 
     [[nodiscard]] box clean_box(const settings s, const bool is_cramped, const std::vector<noad>& noads);
     [[nodiscard]] hlist to_hlist(const settings s, const bool is_cramped, const bool has_penalties,
-                                 const std::vector<noad>& input);
+                                 const std::vector<noad>& noads);
     [[nodiscard]] item_kind kind(const noad& n);
 }

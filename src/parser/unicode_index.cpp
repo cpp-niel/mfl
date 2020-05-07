@@ -87,42 +87,83 @@ namespace mfl::parser
 
         [[nodiscard]] std::pair<script_case, uint32_t> alpha_info(const code_point code)
         {
-            if ((code >= 0x0041) && (code <= 0x005a)) return {script_case::roman_upper, code - 0x0041};
+            constexpr auto upper_a = code_point(0x0041);
+            constexpr auto upper_z = code_point(0x005a);
+            constexpr auto upper_alpha = code_point(0x0391);
+            constexpr auto upper_omega = code_point(0x03a9);
+            constexpr auto lower_a = code_point(0x0061);
+            constexpr auto lower_z = code_point(0x007a);
+            constexpr auto lower_alpha = code_point(0x03b1);
+            constexpr auto lower_omega = code_point(0x03c9);
+            constexpr auto zero = code_point(0x0030);
+            constexpr auto nine = code_point(0x0039);
 
-            if ((code >= 0x0061) && (code <= 0x007a)) return {script_case::roman_lower, code - 0x0061};
+            if ((code >= upper_a) && (code <= upper_z)) return {script_case::roman_upper, code - upper_a};
 
-            if ((code >= 0x0391) && (code <= 0x03a9)) return {script_case::greek_upper, code - 0x0391};
+            if ((code >= lower_a) && (code <= lower_z)) return {script_case::roman_lower, code - lower_a};
 
-            if ((code >= 0x03b1) && (code <= 0x03c9)) return {script_case::greek_lower, code - 0x03b1};
+            if ((code >= upper_alpha) && (code <= upper_omega)) return {script_case::greek_upper, code - upper_alpha};
 
-            if ((code >= 0x0030) && (code <= 0x0039)) return {script_case::digit, code - 0x0030};
+            if ((code >= lower_alpha) && (code <= lower_omega)) return {script_case::greek_lower, code - lower_alpha};
+
+            if ((code >= zero) && (code <= nine)) return {script_case::digit, code - zero};
 
             return {script_case::none, 0};
         }
 
-        using code_map = std::vector<std::pair<code_point, code_point>>;
-        const auto special_alpha_codes = std::array<code_map, size_t(font_choice::num_choices)>{
-            code_map{{'h', 0x210e}},
-            code_map{},
-            code_map{{'h', 0x210e}},
-            code_map{},
-            code_map{},
-            code_map{},
-            code_map{{'B', 0x212c},
-                     {'E', 0x2130},
-                     {'F', 0x2131},
-                     {'H', 0x210b},
-                     {'I', 0x2110},
-                     {'L', 0x2112},
-                     {'M', 0x2133},
-                     {'R', 0x211b},
-                     {'e', 0x212f},
-                     {'g', 0x210a},
-                     {'o', 0x2134}},
-            code_map{
-                {'C', 0x2102}, {'H', 0x210d}, {'N', 0x2115}, {'P', 0x2119}, {'Q', 0x211a}, {'R', 0x211d}, {'Z', 2124}},
-            code_map{{'C', 0x212d}, {'H', 0x210c}, {'I', 0x2111}, {'R', 0x2111c}, {'Z', 0x2128}},
-        };
+        template <size_t N>
+        std::optional<code_point>
+        code_point_from_special_cases(const code_point code,
+                                      const std::array<std::pair<code_point, code_point>, N>& mappings)
+        {
+            const auto it = ranges::find_if(mappings, [&](const auto& e) { return e.first == code; });
+            if (it != mappings.end()) return it->second;
+
+            return std::nullopt;
+        }
+
+        // some unicode code points for certain letters in certain fonts are not in the
+        // normal 'a' to 'z' (or 'A' to 'Z') range of code points. They are listed here as explicit
+        // special cases
+        std::optional<code_point> special_letter_code_point(const code_point code, const font_choice font)
+        {
+
+            if (((font == font_choice::normal) || (font == font_choice::italic)) && (code == 'h')) return 0x210e;
+
+            if (font == font_choice::calligraphic)
+            {
+                return code_point_from_special_cases<11>(code, {{{'B', 0x212c},
+                                                                 {'E', 0x2130},
+                                                                 {'F', 0x2131},
+                                                                 {'H', 0x210b},
+                                                                 {'I', 0x2110},
+                                                                 {'L', 0x2112},
+                                                                 {'M', 0x2133},
+                                                                 {'R', 0x211b},
+                                                                 {'e', 0x212f},
+                                                                 {'g', 0x210a},
+                                                                 {'o', 0x2134}}});
+            }
+
+            if (font == font_choice::blackboard)
+            {
+                return code_point_from_special_cases<7>(code, {{{'C', 0x2102},
+                                                                {'H', 0x210d},
+                                                                {'N', 0x2115},
+                                                                {'P', 0x2119},
+                                                                {'Q', 0x211a},
+                                                                {'R', 0x211d},
+                                                                {'Z', 2124}}});
+            }
+
+            if (font == font_choice::fraktur)
+            {
+                return code_point_from_special_cases<5>(
+                    code, {{{'C', 0x212d}, {'H', 0x210c}, {'I', 0x2111}, {'R', 0x2111c}, {'Z', 0x2128}}});
+            }
+
+            return std::nullopt;
+        }
 
         const auto alpha_start_code_points = std::array<std::tuple<font_choice, script_case, code_point>, 21>{
             std::tuple{font_choice::normal, script_case::roman_upper, 0x1d434},
@@ -152,7 +193,6 @@ namespace mfl::parser
 
             std::tuple{font_choice::fraktur, script_case::roman_upper, 0x1d504},
             std::tuple{font_choice::fraktur, script_case::roman_lower, 0x1d51e},
-
         };
 
         code_point alpha_start_code_point(const font_choice fc, const script_case sc)
@@ -166,16 +206,17 @@ namespace mfl::parser
         }
     }
 
-    code_point unicode_index(const std::string_view sym, parser_state& state)
+    code_point unicode_index(const std::string_view name, parser_state& state)
     {
-        if (sym == "-") return 0x2212;
+        constexpr auto elongated_minus_sign = code_point(0x2212);
+        if (name == "-") return elongated_minus_sign;
 
-        if ((sym.length() > 1) && (sym[0] == '\\')) return tex_code_point(sym.substr(1, sym.length() - 1), state);
+        if ((name.length() > 1) && (name[0] == '\\')) return tex_code_point(name.substr(1, name.length() - 1), state);
 
-        const auto result = utf8::to_ucs4(sym);
+        const auto result = utf8::to_ucs4(name);
         if (!result)
         {
-            state.set_error(fmt::format("'{}' does not represent a valid utf8 character.", sym));
+            state.set_error(fmt::format("'{}' does not represent a valid utf8 character.", name));
             return 0;
         }
 
@@ -186,10 +227,8 @@ namespace mfl::parser
     {
         if (auto [script, offset] = alpha_info(code); script != script_case::none)
         {
-            const auto mappings = special_alpha_codes[size_t(font)];
-            const auto it = ranges::find_if(mappings, [&](const auto& e) { return e.first == code; });
-
-            if (it != mappings.end()) return it->second;
+            const auto special_code = special_letter_code_point(code, font);
+            if (special_code) return *special_code;
 
             const auto start = alpha_start_code_point(font, script);
             if (start > 0) return start + offset;

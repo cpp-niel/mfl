@@ -10,39 +10,39 @@ namespace mfl
 
         TEST_CASE("[units] inches to pixels at 100 dpi")
         {
-            CHECK((2_in).to_pixels(100_dpi) == 200_px);
+            CHECK(inches_to_pixels(2_in, 100_dpi) == 200_px);
         }
 
         TEST_CASE("[units] inches to pixels at 300 dpi")
         {
-            CHECK((2_in).to_pixels(300_dpi) == 600_px);
+            CHECK(inches_to_pixels(2_in, 300_dpi) == 600_px);
         }
 
         TEST_CASE("[units] fractional inches to pixels")
         {
-            CHECK((2_in).to_pixels(150_dpi) == (1.5_in).to_pixels(200_dpi));
+            CHECK(inches_to_pixels(2_in, 150_dpi) == inches_to_pixels(1.5_in, 200_dpi));
         }
 
         TEST_CASE("[units] 72 points is as many pixels as dpi because there are 72 points per inch")
         {
-            CHECK((72_pt).to_pixels(100_dpi) == 100_px);
+            CHECK(points_to_pixels(72_pt, 100_dpi) == 100_px);
         }
 
         TEST_CASE("[units] 36 points is half dpi because there are 72 points per inch")
         {
-            CHECK((36_pt).to_pixels(100_dpi) == 50_px);
+            CHECK(points_to_pixels(36_pt, 100_dpi) == 50_px);
         }
 
         TEST_CASE("[units] 108 points is 1.5 * dpi because there are 72 points per inch")
         {
-            CHECK((108_pt).to_pixels(100_dpi) == 150_px);
+            CHECK(points_to_pixels(108_pt, 100_dpi) == 150_px);
         }
 
         TEST_CASE("[units] inverse of the point to pixel conversions")
         {
-            CHECK((150_px).to_points(100_dpi) == 108_pt);
-            CHECK((50_px).to_points(100_dpi) == 36_pt);
-            CHECK((100_px).to_points(100_dpi) == 72_pt);
+            CHECK(pixels_to_points(150_px, 100_dpi) == 108_pt);
+            CHECK(pixels_to_points(50_px, 100_dpi) == 36_pt);
+            CHECK(pixels_to_points(100_px, 100_dpi) == 72_pt);
         }
 
         TEST_CASE_TEMPLATE("arithmetic", unit, inches, dots_per_inch, pixels, points)

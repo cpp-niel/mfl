@@ -5,7 +5,6 @@ find_package(range-v3 REQUIRED)
 find_package(Threads)
 
 add_library(mfl
-        dist.cpp
         font_library.cpp
         layout.cpp
         noad/accent.cpp

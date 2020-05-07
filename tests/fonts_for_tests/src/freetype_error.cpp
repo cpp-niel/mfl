@@ -7,11 +7,19 @@
 #include <array>
 #include <string>
 
+// static analysis does not like the freetype macro magic
+#pragma clang diagnostic push
+#pragma ide diagnostic ignored "UnusedMacroInspection"
 
 #undef FTERRORS_H_
+// NOLINTNEXTLINE
 #define FT_ERRORDEF(e, v, s) {e, s},
+// NOLINTNEXTLINE
 #define FT_ERROR_START_LIST {
+// NOLINTNEXTLINE
 #define FT_ERROR_END_LIST }
+
+#pragma clang diagnostic pop
 
 namespace mfl::fft
 {
@@ -28,7 +36,7 @@ namespace mfl::fft
     std::string ft_error_string(const FT_Error error_code)
     {
         using namespace std::string_literals;
-        const auto it =
+        const auto* const it =
             ranges::find_if(error_definitions, [&](const error_definition& e) { return e.err_code == error_code; });
 
         if (it == error_definitions.end())

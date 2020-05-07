@@ -18,7 +18,7 @@ namespace mfl::parser
     class parser_state
     {
     public:
-        parser_state(lexer& lex);
+        explicit parser_state(lexer& lex);
 
         [[nodiscard]] tokens lexer_token() const;
         void consume_token(const tokens tok);
@@ -48,6 +48,10 @@ namespace mfl::parser
         scoped_state(parser_state& state, const scope_settings& settings);
         ~scoped_state();
 
+        scoped_state(const scoped_state&) = delete;
+        scoped_state& operator=(const scoped_state&) = delete;
+        scoped_state(scoped_state&&) = delete;
+        scoped_state& operator=(scoped_state&&) = delete;
     private:
         parser_state& state_;
     };

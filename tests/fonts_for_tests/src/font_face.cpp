@@ -6,7 +6,7 @@
 #include <harfbuzz/hb-ot.h>
 #include <range/v3/algorithm/contains.hpp>
 #include <range/v3/to_container.hpp>
-#include <range/v3/view/span.hpp>
+#include <range/v3/view/take.hpp>
 #include <range/v3/view/transform.hpp>
 
 namespace mfl::fft
@@ -22,10 +22,10 @@ namespace mfl::fft
         std::vector<size_variant> get_size_variants(hb_font_t* font, const size_t glyph_index, const hb_direction_t dir)
         {
             const auto max_number_of_variants = 20;
-            hb_ot_math_glyph_variant_t variants[max_number_of_variants];
+            auto variants = std::array<hb_ot_math_glyph_variant_t, max_number_of_variants>{};
             uint32_t num_variants = max_number_of_variants;
             const auto glyph_codepoint = static_cast<hb_codepoint_t>(glyph_index);
-            hb_ot_math_get_glyph_variants(font, glyph_codepoint, dir, 0, &num_variants, variants);
+            hb_ot_math_get_glyph_variants(font, glyph_codepoint, dir, 0, &num_variants, variants.data());
 
             if (num_variants == 0)
             {
@@ -41,7 +41,7 @@ namespace mfl::fft
             };
 
             namespace rv = ranges::views;
-            return ranges::span(variants, num_variants) | rv::transform(to_size_variant) | ranges::to_vector;
+            return variants | rv::take(num_variants) | rv::transform(to_size_variant) | ranges::to_vector;
         }
     }
 
@@ -79,20 +79,31 @@ namespace mfl::fft
                                get_constant(HB_OT_MATH_CONSTANT_STACK_DISPLAY_STYLE_GAP_MIN)};
 
         return {.axis_height = get_constant(HB_OT_MATH_CONSTANT_AXIS_HEIGHT),
+                .fraction_rule_thickness = get_constant(HB_OT_MATH_CONSTANT_FRACTION_RULE_THICKNESS),
                 .subscript_drop = get_constant(HB_OT_MATH_CONSTANT_SUBSCRIPT_BASELINE_DROP_MIN),
                 .subscript_shift_down = get_constant(HB_OT_MATH_CONSTANT_SUBSCRIPT_SHIFT_DOWN),
                 .superscript_drop = get_constant(HB_OT_MATH_CONSTANT_SUPERSCRIPT_BASELINE_DROP_MAX),
                 .superscript_shift_up = get_constant(HB_OT_MATH_CONSTANT_SUPERSCRIPT_SHIFT_UP),
                 .superscript_shift_up_cramped = get_constant(HB_OT_MATH_CONSTANT_SUPERSCRIPT_SHIFT_UP_CRAMPED),
                 .minimum_dual_script_gap = get_constant(HB_OT_MATH_CONSTANT_SUB_SUPERSCRIPT_GAP_MIN),
-                .maximum_superscript_bottom_in_dual_script = get_constant(HB_OT_MATH_CONSTANT_SUPERSCRIPT_BOTTOM_MAX_WITH_SUBSCRIPT),
+                .maximum_superscript_bottom_in_dual_script =
+                    get_constant(HB_OT_MATH_CONSTANT_SUPERSCRIPT_BOTTOM_MAX_WITH_SUBSCRIPT),
                 .space_after_script = get_constant(HB_OT_MATH_CONSTANT_SPACE_AFTER_SCRIPT),
                 .radical_vertical_gap = get_constant(HB_OT_MATH_CONSTANT_RADICAL_VERTICAL_GAP),
                 .radical_rule_thickness = get_constant(HB_OT_MATH_CONSTANT_RADICAL_RULE_THICKNESS),
                 .radical_extra_ascender = get_constant(HB_OT_MATH_CONSTANT_RADICAL_EXTRA_ASCENDER),
                 .radical_kern_before_degree = get_constant(HB_OT_MATH_CONSTANT_RADICAL_KERN_BEFORE_DEGREE),
                 .radical_kern_after_degree = get_constant(HB_OT_MATH_CONSTANT_RADICAL_KERN_AFTER_DEGREE),
-                .radical_degree_bottom_raise_percent = hb_ot_math_get_constant(hb_font.get(), HB_OT_MATH_CONSTANT_RADICAL_DEGREE_BOTTOM_RAISE_PERCENT),
+                .radical_degree_bottom_raise_percent =
+                    hb_ot_math_get_constant(hb_font.get(), HB_OT_MATH_CONSTANT_RADICAL_DEGREE_BOTTOM_RAISE_PERCENT),
+                .overline_gap = get_constant(HB_OT_MATH_CONSTANT_OVERBAR_VERTICAL_GAP),
+                .overline_padding = get_constant(HB_OT_MATH_CONSTANT_OVERBAR_EXTRA_ASCENDER),
+                .overline_thickness = get_constant(HB_OT_MATH_CONSTANT_OVERBAR_RULE_THICKNESS),
+                .underline_gap = get_constant(HB_OT_MATH_CONSTANT_UNDERBAR_VERTICAL_GAP),
+                .underline_padding = get_constant(HB_OT_MATH_CONSTANT_UNDERBAR_EXTRA_DESCENDER),
+                .underline_thickness = get_constant(HB_OT_MATH_CONSTANT_UNDERBAR_RULE_THICKNESS),
+                .lower_limit_min_gap = get_constant(HB_OT_MATH_CONSTANT_LOWER_LIMIT_GAP_MIN),
+                .upper_limit_min_gap = get_constant(HB_OT_MATH_CONSTANT_UPPER_LIMIT_GAP_MIN),
                 .default_fraction = default_fraction_params,
                 .display_style_fraction = display_style_fraction_params,
                 .default_atop = default_atop_params,
@@ -140,9 +151,9 @@ namespace mfl::fft
     size_t font_face::glyph_index_from_code_point(const code_point char_code, const bool use_large_variant) const
     {
         // hard wired values from the stylistic set 04 in Stix2Math which contains nicer looking primes
-        if (char_code == 8242) return 1450;
-        if (char_code == 8243) return 1451;
-        if (char_code == 8244) return 1452;
+        constexpr auto prime_index = 8242U;
+        constexpr auto offset_to_better_primes = 6792U;
+        if ((char_code >= prime_index) && (char_code < prime_index + 3)) return char_code - offset_to_better_primes;
 
         std::unique_ptr<hb_font_t, decltype(&hb_font_destroy)> hb_font(hb_ft_font_create(ft_face_, nullptr),
                                                                        hb_font_destroy);
@@ -168,8 +179,5 @@ namespace mfl::fft
         return get_size_variants(hb_font.get(), glyph_index, HB_DIRECTION_BTT);
     }
 
-    void font_face::set_size(const points sz)
-    {
-        ft_set_size(ft_face_, sz);
-    }
+    void font_face::set_size(const points size) { ft_set_size(ft_face_, size); }
 }

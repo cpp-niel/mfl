@@ -97,7 +97,7 @@ the principles behind the layout of most formula elements.
 
 ### Third party libraries, fonts, tools and services
 
-Many thanks to the authors and contributors of the following third party libraries, fonts
+Many thanks to the authors and contributors of the following third party libraries, fonts,
 tools and services with which *mfl* is developed, built and tested:
 -   [**range-v3**](https://github.com/ericniebler/range-v3) for extended range support
 -   [**fmt**](https://github.com/fmtlib/fmt) for text formatting

@@ -22,6 +22,7 @@ namespace mfl
     struct math_constants
     {
         int32_t axis_height = 0;
+        int32_t fraction_rule_thickness = 0;
         int32_t subscript_drop = 0;
         int32_t subscript_shift_down = 0;
         int32_t superscript_drop = 0;
@@ -36,6 +37,14 @@ namespace mfl
         int32_t radical_kern_before_degree = 0;
         int32_t radical_kern_after_degree = 0;
         int32_t radical_degree_bottom_raise_percent = 0;
+        int32_t overline_gap = 0;
+        int32_t overline_padding = 0;
+        int32_t overline_thickness = 0;
+        int32_t underline_gap = 0;
+        int32_t underline_padding = 0;
+        int32_t underline_thickness = 0;
+        int32_t lower_limit_min_gap = 0;
+        int32_t upper_limit_min_gap = 0;
         fraction_constants default_fraction;
         fraction_constants display_style_fraction;
         fraction_constants default_atop;
@@ -61,11 +70,11 @@ namespace mfl
     struct abstract_font_face
     {
         virtual ~abstract_font_face() = default;
-        virtual math_constants constants() const = 0;
-        virtual math_glyph_info glyph_info(const size_t glyph_index) const = 0;
-        virtual size_t glyph_index_from_code_point(const code_point char_code, const bool use_large_variant) const = 0;
-        virtual std::vector<size_variant> horizontal_size_variants(const code_point char_code) const = 0;
-        virtual std::vector<size_variant> vertical_size_variants(const code_point char_code) const = 0;
+        [[nodiscard]] virtual math_constants constants() const = 0;
+        [[nodiscard]] virtual math_glyph_info glyph_info(const size_t glyph_index) const = 0;
+        [[nodiscard]] virtual size_t glyph_index_from_code_point(const code_point char_code, const bool use_large_variant) const = 0;
+        [[nodiscard]] virtual std::vector<size_variant> horizontal_size_variants(const code_point char_code) const = 0;
+        [[nodiscard]] virtual std::vector<size_variant> vertical_size_variants(const code_point char_code) const = 0;
         virtual void set_size(const points size) = 0;
     };
 

@@ -7,6 +7,9 @@ namespace mfl::parser
 {
     namespace
     {
+        // This is not officially supported anyway, but the utf8 string literals have to become
+        // std::strings in some way.
+        // NOLINTNEXTLINE(cppcoreguidelines-pro-type-reinterpret-cast)
         std::string utf8_string(const char8_t* chars) { return std::string(reinterpret_cast<const char*>(chars)); }
     }
 
@@ -69,6 +72,39 @@ namespace mfl::parser
             parser_state s(lex);
             [[maybe_unused]] auto i = unicode_index("\\nonsense", s);
             CHECK(*s.error() == "Syntax error: Unknown symbol name '\\nonsense'.");
+        }
+
+        TEST_CASE("[unicode_index] math alpha index")
+        {
+            CHECK(math_alpha_index('a', font_choice::normal) == 0x1d44e);
+            CHECK(math_alpha_index('h', font_choice::normal) == 0x210e);
+
+            CHECK(math_alpha_index('a', font_choice::roman) == 'a');
+            CHECK(math_alpha_index('h', font_choice::roman) == 'h');
+
+            CHECK(math_alpha_index('a', font_choice::italic) == 'a');
+            CHECK(math_alpha_index('A', font_choice::italic) == 'A');
+
+            CHECK(math_alpha_index('a', font_choice::bold) == 'a');
+            CHECK(math_alpha_index('A', font_choice::bold) == 'A');
+
+            CHECK(math_alpha_index('a', font_choice::sans) == 0x1d5ba);
+            CHECK(math_alpha_index('A', font_choice::sans) == 0x1d5a0);
+
+            CHECK(math_alpha_index('a', font_choice::mono) == 0x1d68a);
+            CHECK(math_alpha_index('A', font_choice::mono) == 0x1d670);
+
+            CHECK(math_alpha_index('a', font_choice::calligraphic) == 0x1d4b6);
+            CHECK(math_alpha_index('A', font_choice::calligraphic) == 0x1d49c);
+            CHECK(math_alpha_index('H', font_choice::calligraphic) == 0x210b);
+
+            CHECK(math_alpha_index('a', font_choice::blackboard) == 0x1d552);
+            CHECK(math_alpha_index('A', font_choice::blackboard) == 0x1d538);
+            CHECK(math_alpha_index('H', font_choice::blackboard) == 0x210d);
+
+            CHECK(math_alpha_index('a', font_choice::fraktur) == 0x1d51e);
+            CHECK(math_alpha_index('A', font_choice::fraktur) == 0x1d504);
+            CHECK(math_alpha_index('H', font_choice::fraktur) == 0x210c);
         }
     }
 }

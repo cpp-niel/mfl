@@ -5,21 +5,30 @@
 
 #include <range/v3/algorithm/find_if.hpp>
 
+#include <string_view>
+
 namespace mfl::parser
 {
     namespace
     {
-        using namespace std::string_literals;
+        using namespace std::string_view_literals;
 
-        const std::array<std::pair<std::string, int>, 10> explicit_spaces = {
-                std::pair{","s, 3}, {"/"s, 3},     {">"s, 4},      {":"s, 4},  {";"s, 5},
-                {" ", 9},           {"enspace"s, 9},   {"quad"s, 18}, {"qquad"s, 36}, {"!"s, -3},
-        };
+        const std::array<std::pair<std::string_view, int>, 10> explicit_spaces = {{
+            {","sv, 3},
+            {"/"sv, 3},
+            {">"sv, 4},
+            {":"sv, 4},
+            {";"sv, 5},
+            {" "sv, 9},
+            {"enspace"sv, 9},
+            {"quad"sv, 18},
+            {"qquad"sv, 36},
+            {"!"sv, -3},
+        }};
     }
     bool is_explicit_space(const std::string& name)
     {
-        return (ranges::find_if(explicit_spaces, [&](const auto& p)
-        { return p.first == name; })
+        return (ranges::find_if(explicit_spaces, [&](const auto& p) { return p.first == name; })
                 != explicit_spaces.end());
     }
 
@@ -27,8 +36,7 @@ namespace mfl::parser
     {
         const auto name = state.consume_lexer_value();
 
-        const auto it = ranges::find_if(explicit_spaces, [&](const auto& p)
-        { return p.first == name; });
+        const auto *const it = ranges::find_if(explicit_spaces, [&](const auto& p) { return p.first == name; });
 
         return {.space = kern{.size = it->second}, .is_math_units = true};
     }

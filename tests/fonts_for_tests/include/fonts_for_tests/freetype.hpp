@@ -28,5 +28,5 @@ namespace mfl::fft
         face_ptr mono_face_;
     };
 
-    void ft_set_size(const FT_Face face, const points size);
+    void ft_set_size(FT_Face face, const points size);
 }
