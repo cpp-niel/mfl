@@ -48,8 +48,8 @@ add_library(mfl
         units.cpp
         )
 
-target_include_directories(mfl PUBLIC ./../include)
-target_include_directories(mfl PRIVATE ./../src)
+target_include_directories(mfl PUBLIC ${CMAKE_SOURCE_DIR}/include)
+target_include_directories(mfl PRIVATE ${CMAKE_SOURCE_DIR}/src)
 
 target_link_libraries(mfl
         PUBLIC
@@ -60,3 +60,8 @@ target_link_libraries(mfl
         fmt::fmt-header-only
         ${CMAKE_THREAD_LIBS_INIT}
         )
+
+include(GNUInstallDirs)
+
+install(TARGETS mfl LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR} ARCHIVE DESTINATION ${CMAKE_INSTALL_LIBDIR})
+install(DIRECTORY ${CMAKE_SOURCE_DIR}/include/ DESTINATION ${CMAKE_INSTALL_INCLUDEDIR} FILES_MATCHING PATTERN *.hpp)
