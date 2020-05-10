@@ -1,11 +1,16 @@
 image:
   - Visual Studio 2019
+install:
+- cd C:\Tools\vcpkg
+- git pull
+- .\bootstrap-vcpkg.bat
+- cd %APPVEYOR_BUILD_FOLDER%
+- vcpkg integrate install
+- vcpkg install range-v3 fmt cairo harfbuzz freetype
 clone_folder: c:\projects\source
 build_script:
 - cmd: >-
     mkdir build
     cd build
-    pip install --user conan
-    set PATH=%PATH%;C:\Users\appveyor\AppData\Roaming\Python\Scripts
-    cmake c:\projects\source -G "Visual Studio 16 2019" -DCMAKE_BUILD_TYPE:STRING=Release
+    cmake c:\projects\source -G "Visual Studio 16 2019" -DCMAKE_BUILD_TYPE:STRING=Release -DCMAKE_TOOLCHAIN_FILE=c:/tools/vcpkg/scripts/buildsystems/vcpkg.cmake
     cmake --build . --config "Release"
