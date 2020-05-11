@@ -186,8 +186,9 @@ namespace mfl
         }
     }
 
+    template<gen_script Script>
     hlist gen_script_to_hlist(const settings s, const bool is_cramped, const bool use_limit_pos,
-                              const gen_script auto& n)
+                              const Script& n)
     {
         constexpr auto is_big_op = std::is_same_v<decltype(n), const big_op&>;
         auto nucleus = make_nucleus(s, is_cramped, is_big_op, n.nucleus);

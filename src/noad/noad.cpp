@@ -120,7 +120,7 @@ namespace mfl
                         ((e.right == right) or (e.right == item_kind::any)));
             };
 
-            if (const auto* const it = ranges::find_if(table, is_entry_for_items); it != table.end())
+            if (const auto it = ranges::find_if(table, is_entry_for_items); it != table.end())
                 return it->space;
 
             return std::nullopt;
@@ -153,7 +153,8 @@ namespace mfl
             return {};
         }
 
-        item_kind kind_of_next_inoad(const range_of<intermediate_term> auto& iterms)
+        template<range_of<intermediate_term> Terms>
+        item_kind kind_of_next_inoad(const Terms& iterms)
         {
             const auto it =
                 ranges::find_if(iterms, [](const intermediate_term& t) { return std::holds_alternative<inoad>(t); });
@@ -175,7 +176,8 @@ namespace mfl
             return ranges::find(kinds, kind) != kinds.end();
         }
 
-        item_kind change_kind(const item_kind prev_kind, const item_kind kind, const range_of<intermediate_term> auto& iterms)
+        template<range_of<intermediate_term> Terms>
+        item_kind change_kind(const item_kind prev_kind, const item_kind kind, const Terms& iterms)
         {
             if (kind != item_kind::bin) return kind;
 
@@ -184,8 +186,9 @@ namespace mfl
         }
 
         // NOLINTNEXTLINE(misc-no-recursion)
+        template<range_of<intermediate_term> Terms>
         void intermediate_terms_to_hlist(const settings s, const bool has_penalties, const item_kind prev_kind,
-                                         const range_of<intermediate_term> auto& iterms, hlist& result)
+                                         const Terms& iterms, hlist& result)
         {
             if (!ranges::empty(iterms))
             {
