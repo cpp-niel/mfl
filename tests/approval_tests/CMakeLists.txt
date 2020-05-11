@@ -15,8 +15,6 @@ add_executable (approval_tests
 
 set_property(TARGET approval_tests PROPERTY CXX_STANDARD 20)
 
-target_compile_definitions(approval_tests PRIVATE MFL_FONT_DIR="${PROJECT_SOURCE_DIR}/otf/")
-
 target_include_directories(approval_tests PUBLIC
         ./
         ./../fonts_for_tests/include

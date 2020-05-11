@@ -13,7 +13,7 @@ add_library (fonts_for_tests
 
 set_property(TARGET fonts_for_tests PROPERTY CXX_STANDARD 20)
 
-target_compile_definitions(fonts_for_tests PRIVATE MFL_FONT_DIR="${CMAKE_SOURCE_DIR}/tests/fonts_for_tests/otf/")
+target_compile_definitions(fonts_for_tests PRIVATE MFL_FONT_DIR="${CMAKE_CURRENT_LIST_DIR}/otf/")
 
 target_include_directories(fonts_for_tests PUBLIC ./src ./include ./../../include)
 
