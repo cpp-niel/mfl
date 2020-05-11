@@ -2,6 +2,8 @@
 
 #include "mfl/detail/quantity.hpp"
 
+#include <array>
+
 namespace mfl
 {
     using dots_per_inch = detail::quantity<struct dots_per_inch_tag>;
