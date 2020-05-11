@@ -36,7 +36,8 @@ namespace mfl
             pixels input_offset = 30_px;
         };
 
-        auto render_symbols(const symbol_render_config& config, const range_of_convertible_to<std::string> auto& symbols)
+        template<range_of_convertible_to<std::string> Strings>
+        auto render_symbols(const symbol_render_config& config, const Strings& symbols)
         {
             const auto d = std::div(long(ranges::distance(symbols)), long(config.num_columns));
             const auto num_rows = size_t(d.quot + ((d.rem > 0) ? 1 : 0));

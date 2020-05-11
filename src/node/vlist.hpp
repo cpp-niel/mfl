@@ -14,7 +14,8 @@ namespace mfl
 
     [[nodiscard]] dist_t vlist_size(const vlist& l);
 
-    [[nodiscard]] vlist make_vlist(node auto&&... nodes)
+    template<node... Node>
+    [[nodiscard]] vlist make_vlist(Node&&... nodes)
     {
         vlist result;
         (result.nodes.emplace_back(std::forward<decltype(nodes)>(nodes)), ...);
