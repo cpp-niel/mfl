@@ -1,18 +1,18 @@
 image:
   - Visual Studio 2019
 install:
-- cd C:\Tools\vcpkg
+- cd C:\tools\vcpkg
 - git pull
 - .\bootstrap-vcpkg.bat
 - vcpkg integrate install
 - vcpkg install range-v3 fmt cairo harfbuzz freetype
 - cd %APPVEYOR_BUILD_FOLDER%
+cache: c:\tools\vcpkg\installed\
 clone_folder: c:\projects\source
 build_script:
-- cmd: >-
-    call "C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Auxiliary\Build\vcvars64.bat"
-    cd c:\projects\mfl
-    mkdir build
-    cd build
-    cmake c:\projects\mfl -G "Visual Studio 16 2019" -DCMAKE_BUILD_TYPE:STRING=Release -DCMAKE_TOOLCHAIN_FILE=c:/tools/vcpkg/scripts/buildsystems/vcpkg.cmake -DCMAKE_CXX_FLAGS="/permissive- /std:c++latest /Zc:__cplusplus /utf-8"
-    cmake --build . --config "Release"
+- call "C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Auxiliary\Build\vcvars64.bat"
+- cd c:\projects\mfl
+- mkdir build
+- cd build
+- cmake c:\projects\mfl -G "Visual Studio 16 2019" -DCMAKE_BUILD_TYPE:STRING=Release -DCMAKE_TOOLCHAIN_FILE=c:/tools/vcpkg/scripts/buildsystems/vcpkg.cmake -DCMAKE_CXX_FLAGS="/permissive- /std:c++latest /Zc:__cplusplus /utf-8"
+- cmake --build . --config "Release"
