@@ -1,6 +1,5 @@
 #include "fonts_for_tests/freetype.hpp"
 
-#include "fonts_for_tests/font_face.hpp"
 #include "freetype_error.hpp"
 
 #include <filesystem>
@@ -21,7 +20,7 @@ namespace mfl::fft
         {
             FT_Face result = nullptr;
             const auto file_path = std::filesystem::path(MFL_FONT_DIR) / name;
-            if (const auto err = FT_New_Face(ft_library, file_path.c_str(), 0, &result); err != 0)
+            if (const auto err = FT_New_Face(ft_library, file_path.string().c_str(), 0, &result); err != 0)
                 throw std::invalid_argument(
                     fmt::format("Could not load tt font {}. {}", file_path.string(), ft_error_string(err)));
 

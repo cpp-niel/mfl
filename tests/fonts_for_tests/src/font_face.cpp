@@ -5,7 +5,7 @@
 #include <harfbuzz/hb-ft.h>
 #include <harfbuzz/hb-ot.h>
 #include <range/v3/algorithm/contains.hpp>
-#include <range/v3/to_container.hpp>
+#include <range/v3/range/conversion.hpp>
 #include <range/v3/view/take.hpp>
 #include <range/v3/view/transform.hpp>
 
@@ -114,7 +114,7 @@ namespace mfl::fft
     {
         std::unique_ptr<hb_font_t, decltype(&hb_font_destroy)> hb_font(hb_ft_font_create(ft_face_, nullptr),
                                                                        hb_font_destroy);
-        FT_Load_Char(ft_face_, glyph_index, FT_LOAD_DEFAULT);
+        FT_Load_Char(ft_face_, static_cast<FT_ULong>(glyph_index), FT_LOAD_DEFAULT);
         const auto& metrics = ft_face_->glyph->metrics;
 
         const auto glyph_codepoint = static_cast<hb_codepoint_t>(glyph_index);
