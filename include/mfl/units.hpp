@@ -36,7 +36,7 @@ namespace mfl
         template <typename FormatContext>
         auto format(const Unit x, FormatContext& ctx)
         {
-            constexpr auto suffix = std::array{c0, c1, c2, char(0)};
+            constexpr auto suffix = std::array<char, 4>{c0, c1, c2, '\0'};
             return fmt::format_to(ctx.out(), "{}{}", x.value(), suffix.data());
         }
     };

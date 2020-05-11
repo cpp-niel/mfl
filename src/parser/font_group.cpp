@@ -35,7 +35,7 @@ namespace mfl::parser
     std::vector<noad> create_font_group(parser_state& state)
     {
         const auto name = state.consume_lexer_value();
-        const auto *const it = ranges::find_if(font_commands, [&](const auto c) { return c.first == name; });
+        const auto it = ranges::find_if(font_commands, [&](const auto c) { return c.first == name; });
         scoped_state s(state, {.font = it->second});
 
         return parse_expression(state);

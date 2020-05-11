@@ -18,7 +18,7 @@
 #include <algorithm>
 #include <range/v3/algorithm/find.hpp>
 #include <range/v3/algorithm/find_if.hpp>
-#include <range/v3/front.hpp>
+#include <range/v3/range/operations.hpp>
 #include <range/v3/view/drop.hpp>
 
 namespace mfl

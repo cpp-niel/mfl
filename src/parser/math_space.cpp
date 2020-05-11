@@ -36,7 +36,7 @@ namespace mfl::parser
     {
         const auto name = state.consume_lexer_value();
 
-        const auto *const it = ranges::find_if(explicit_spaces, [&](const auto& p) { return p.first == name; });
+        const auto it = ranges::find_if(explicit_spaces, [&](const auto& p) { return p.first == name; });
 
         return {.space = kern{.size = it->second}, .is_math_units = true};
     }

@@ -22,9 +22,9 @@ namespace mfl::parser
             lexer lx(is);
             lx.move_to_next_token();
             CHECK(lx.token() == tokens::symbol);
-            CHECK(lx.value()[0] == char(0xe2));
-            CHECK(lx.value()[1] == char(0x88));
-            CHECK(lx.value()[2] == char(0x80));  // 0xe28880 is the utf8 encoding of 0x2200, the "for all" symbol: ∀
+            CHECK(lx.value()[0] == '\xe2');
+            CHECK(lx.value()[1] == '\x88');
+            CHECK(lx.value()[2] == '\x80');  // 0xe28880 is the utf8 encoding of 0x2200, the "for all" symbol: ∀
         }
 
         TEST_CASE("all tokens")
@@ -42,9 +42,9 @@ namespace mfl::parser
             CHECK(lx.value() == "b");
             lx.move_to_next_token();
             CHECK(lx.token() == tokens::symbol);
-            CHECK(lx.value()[0] == char(0xe2));
-            CHECK(lx.value()[1] == char(0x88));
-            CHECK(lx.value()[2] == char(0x80));  // 0xe28880 is the utf8 encoding of 0x2200, the "for all" symbol: ∀
+            CHECK(lx.value()[0] == '\xe2');
+            CHECK(lx.value()[1] == '\x88');
+            CHECK(lx.value()[2] == '\x80');  // 0xe28880 is the utf8 encoding of 0x2200, the "for all" symbol: ∀
             lx.move_to_next_token();
             CHECK(lx.token() == tokens::symbol);
             CHECK(lx.value() == "$");
