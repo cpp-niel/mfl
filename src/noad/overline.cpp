@@ -1,7 +1,8 @@
 #include "noad/overline.hpp"
 
-#include "noad/line.hpp"
 #include "node/box.hpp"
+#include "node/hlist.hpp"
+#include "node/vlist.hpp"
 #include "settings.hpp"
 
 namespace mfl
