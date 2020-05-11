@@ -14,5 +14,5 @@ build_script:
 - call "C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Auxiliary\Build\vcvars64.bat"
 - mkdir build
 - cd build
-- cmake -G "Visual Studio 16 2019" -DCMAKE_BUILD_TYPE:STRING=Release -DCMAKE_TOOLCHAIN_FILE=C:/Tools/vcpkg/scripts/buildsystems/vcpkg.cmake -DCMAKE_CXX_FLAGS="/permissive- /std:c++latest /Zc:__cplusplus /utf-8" ./..
+- cmake -G "Visual Studio 16 2019" -DCMAKE_BUILD_TYPE:STRING=Release -DCMAKE_TOOLCHAIN_FILE=C:/Tools/vcpkg/scripts/buildsystems/vcpkg.cmake -DCMAKE_CXX_FLAGS="/permissive- /std:c++latest /Zc:__cplusplus /utf-8 /EHsc" ./..
 - cmake --build . --config "Release"
