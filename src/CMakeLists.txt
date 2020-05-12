@@ -60,11 +60,3 @@ target_link_libraries(mfl
         fmt::fmt-header-only
         ${CMAKE_THREAD_LIBS_INIT}
         )
-
-include(GNUInstallDirs)
-
-install(TARGETS mfl LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR} ARCHIVE DESTINATION ${CMAKE_INSTALL_LIBDIR})
-
-if(CMAKE_BUILD_TYPE STREQUAL Release)
-    install(DIRECTORY ${CMAKE_SOURCE_DIR}/include/ DESTINATION ${CMAKE_INSTALL_INCLUDEDIR} FILES_MATCHING PATTERN *.hpp)
-endif()

@@ -25,3 +25,13 @@ add_subdirectory(tests/unit_tests)
 if(CMAKE_CXX_COMPILER_ID STREQUAL "Clang")
     add_subdirectory(tests/fuzz_tests)
 endif()
+
+include(GNUInstallDirs)
+
+install(TARGETS mfl LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR} ARCHIVE DESTINATION ${CMAKE_INSTALL_LIBDIR})
+
+if(CMAKE_BUILD_TYPE STREQUAL Release)
+    install(DIRECTORY ${PROJECT_SOURCE_DIR}/include/ DESTINATION ${CMAKE_INSTALL_INCLUDEDIR} FILES_MATCHING PATTERN *.hpp)
+    install(EXPORT mfl DESTINATION ${CMAKE_INSTALL_LIBDIR}/cmake/mfl NAMESPACE mfl:: FILE mfl-config.cmake)
+endif()
+
