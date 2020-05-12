@@ -15,7 +15,8 @@ namespace mfl
 {
     TEST_CASE("big_op noad")
     {
-        const auto fonts = font_library(create_mock_font_face);
+        using namespace units_literals;
+        const auto fonts = font_library(10_pt, create_mock_font_face);
         const auto display_style = settings{.style = formula_style::display, .fonts = &fonts};
         const noad x_noad = math_char{.char_code = lowercase_x};
         const noad prod_noad = math_char{.char_code = product_big_op};

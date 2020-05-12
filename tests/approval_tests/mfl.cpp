@@ -28,6 +28,23 @@ namespace mfl
         approve(result);
     }
 
+    TEST_CASE("mfl_large")
+    {
+        std::vector<std::string> formulas = {
+            R"(M(s)<M(t)<|M| = m)",
+            R"(y'' = c\{f[y',y(x)] + g(x)\})",
+            R"(A^{x_i^2}_{j^{2n}_{n,m}})",
+            R"(\Gamma(x) \equiv \lim_{n \rightarrow \infty} \prod_{v=0}^{n-1} \frac{n!n^{x-1}}{x+v})",
+        };
+
+        const auto result = render_formulas({.width = 600_px,
+                                             .height = 800_px,
+                                             .font_size = 20_pt,
+                                             .columns = {{.initial_offset = 50_px, .line_height = 100_px, .x = 10_px}}},
+                                            formulas);
+        approve(result);
+    }
+
     TEST_CASE("mathtext")
     {
         std::vector<std::string> formulas = {

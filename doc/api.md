@@ -3,14 +3,17 @@
 In essence the API of *mfl* is a single function `mfl::layout` with the following signature:
 
 ```c++
-layout_elements layout(const std::string_view input, const font_face_creator& create_font_face);
+layout_elements layout(const std::string_view input, const points font_size, const font_face_creator& create_font_face);
 ```
 
 In order to call it, you must include the header `mfl/layout.hpp`.
 
-`layout` takes two arguments:
+`layout` takes three arguments:
 - `input`: this is the formula to create the layout for. The syntax is very similar to that
 used by TeX ([Supported Features](features.md)).
+- `font_size`: the size of the font to use. This is the size of the display or text mode fonts.
+Things like scripts and limits will use a corresponding smaller font size. `points` is a unit
+type defined by *mfl*.
 - `create_font_face`: a function that can create a font face of a given font family. The font
 face provides information about the fonts that is required to create the layout. More on this [in
 a moment](#fonts).

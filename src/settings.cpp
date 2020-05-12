@@ -9,57 +9,16 @@ namespace mfl
     namespace
     {
         using namespace units_literals;
-        constexpr auto normal_font_size = 10_pt;
-        constexpr auto small_font_size = 7_pt;
-        constexpr auto tiny_font_size = 5_pt;
         constexpr auto math_unit_divisor = 18;  // a math unit is defined as one eighteenth of a quad
         constexpr auto null_delimiter_gap_size = 1.2_pt;
 
-        struct font_parameters
-        {
-            dist_t x_height = 0;
-            dist_t capital_m_width = 0;
-            math_constants math_info;
-        };
-
-        font_parameters make_font_parameters(const points size, const font_library& fonts)
-        {
-            const auto& face = fonts.get_face(font_family::roman, size);
-
-            const auto x_index = face.glyph_index_from_code_point('x', false);
-            const auto x_height = face.glyph_info(x_index).height;
-
-            const auto capital_m_index = face.glyph_index_from_code_point('M', false);
-            const auto capital_m_width = face.glyph_info(capital_m_index).width;
-
-            return {.x_height = x_height, .capital_m_width = capital_m_width, .math_info = face.constants()};
-        }
-
-        const auto& params_normal(const font_library& fonts)
-        {
-            const static auto p = make_font_parameters(normal_font_size, fonts);
-            return p;
-        }
-
-        const auto& params_small(const font_library& fonts)
-        {
-            const static auto p = make_font_parameters(small_font_size, fonts);
-            return p;
-        }
-
-        const auto& params_tiny(const font_library& fonts)
-        {
-            const static auto p = make_font_parameters(tiny_font_size, fonts);
-            return p;
-        }
-
         const auto& params(const settings s)
         {
-            if (s.style == formula_style::script) return params_small(*s.fonts);
+            if (s.style == formula_style::script) return s.fonts->small_parameters();
 
-            if (s.style == formula_style::script_script) return params_tiny(*s.fonts);
+            if (s.style == formula_style::script_script) return s.fonts->tiny_parameters();
 
-            return params_normal(*s.fonts);
+            return s.fonts->normal_parameters();
         }
 
         settings script_base_style(const settings s)
@@ -84,13 +43,7 @@ namespace mfl
         }
     }
 
-    points font_size(const settings s)
-    {
-        if (s.style == formula_style::script_script) return tiny_font_size;
-        if (s.style == formula_style::script) return small_font_size;
-
-        return normal_font_size;
-    }
+    points font_size(const settings s) { return params(s).size; }
 
     dist_t x_height(const settings s) { return params(s).x_height; }
 

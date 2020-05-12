@@ -15,8 +15,9 @@ namespace mfl
 {
     TEST_CASE("accent noad")
     {
+        using namespace units_literals;
         const noad x_noad = math_char{.char_code = lowercase_x};
-        const auto fonts = font_library(create_mock_font_face);
+        const auto fonts = font_library(10_pt, create_mock_font_face);
         const auto display_style = settings{.style = formula_style::display, .fonts = &fonts};
 
         SUBCASE("accent box over empty content box and kern if there are no noads under the accent")

@@ -105,9 +105,9 @@ namespace mfl
         }
     }
 
-    layout_elements layout(const std::string_view input, const font_face_creator& create_font_face)
+    layout_elements layout(const std::string_view input, const points font_size, const font_face_creator& create_font_face)
     {
-        font_library fonts{create_font_face};
+        font_library fonts{font_size, create_font_face};
 
         const auto [noads, error] = parse(input);
         if (error)

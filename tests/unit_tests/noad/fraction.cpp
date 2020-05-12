@@ -14,8 +14,9 @@ namespace mfl
 {
     TEST_CASE("fraction noad")
     {
+        using namespace units_literals;
         const noad x_noad = math_char{.char_code = 0};
-        const auto fonts = font_library(create_mock_font_face);
+        const auto fonts = font_library(10_pt, create_mock_font_face);
         const auto display_style = settings{.style = formula_style::display, .fonts = &fonts};
         const auto text_style = settings{.style = formula_style::text, .fonts = &fonts};
         const auto script_script_style = settings{.style = formula_style::script_script, .fonts = &fonts};

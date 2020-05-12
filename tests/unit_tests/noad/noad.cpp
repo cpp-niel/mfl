@@ -46,7 +46,8 @@ namespace mfl
 
         TEST_CASE("to_hlist")
         {
-            const auto fonts = font_library(create_mock_font_face);
+            using namespace units_literals;
+            const auto fonts = font_library(10_pt, create_mock_font_face);
             const auto display_style = settings{.style = formula_style::display, .fonts = &fonts};
 
             SUBCASE("in display style")
