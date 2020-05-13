@@ -36,6 +36,7 @@ add_executable (unit_tests
         parser/parse.cpp
         parser/radical.cpp
         parser/script.cpp
+        parser/tokens.cpp
         parser/unicode_index.cpp
         units.cpp
         )

@@ -25,8 +25,6 @@ namespace mfl
         {
             if (s.style == formula_style::script_script) return {.style = formula_style::script, .fonts = s.fonts};
 
-            if (s.style == formula_style::script) return {.style = formula_style::text, .fonts = s.fonts};
-
             return {.style = formula_style::display, .fonts = s.fonts};
         }
 

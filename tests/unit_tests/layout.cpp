@@ -11,9 +11,9 @@ namespace mfl
     {
         TEST_CASE("layout call with valid input")
         {
-            const auto result = layout(R"(\frac{1}{x})", 10_pt, create_mock_font_face);
+            const auto result = layout(R"(\frac{1}{x+y})", 10_pt, create_mock_font_face);
             CHECK(!result.error);
-            CHECK(result.glyphs.size() == 2);
+            CHECK(result.glyphs.size() == 4);
             CHECK(result.lines.size() == 1);
         }
 
