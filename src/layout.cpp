@@ -114,7 +114,7 @@ namespace mfl
             return {.error = error};
 
         const auto hbox = make_hbox(to_hlist({.style = formula_style::display, .fonts = &fonts}, false, false, noads));
-        layout_elements result;
+        layout_elements result{.width = dist_to_points(hbox.dims.width), .height = dist_to_points(hbox.dims.height)};
         layout_box(hbox, 0_pt, 0_pt, result);
         return result;
     }

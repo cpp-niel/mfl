@@ -29,6 +29,8 @@ namespace mfl
 
     struct layout_elements
     {
+        points width;
+        points height;
         std::vector<shaped_glyph> glyphs;
         std::vector<line> lines;
         std::optional<std::string> error;
