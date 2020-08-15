@@ -2,6 +2,8 @@
 
 #include <doctest/doctest.h>
 
+#include <sstream>
+
 namespace mfl
 {
     TEST_SUITE("units")
