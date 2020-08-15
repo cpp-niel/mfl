@@ -1,6 +1,6 @@
 #include "dist.hpp"
 
-#include "framework/doctest.hpp"
+#include <doctest/doctest.h>
 
 namespace mfl
 {

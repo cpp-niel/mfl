@@ -23,6 +23,7 @@ namespace mfl
     template <typename ScriptNoad>
     concept gen_script = std::is_same_v<ScriptNoad, big_op> || std::is_same_v<ScriptNoad, script>;
 
+    template <gen_script GenScript>
     [[nodiscard]] hlist gen_script_to_hlist(const settings s, const bool is_cramped, const bool use_limit_pos,
-                                            const gen_script auto& n);
+                                            const GenScript& n);
 }

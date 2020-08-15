@@ -1,6 +1,6 @@
 #include "parser/unicode_index.hpp"
 
-#include "framework/doctest.hpp"
+#include <doctest/doctest.h>
 #include "parser/parser_state.hpp"
 
 namespace mfl::parser

@@ -1,6 +1,6 @@
 #include "parser/parse.hpp"
 
-#include "framework/doctest.hpp"
+#include <doctest/doctest.h>
 #include "framework/node_types_are.hpp"
 #include "noad/left_right.hpp"
 

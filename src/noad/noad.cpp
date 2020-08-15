@@ -153,7 +153,8 @@ namespace mfl
             return {};
         }
 
-        item_kind kind_of_next_inoad(const range_of<intermediate_term> auto& iterms)
+        template <range_of<intermediate_term> ITerms>
+        item_kind kind_of_next_inoad(const ITerms& iterms)
         {
             const auto it =
                 ranges::find_if(iterms, [](const intermediate_term& t) { return std::holds_alternative<inoad>(t); });
@@ -175,7 +176,8 @@ namespace mfl
             return ranges::find(kinds, kind) != kinds.end();
         }
 
-        item_kind change_kind(const item_kind prev_kind, const item_kind kind, const range_of<intermediate_term> auto& iterms)
+        template <range_of<intermediate_term> ITerms>
+        item_kind change_kind(const item_kind prev_kind, const item_kind kind, const ITerms& iterms)
         {
             if (kind != item_kind::bin) return kind;
 
@@ -184,8 +186,9 @@ namespace mfl
         }
 
         // NOLINTNEXTLINE(misc-no-recursion)
+        template <range_of<intermediate_term> ITerms>
         void intermediate_terms_to_hlist(const settings s, const bool has_penalties, const item_kind prev_kind,
-                                         const range_of<intermediate_term> auto& iterms, hlist& result)
+                                         const ITerms& iterms, hlist& result)
         {
             if (!ranges::empty(iterms))
             {

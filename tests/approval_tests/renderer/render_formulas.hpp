@@ -1,6 +1,7 @@
 #pragma once
 
 #include "fonts_for_tests/freetype.hpp"
+#include "fonts_for_tests/font_face.hpp"
 #include "renderer/svg_renderer.hpp"
 
 #include "concepts.hpp"
@@ -10,7 +11,6 @@
 #include <range/v3/view/drop.hpp>
 #include <range/v3/view/take.hpp>
 
-#include <fonts_for_tests/font_face.hpp>
 #include <sstream>
 #include <string>
 #include <type_traits>
@@ -39,7 +39,8 @@ namespace mfl
         std::vector<column_config> columns;
     };
 
-    std::string render_formulas(const approval_test_config& config, const range_of_convertible_to<std::string> auto& formulas)
+    template <range_of_convertible_to<std::string> Strings>
+    std::string render_formulas(const approval_test_config& config, const Strings& formulas)
     {
         namespace rv = ranges::views;
         std::ostringstream os;

@@ -60,7 +60,6 @@ target_link_libraries(mfl
         project_warnings
         range-v3
         fmt::fmt
-        fmt::fmt-header-only
         ${CMAKE_THREAD_LIBS_INIT}
         )
 

@@ -1,6 +1,6 @@
 #include "mfl/layout.hpp"
 
-#include "framework/doctest.hpp"
+#include <doctest/doctest.h>
 #include "framework/mock_font_face.hpp"
 
 namespace mfl

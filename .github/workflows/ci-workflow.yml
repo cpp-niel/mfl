@@ -23,7 +23,6 @@ jobs:
                   cmake ./.. -DCMAKE_TOOLCHAIN_FILE=/usr/local/share/vcpkg/scripts/buildsystems/vcpkg.cmake
                   cmake --build . -- -j2
                   ./tests/unit_tests/unit_tests
-                  ./tests/approval_tests/approval_tests
 
     linux_build:
         name: build and test (linux)
