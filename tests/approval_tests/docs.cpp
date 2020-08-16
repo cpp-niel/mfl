@@ -19,7 +19,6 @@
 #include <range/v3/view/map.hpp>
 #include <range/v3/view/transform.hpp>
 
-
 namespace mfl
 {
     namespace
@@ -50,12 +49,15 @@ namespace mfl
                 col.num_rows = num_rows;
             }
 
+            const auto formulas =
+                symbols | rv::transform([](const auto& sym) { return "\\"s + sym; }) | ranges::to_vector;
+
             return render_formulas({.width = width,
-                                       .height = height,
-                                       .render_input = true,
-                                       .input_offset = config.input_offset,
-                                       .columns = columns},
-                                   symbols | rv::transform([](const auto& sym) { return "\\"s + sym; }));
+                                    .height = height,
+                                    .render_input = true,
+                                    .input_offset = config.input_offset,
+                                    .columns = columns},
+                                   formulas);
         }
     }
 
@@ -74,14 +76,14 @@ namespace mfl
             R"(x^2)", R"(M_{i,j})", R"(z_i)", R"({}_{23}^{42} F)", R"(y_i^2)", R"(\mathcal{X}^{z_j^e}_{a_{i,j}^{2x}})",
         };
         const auto result = render_formulas({.width = 800_px,
-                                                .height = 100_px,
-                                                .render_input = true,
-                                                .columns =
-                                                    {
-                                                        {.x = 10_px, .num_rows = 2},
-                                                        {.x = 240_px, .num_rows = 2},
-                                                        {.x = 470_px, .num_rows = 2},
-                                                    }},
+                                             .height = 100_px,
+                                             .render_input = true,
+                                             .columns =
+                                                 {
+                                                     {.x = 10_px, .num_rows = 2},
+                                                     {.x = 240_px, .num_rows = 2},
+                                                     {.x = 470_px, .num_rows = 2},
+                                                 }},
                                             formula);
 
         approve_svg(result);
@@ -95,13 +97,13 @@ namespace mfl
             R"(\frac{\frac{\alpha}{x+y}+\frac{1}{x}}{1-\frac{x^2}{1-z}})",
         };
         const auto result = render_formulas({.width = 800_px,
-                                                .height = 250_px,
-                                                .render_input = true,
-                                                .input_offset = 100_px,
-                                                .columns =
-                                                    {
-                                                        {.line_height = 80_px, .x = 10_px, .num_rows = 3},
-                                                    }},
+                                             .height = 250_px,
+                                             .render_input = true,
+                                             .input_offset = 100_px,
+                                             .columns =
+                                                 {
+                                                     {.line_height = 80_px, .x = 10_px, .num_rows = 3},
+                                                 }},
                                             formula);
 
         approve_svg(result);
@@ -115,13 +117,13 @@ namespace mfl
             R"(\genfrac][{4}{}{x}{y})",
         };
         const auto result = render_formulas({.width = 800_px,
-                                                .height = 220_px,
-                                                .render_input = true,
-                                                .input_offset = 150_px,
-                                                .columns =
-                                                    {
-                                                        {.line_height = 70_px, .x = 10_px, .num_rows = 3},
-                                                    }},
+                                             .height = 220_px,
+                                             .render_input = true,
+                                             .input_offset = 150_px,
+                                             .columns =
+                                                 {
+                                                     {.line_height = 70_px, .x = 10_px, .num_rows = 3},
+                                                 }},
                                             formula);
 
         approve_svg(result);
@@ -135,13 +137,13 @@ namespace mfl
             R"(\sqrt[3]{-q + \sqrt{q^2 + p^3}})",
         };
         const auto result = render_formulas({.width = 800_px,
-                                                .height = 220_px,
-                                                .render_input = true,
-                                                .input_offset = 200_px,
-                                                .columns =
-                                                    {
-                                                        {.line_height = 70_px, .x = 10_px, .num_rows = 3},
-                                                    }},
+                                             .height = 220_px,
+                                             .render_input = true,
+                                             .input_offset = 200_px,
+                                             .columns =
+                                                 {
+                                                     {.line_height = 70_px, .x = 10_px, .num_rows = 3},
+                                                 }},
                                             formula);
 
         approve_svg(result);
@@ -163,14 +165,14 @@ namespace mfl
             R"(\int\limits_0^\infty)",
         };
         const auto result = render_formulas({.width = 600_px,
-                                                .height = 150_px,
-                                                .render_input = true,
-                                                .input_offset = 50_px,
-                                                .columns =
-                                                    {
-                                                        {.line_height = 70_px, .x = 10_px, .num_rows = 2},
-                                                        {.line_height = 70_px, .x = 310_px, .num_rows = 2},
-                                                    }},
+                                             .height = 150_px,
+                                             .render_input = true,
+                                             .input_offset = 50_px,
+                                             .columns =
+                                                 {
+                                                     {.line_height = 70_px, .x = 10_px, .num_rows = 2},
+                                                     {.line_height = 70_px, .x = 310_px, .num_rows = 2},
+                                                 }},
                                             formula);
 
         approve_svg(result);
@@ -200,13 +202,13 @@ namespace mfl
             R"(\widetilde{x^2+1})",
         };
         const auto result = render_formulas({.width = 600_px,
-                                                .height = 100_px,
-                                                .render_input = true,
-                                                .input_offset = 120_px,
-                                                .columns =
-                                                    {
-                                                        {.x = 10_px},
-                                                    }},
+                                             .height = 100_px,
+                                             .render_input = true,
+                                             .input_offset = 120_px,
+                                             .columns =
+                                                 {
+                                                     {.x = 10_px},
+                                                 }},
                                             formula);
 
         approve_svg(result);
@@ -228,13 +230,13 @@ namespace mfl
             R"(\overline{\overline{x}^2 + \underline{z-\overline{y}}})",
         };
         const auto result = render_formulas({.width = 600_px,
-                                                .height = 60_px,
-                                                .render_input = true,
-                                                .input_offset = 150_px,
-                                                .columns =
-                                                    {
-                                                        {.x = 10_px},
-                                                    }},
+                                             .height = 60_px,
+                                             .render_input = true,
+                                             .input_offset = 150_px,
+                                             .columns =
+                                                 {
+                                                     {.x = 10_px},
+                                                 }},
                                             formula);
 
         approve_svg(result);
@@ -277,15 +279,15 @@ namespace mfl
             R"(\sup_x)",
         };
         const auto result = render_formulas({.width = 800_px,
-                                                .height = 480_px,
-                                                .render_input = true,
-                                                .input_offset = 80_px,
-                                                .columns =
-                                                    {
-                                                        {.line_height = 40_px, .x = 10_px, .num_rows = 11},
-                                                        {.line_height = 40_px, .x = 260_px, .num_rows = 11},
-                                                        {.line_height = 40_px, .x = 510_px, .num_rows = 11},
-                                                    }},
+                                             .height = 480_px,
+                                             .render_input = true,
+                                             .input_offset = 80_px,
+                                             .columns =
+                                                 {
+                                                     {.line_height = 40_px, .x = 10_px, .num_rows = 11},
+                                                     {.line_height = 40_px, .x = 260_px, .num_rows = 11},
+                                                     {.line_height = 40_px, .x = 510_px, .num_rows = 11},
+                                                 }},
                                             formula);
 
         approve_svg(result);
@@ -297,13 +299,13 @@ namespace mfl
             R"(x_i = \operatorname{func}(x_{i-1}))",
         };
         const auto result = render_formulas({.width = 600_px,
-                                                .height = 60_px,
-                                                .render_input = true,
-                                                .input_offset = 180_px,
-                                                .columns =
-                                                    {
-                                                        {.x = 10_px},
-                                                    }},
+                                             .height = 60_px,
+                                             .render_input = true,
+                                             .input_offset = 180_px,
+                                             .columns =
+                                                 {
+                                                     {.x = 10_px},
+                                                 }},
                                             formula);
 
         approve_svg(result);
@@ -313,8 +315,8 @@ namespace mfl
     {
         const auto formulas = rv::zip(rv::keys(parser::left_delimiters), rv::keys(parser::right_delimiters))
                               | rv::transform([](const auto delims) {
-          return fmt::format("{} x \\{}", std::get<0>(delims), std::get<1>(delims));
-        });
+                                    return fmt::format("{} x \\{}", std::get<0>(delims), std::get<1>(delims));
+                                });
         const auto result = render_symbols({.num_columns = 2, .input_offset = 40_px}, formulas);
 
         approve_svg(result);
@@ -328,13 +330,13 @@ namespace mfl
             R"(x = \left\{ \genfrac{}{}{0}{}{a \; : \; y > 0}{b \; : \; y \le 0} \right.)",
         };
         const auto result = render_formulas({.width = 800_px,
-                                                .height = 260_px,
-                                                .render_input = true,
-                                                .input_offset = 160_px,
-                                                .columns =
-                                                    {
-                                                        {.line_height = 80_px, .x = 10_px},
-                                                    }},
+                                             .height = 260_px,
+                                             .render_input = true,
+                                             .input_offset = 160_px,
+                                             .columns =
+                                                 {
+                                                     {.line_height = 80_px, .x = 10_px},
+                                                 }},
                                             formula);
 
         approve_svg(result);
@@ -347,13 +349,13 @@ namespace mfl
             R"(\mathtt{abcABC123})", R"(\mathbb{abcABC123})", R"(\mathfrak{abcABC123})", R"(\mathcal{abcABC123})",
         };
         const auto result = render_formulas({.width = 600_px,
-                                                .height = 360_px,
-                                                .render_input = true,
-                                                .input_offset = 200_px,
-                                                .columns =
-                                                    {
-                                                        {.line_height = 40_px, .x = 10_px},
-                                                    }},
+                                             .height = 360_px,
+                                             .render_input = true,
+                                             .input_offset = 200_px,
+                                             .columns =
+                                                 {
+                                                     {.line_height = 40_px, .x = 10_px},
+                                                 }},
                                             formula);
 
         approve_svg(result);
@@ -424,16 +426,16 @@ namespace mfl
         const auto formulas = rv::keys(parser::combining_symbols)
                               | rv::transform([](const char* name) { return fmt::format("c \\{}", name); });
         const auto result = render_formulas({.width = 720_px,
-                                                .height = 100_px,
-                                                .render_input = true,
-                                                .input_offset = 30_px,
-                                                .columns =
-                                                    {
-                                                        {.line_height = 30_px, .x = 10_px, .num_rows = 2},
-                                                        {.line_height = 30_px, .x = 190_px, .num_rows = 2},
-                                                        {.line_height = 30_px, .x = 370_px, .num_rows = 2},
-                                                        {.line_height = 30_px, .x = 550_px, .num_rows = 2},
-                                                    }},
+                                             .height = 100_px,
+                                             .render_input = true,
+                                             .input_offset = 30_px,
+                                             .columns =
+                                                 {
+                                                     {.line_height = 30_px, .x = 10_px, .num_rows = 2},
+                                                     {.line_height = 30_px, .x = 190_px, .num_rows = 2},
+                                                     {.line_height = 30_px, .x = 370_px, .num_rows = 2},
+                                                     {.line_height = 30_px, .x = 550_px, .num_rows = 2},
+                                                 }},
                                             formulas);
 
         approve_svg(result);
@@ -451,15 +453,15 @@ namespace mfl
             R"(a \  b)", R"(a \enspace b)", R"(a \quad b)", R"(a \qquad b)", R"(a \! b)",
         };
         const auto result = render_formulas({.width = 800_px,
-                                                .height = 150_px,
-                                                .render_input = true,
-                                                .input_offset = 60_px,
-                                                .columns =
-                                                    {
-                                                        {.x = 10_px, .num_rows = 4},
-                                                        {.x = 240_px, .num_rows = 4},
-                                                        {.x = 470_px, .num_rows = 4},
-                                                    }},
+                                             .height = 150_px,
+                                             .render_input = true,
+                                             .input_offset = 60_px,
+                                             .columns =
+                                                 {
+                                                     {.x = 10_px, .num_rows = 4},
+                                                     {.x = 240_px, .num_rows = 4},
+                                                     {.x = 470_px, .num_rows = 4},
+                                                 }},
                                             formula);
 
         approve_svg(result);
