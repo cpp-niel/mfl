@@ -424,7 +424,8 @@ namespace mfl
     TEST_CASE("combining_symbols")
     {
         const auto formulas = rv::keys(parser::combining_symbols)
-                              | rv::transform([](const char* name) { return fmt::format("c \\{}", name); });
+                              | rv::transform([](const char* name) { return fmt::format("c \\{}", name); })
+                              | ranges::to_vector;
         const auto result = render_formulas({.width = 720_px,
                                              .height = 100_px,
                                              .render_input = true,
@@ -448,7 +449,7 @@ namespace mfl
 
     TEST_CASE("spaces")
     {
-        const auto formula = std::vector<std::string>{
+        const auto formulas = std::vector<std::string>{
             R"(a \, b)", R"(a \/ b)",       R"(a \> b)",    R"(a \: b)",     R"(a \; b)",
             R"(a \  b)", R"(a \enspace b)", R"(a \quad b)", R"(a \qquad b)", R"(a \! b)",
         };
@@ -462,7 +463,7 @@ namespace mfl
                                                      {.x = 240_px, .num_rows = 4},
                                                      {.x = 470_px, .num_rows = 4},
                                                  }},
-                                            formula);
+                                            formulas);
 
         approve_svg(result);
     }
