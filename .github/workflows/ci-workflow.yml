@@ -54,7 +54,7 @@ jobs:
 
     windows_build:
         name: build and test (windows)
-        runs-on: [self-hosted, windows]
+        runs-on: windows-latest
         steps:
             - uses: actions/checkout@v1
             - name: install dependencies
@@ -64,12 +64,12 @@ jobs:
                   cd vcpkg
                   .\bootstrap-vcpkg.bat
                   .\vcpkg integrate install
-                  .\vcpkg.exe install range-v3 fmt cairo harfbuzz freetype doctest
+                  .\vcpkg.exe install range-v3 fmt cairo harfbuzz freetype doctest --triplet x64-windows
             - name: build & test
               run: |
                   cd ${{ github.workspace }}
                   mkdir build
                   cd build
-                  cmake .\.. -DCMAKE_TOOLCHAIN_FILE=${{ github.workspace }}\..\vcpkg\scripts\buildsystems\vcpkg.cmake
-                  MSBuild.exe mfl.sln
+                  cmake -G "Visual Studio 16 2019" -DCMAKE_BUILD_TYPE:STRING=Release -DCMAKE_TOOLCHAIN_FILE=${{ github.workspace }}\..\vcpkg\scripts\buildsystems\vcpkg.cmake -DCMAKE_CXX_FLAGS="/permissive- /std:c++latest /Zc:__cplusplus /utf-8 /EHsc /DNOMINMAX" ./..
+                  cmake --build . --config "Release"
                   .\tests\unit_tests\unit_tests.exe
