@@ -1,6 +1,7 @@
 #pragma once
 
 #include "fonts_for_tests/freetype.hpp"
+#include "fonts_for_tests/font_face.hpp"
 #include "renderer/svg_renderer.hpp"
 
 #include "concepts.hpp"
@@ -10,7 +11,6 @@
 #include <range/v3/view/drop.hpp>
 #include <range/v3/view/take.hpp>
 
-#include <fonts_for_tests/font_face.hpp>
 #include <sstream>
 #include <string>
 #include <type_traits>
@@ -35,6 +35,7 @@ namespace mfl
         dots_per_inch dpi = 140_dpi;
         bool render_input = false;
         pixels input_offset = 50_px;
+        points font_size = 10_pt;
         std::vector<column_config> columns;
     };
 
@@ -54,7 +55,7 @@ namespace mfl
                 auto y = config.height - col.initial_offset;
                 for (const auto& formula : formulas | rv::drop(num_formulas_processed) | rv::take(col.num_rows))
                 {
-                    renderer.render(col.x, y, layout(formula, create_font_face));
+                    renderer.render(col.x, y, layout(formula, config.font_size, create_font_face));
                     if (config.render_input) renderer.render_tt_text(col.x + config.input_offset, y, formula);
 
                     y -= col.line_height;
