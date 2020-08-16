@@ -1,6 +1,6 @@
 #include "parser/lexer.hpp"
 
-#include "framework/doctest.hpp"
+#include <doctest/doctest.h>
 
 #include <sstream>
 

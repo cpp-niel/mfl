@@ -1,6 +1,6 @@
 #include "parser/tokens.hpp"
 
-#include "framework/doctest.hpp"
+#include <doctest/doctest.h>
 
 namespace mfl::parser
 {

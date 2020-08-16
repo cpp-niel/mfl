@@ -6,7 +6,7 @@
 #include "node/box.hpp"
 #include "settings.hpp"
 
-#include "framework/doctest.hpp"
+#include <doctest/doctest.h>
 #include "framework/mock_font_face.hpp"
 #include "framework/node_types_are.hpp"
 

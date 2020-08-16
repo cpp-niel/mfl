@@ -25,3 +25,4 @@ add_subdirectory(tests/unit_tests)
 if(CMAKE_CXX_COMPILER_ID STREQUAL "Clang")
     add_subdirectory(tests/fuzz_tests)
 endif()
+

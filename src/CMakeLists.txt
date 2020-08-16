@@ -48,8 +48,11 @@ add_library(mfl
         units.cpp
         )
 
-target_include_directories(mfl PUBLIC ./../include)
-target_include_directories(mfl PRIVATE ./../src)
+target_include_directories(mfl PUBLIC
+        $<BUILD_INTERFACE:${PROJECT_SOURCE_DIR}/include>
+        $<INSTALL_INTERFACE:include>
+        )
+target_include_directories(mfl PRIVATE ${PROJECT_SOURCE_DIR}/src)
 
 target_link_libraries(mfl
         PUBLIC
@@ -57,6 +60,15 @@ target_link_libraries(mfl
         project_warnings
         range-v3
         fmt::fmt
-        fmt::fmt-header-only
         ${CMAKE_THREAD_LIBS_INIT}
         )
+
+include(GNUInstallDirs)
+
+install(TARGETS mfl project_options project_warnings EXPORT mfl-export LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR} ARCHIVE DESTINATION ${CMAKE_INSTALL_LIBDIR})
+install(EXPORT mfl-export DESTINATION ${CMAKE_INSTALL_LIBDIR}/cmake/mfl NAMESPACE mfl:: FILE mfl-config.cmake)
+
+if(CMAKE_BUILD_TYPE STREQUAL Release)
+    install(DIRECTORY ${PROJECT_SOURCE_DIR}/include/ DESTINATION ${CMAKE_INSTALL_INCLUDEDIR} FILES_MATCHING PATTERN *.hpp)
+endif()
+

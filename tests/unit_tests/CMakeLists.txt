@@ -2,6 +2,8 @@ cmake_minimum_required (VERSION 3.5)
 
 project (unit_tests)
 
+find_package(doctest CONFIG REQUIRED)
+
 add_executable (unit_tests
         dist.cpp
         framework/mock_font_face.cpp
@@ -45,4 +47,4 @@ set_property(TARGET unit_tests PROPERTY CXX_STANDARD 20)
 
 target_include_directories(unit_tests PUBLIC ./ ./../../include ./../../src)
 
-target_link_libraries(unit_tests PUBLIC project_options project_warnings mfl)
+target_link_libraries(unit_tests PUBLIC project_options project_warnings mfl doctest::doctest)

@@ -1,6 +1,7 @@
-#include "framework/approve.hpp"
-#include "framework/doctest.hpp"
+#include "framework/approval_tests.hpp"
 #include "renderer/render_formulas.hpp"
+
+#include <doctest/doctest.h>
 
 #include <iostream>
 
@@ -25,7 +26,7 @@ namespace mfl
                                              .height = 800_px,
                                              .columns = {{.initial_offset = 50_px, .line_height = 50_px, .x = 100_px}}},
                                             formulas);
-        approve(result);
+        approve_svg(result);
     }
 
     TEST_CASE("mfl_large")
@@ -42,7 +43,7 @@ namespace mfl
                                              .font_size = 20_pt,
                                              .columns = {{.initial_offset = 50_px, .line_height = 100_px, .x = 10_px}}},
                                             formulas);
-        approve(result);
+        approve_svg(result);
     }
 
     TEST_CASE("mathtext")
@@ -91,7 +92,7 @@ namespace mfl
                                                          {.line_height = 45_px, .x = 410_px, .num_rows = 22}}},
                                             formulas);
 
-        approve(result);
+        approve_svg(result);
     }
 
     TEST_CASE("MathML_torture_test")
@@ -139,6 +140,6 @@ namespace mfl
                                                          {.line_height = 60_px, .x = 410_px, .num_rows = 17}}},
                                             formulas);
 
-        approve(result);
+        approve_svg(result);
     }
 }

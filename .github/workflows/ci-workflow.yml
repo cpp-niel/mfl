@@ -12,7 +12,7 @@ jobs:
                   export CXX="$(brew --prefix)/opt/llvm/bin/clang++" CC="$(brew --prefix)/opt/llvm/bin/clang"
                   export LDFLAGS="-L$(brew --prefix)/opt/llvm/lib -Wl,-rpath,$(brew --prefix)/opt/llvm/lib"
                   vcpkg update
-                  vcpkg install range-v3 fmt cairo harfbuzz freetype
+                  vcpkg install range-v3 fmt cairo harfbuzz freetype doctest
             - name: build & test
               run: |
                   export CXX="$(brew --prefix)/opt/llvm/bin/clang++" CC="$(brew --prefix)/opt/llvm/bin/clang"
@@ -23,7 +23,6 @@ jobs:
                   cmake ./.. -DCMAKE_TOOLCHAIN_FILE=/usr/local/share/vcpkg/scripts/buildsystems/vcpkg.cmake
                   cmake --build . -- -j2
                   ./tests/unit_tests/unit_tests
-                  ./tests/approval_tests/approval_tests
 
     linux_build:
         name: build and test (linux)
@@ -43,7 +42,7 @@ jobs:
                   cd vcpkg
                   ./bootstrap-vcpkg.sh -disableMetrics
                   ./vcpkg integrate install
-                  ./vcpkg install range-v3 fmt cairo harfbuzz freetype
+                  ./vcpkg install range-v3 fmt cairo harfbuzz freetype doctest
             - name: build & test
               run: |
                   cd ../mfl

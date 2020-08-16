@@ -1,6 +1,6 @@
 #include "node/glue.hpp"
 
-#include "framework/doctest.hpp"
+#include <doctest/doctest.h>
 
 namespace mfl
 {

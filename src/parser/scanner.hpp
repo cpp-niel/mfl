@@ -32,7 +32,8 @@ namespace mfl::parser
         void skip_whitespace();
         void skip_char();
 
-        [[nodiscard]] std::string take_while(const predicate<char> auto& is_predicate_true)
+        template <predicate<char> Predicate>
+        [[nodiscard]] std::string take_while(const Predicate& is_predicate_true)
         {
             std::string result(1, current_char_);
             while (get_char(current_char_) && is_predicate_true(current_char_))
