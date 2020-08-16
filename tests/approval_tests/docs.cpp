@@ -1,4 +1,5 @@
-#include "framework/approval_tests.hpp"
+#include "framework/approve.hpp"
+#include "framework/doctest.hpp"
 #include "renderer/render_formulas.hpp"
 
 #include "concepts.hpp"
@@ -13,8 +14,8 @@
 #include "parser/symbols/letterlike.hpp"
 #include "parser/symbols/punctuation.hpp"
 #include "parser/symbols/relational_operators.hpp"
+#include "parser/unicode_index.hpp"
 
-#include <doctest/doctest.h>
 #include <range/v3/view/enumerate.hpp>
 #include <range/v3/view/map.hpp>
 #include <range/v3/view/transform.hpp>
@@ -65,7 +66,7 @@ namespace mfl
         const auto result = render_formulas(
             {.width = 340_px, .height = 100_px, .columns = {{.initial_offset = 50_px, .x = 10_px}}}, formula);
 
-        approve_svg(result);
+        approve(result);
     }
 
     TEST_CASE("subscripts_and_superscripts")
@@ -84,7 +85,7 @@ namespace mfl
                                                  }},
                                             formula);
 
-        approve_svg(result);
+        approve(result);
     }
 
     TEST_CASE("fractions")
@@ -104,7 +105,7 @@ namespace mfl
                                                  }},
                                             formula);
 
-        approve_svg(result);
+        approve(result);
     }
 
     TEST_CASE("genfrac")
@@ -124,7 +125,7 @@ namespace mfl
                                                  }},
                                             formula);
 
-        approve_svg(result);
+        approve(result);
     }
 
     TEST_CASE("radicals")
@@ -144,14 +145,14 @@ namespace mfl
                                                  }},
                                             formula);
 
-        approve_svg(result);
+        approve(result);
     }
 
     TEST_CASE("big_ops")
     {
         const auto result = render_symbols({.num_columns = 3, .line_height = 60_px}, rv::keys(parser::big_op_symbols));
 
-        approve_svg(result);
+        approve(result);
     }
 
     TEST_CASE("big_ops_limits")
@@ -173,7 +174,7 @@ namespace mfl
                                                  }},
                                             formula);
 
-        approve_svg(result);
+        approve(result);
     }
 
     TEST_CASE("big_ops_integrals")
@@ -181,7 +182,7 @@ namespace mfl
         const auto result = render_symbols({.num_columns = 3, .line_height = 60_px, .input_offset = 60_px},
                                            rv::keys(parser::integral_symbols));
 
-        approve_svg(result);
+        approve(result);
     }
 
     TEST_CASE("accents")
@@ -190,7 +191,7 @@ namespace mfl
             rv::keys(parser::accents) | rv::transform([](const char* name) { return fmt::format("{}{{a}}", name); });
         const auto result = render_symbols({.num_columns = 5}, formulas);
 
-        approve_svg(result);
+        approve(result);
     }
 
     TEST_CASE("wide_accents")
@@ -209,7 +210,7 @@ namespace mfl
                                                  }},
                                             formula);
 
-        approve_svg(result);
+        approve(result);
     }
 
     TEST_CASE("additional_accents")
@@ -219,7 +220,7 @@ namespace mfl
                               | rv::transform([](const char* name) { return fmt::format("{}{{a}}", name); });
         const auto result = render_symbols({.num_columns = 3}, formulas);
 
-        approve_svg(result);
+        approve(result);
     }
 
     TEST_CASE("lines")
@@ -237,7 +238,7 @@ namespace mfl
                                                  }},
                                             formula);
 
-        approve_svg(result);
+        approve(result);
     }
 
     TEST_CASE("functions")
@@ -288,7 +289,7 @@ namespace mfl
                                                  }},
                                             formula);
 
-        approve_svg(result);
+        approve(result);
     }
 
     TEST_CASE("operatorname")
@@ -306,7 +307,7 @@ namespace mfl
                                                  }},
                                             formula);
 
-        approve_svg(result);
+        approve(result);
     }
 
     TEST_CASE("delimiters")
@@ -317,7 +318,7 @@ namespace mfl
                                 });
         const auto result = render_symbols({.num_columns = 2, .input_offset = 40_px}, formulas);
 
-        approve_svg(result);
+        approve(result);
     }
 
     TEST_CASE("sized_delimiters")
@@ -337,7 +338,7 @@ namespace mfl
                                                  }},
                                             formula);
 
-        approve_svg(result);
+        approve(result);
     }
 
     TEST_CASE("fonts")
@@ -356,67 +357,67 @@ namespace mfl
                                                  }},
                                             formula);
 
-        approve_svg(result);
+        approve(result);
     }
 
     TEST_CASE("greek_alphabet_lowercase")
     {
-        approve_svg(render_symbols({.num_columns = 4}, rv::keys(parser::greek_alphabet_lowercase)));
+        approve(render_symbols({.num_columns = 4}, rv::keys(parser::greek_alphabet_lowercase)));
     }
 
     TEST_CASE("greek_alphabet_uppercase")
     {
-        approve_svg(render_symbols({.num_columns = 4}, rv::keys(parser::greek_alphabet_uppercase)));
+        approve(render_symbols({.num_columns = 4}, rv::keys(parser::greek_alphabet_uppercase)));
     }
 
     TEST_CASE("binary_operators")
     {
-        approve_svg(render_symbols({.num_columns = 4}, rv::keys(parser::binary_operators)));
+        approve(render_symbols({.num_columns = 4}, rv::keys(parser::binary_operators)));
     }
 
     TEST_CASE("additional_binary_operators")
     {
-        approve_svg(render_symbols({.num_columns = 3}, rv::keys(parser::additional_binary_operators)));
+        approve(render_symbols({.num_columns = 3}, rv::keys(parser::additional_binary_operators)));
     }
 
     TEST_CASE("relational_operators")
     {
-        approve_svg(render_symbols({.num_columns = 4}, rv::keys(parser::relational_operators)));
+        approve(render_symbols({.num_columns = 4}, rv::keys(parser::relational_operators)));
     }
 
     TEST_CASE("additional_relational_operators")
     {
-        approve_svg(render_symbols({.num_columns = 3}, rv::keys(parser::additional_relational_operators)));
+        approve(render_symbols({.num_columns = 3}, rv::keys(parser::additional_relational_operators)));
     }
 
     TEST_CASE("negations")
     {
-        approve_svg(render_symbols({.num_columns = 4}, rv::keys(parser::negations)));
+        approve(render_symbols({.num_columns = 4}, rv::keys(parser::negations)));
     }
 
     TEST_CASE("additional_negations")
     {
-        approve_svg(render_symbols({.num_columns = 3}, rv::keys(parser::additional_negations)));
+        approve(render_symbols({.num_columns = 3}, rv::keys(parser::additional_negations)));
     }
 
     TEST_CASE("arrows")
     {
-        approve_svg(render_symbols({.num_columns = 3}, rv::keys(parser::arrows)));
+        approve(render_symbols({.num_columns = 3}, rv::keys(parser::arrows)));
     }
 
     TEST_CASE("additional_arrows")
     {
-        approve_svg(render_symbols({.num_columns = 3}, rv::keys(parser::additional_arrows)));
+        approve(render_symbols({.num_columns = 3}, rv::keys(parser::additional_arrows)));
     }
 
     TEST_CASE("punctuation")
     {
-        approve_svg(render_symbols({.num_columns = 3}, rv::keys(parser::punctuation_symbols)));
+        approve(render_symbols({.num_columns = 3}, rv::keys(parser::punctuation_symbols)));
     }
 
     TEST_CASE("letterlike")
     {
-        approve_svg(render_symbols({.num_columns = 4}, rv::keys(parser::letterlike_symbols)));
+        approve(render_symbols({.num_columns = 4}, rv::keys(parser::letterlike_symbols)));
     }
 
     TEST_CASE("combining_symbols")
@@ -436,12 +437,12 @@ namespace mfl
                                                  }},
                                             formulas);
 
-        approve_svg(result);
+        approve(result);
     }
 
     TEST_CASE("dots")
     {
-        approve_svg(render_symbols({.num_columns = 4}, rv::keys(parser::dots)));
+        approve(render_symbols({.num_columns = 4}, rv::keys(parser::dots)));
     }
 
     TEST_CASE("spaces")
@@ -462,6 +463,6 @@ namespace mfl
                                                  }},
                                             formula);
 
-        approve_svg(result);
+        approve(result);
     }
 }

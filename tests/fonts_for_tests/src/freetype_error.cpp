@@ -30,7 +30,7 @@ namespace mfl::fft
     std::string ft_error_string(const FT_Error error_code)
     {
         using namespace std::string_literals;
-        const auto* const it =
+        const auto it =
             ranges::find_if(error_definitions, [&](const error_definition& e) { return e.err_code == error_code; });
 
         if (it == error_definitions.end())

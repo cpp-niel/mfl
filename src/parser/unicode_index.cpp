@@ -41,7 +41,7 @@ namespace mfl::parser
             {"|", 0x2016},
         }};
 
-        template <range_of<symbol_pair> Symbols>
+        template<range_of<symbol_pair> Symbols>
         code_point check(const Symbols& symbols, const std::string_view name)
         {
             const auto it = ranges::find_if(symbols, [&](const auto entry) { return name == entry.first; });

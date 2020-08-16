@@ -19,7 +19,8 @@ namespace mfl
     [[nodiscard]] hlist extend(node_variant&& n, const dist_t d);
     [[nodiscard]] hlist concat(hlist&& l0, hlist&& l1);
 
-    [[nodiscard]] hlist make_hlist(node auto&&... nodes)
+    template<node... Node>
+    [[nodiscard]] hlist make_hlist(Node&&... nodes)
     {
         hlist result;
         (result.nodes.emplace_back(std::forward<decltype(nodes)>(nodes)), ...);
