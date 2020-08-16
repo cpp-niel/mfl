@@ -19,7 +19,6 @@
 #include <range/v3/view/map.hpp>
 #include <range/v3/view/transform.hpp>
 
-
 namespace mfl
 {
     namespace
@@ -446,7 +445,7 @@ namespace mfl
 
     TEST_CASE("spaces")
     {
-        const auto formula = std::vector<std::string>{
+        const auto formulas = std::vector<std::string>{
             R"(a \, b)", R"(a \/ b)",       R"(a \> b)",    R"(a \: b)",     R"(a \; b)",
             R"(a \  b)", R"(a \enspace b)", R"(a \quad b)", R"(a \qquad b)", R"(a \! b)",
         };
@@ -460,7 +459,7 @@ namespace mfl
                                                      {.x = 240_px, .num_rows = 4},
                                                      {.x = 470_px, .num_rows = 4},
                                                  }},
-                                            formula);
+                                            formulas);
 
         approve_svg(result);
     }
