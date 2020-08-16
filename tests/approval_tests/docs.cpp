@@ -49,15 +49,12 @@ namespace mfl
                 col.num_rows = num_rows;
             }
 
-            const auto formulas =
-                symbols | rv::transform([](const auto& sym) { return "\\"s + sym; }) | ranges::to_vector;
-
             return render_formulas({.width = width,
                                     .height = height,
                                     .render_input = true,
                                     .input_offset = config.input_offset,
                                     .columns = columns},
-                                   formulas);
+                                   symbols | rv::transform([](const auto& sym) { return "\\"s + sym; }));
         }
     }
 
@@ -424,8 +421,7 @@ namespace mfl
     TEST_CASE("combining_symbols")
     {
         const auto formulas = rv::keys(parser::combining_symbols)
-                              | rv::transform([](const char* name) { return fmt::format("c \\{}", name); })
-                              | ranges::to_vector;
+                              | rv::transform([](const char* name) { return fmt::format("c \\{}", name); });
         const auto result = render_formulas({.width = 720_px,
                                              .height = 100_px,
                                              .render_input = true,

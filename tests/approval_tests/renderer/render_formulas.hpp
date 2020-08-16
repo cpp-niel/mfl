@@ -39,8 +39,10 @@ namespace mfl
         std::vector<column_config> columns;
     };
 
-    inline std::string render_formulas(const approval_test_config& config, const std::vector<std::string>& formulas)
+    template <range_of_convertible_to<std::string> Strings>
+    std::string render_formulas(const approval_test_config& config, const Strings& formulas)
     {
+        namespace rv = ranges::views;
         std::ostringstream os;
         {
             const auto ft = fft::freetype();
@@ -51,10 +53,8 @@ namespace mfl
             for (const auto& col : config.columns)
             {
                 auto y = config.height - col.initial_offset;
-                const auto num_to_process = std::min(num_formulas_processed + col.num_rows, formulas.size());
-                for (auto i = num_formulas_processed; i < num_to_process; ++i)
+                for (const auto& formula : formulas | rv::drop(num_formulas_processed) | rv::take(col.num_rows))
                 {
-                    const auto& formula = formulas[i];
                     renderer.render(col.x, y, layout(formula, config.font_size, create_font_face));
                     if (config.render_input) renderer.render_tt_text(col.x + config.input_offset, y, formula);
 
