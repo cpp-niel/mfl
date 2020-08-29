@@ -2,7 +2,7 @@
 
 #include "font_library.hpp"
 #include "framework/code_points.hpp"
-#include <doctest/doctest.h>
+#include "framework/doctest.hpp"
 #include "framework/mock_font_face.hpp"
 #include "framework/node_types_are.hpp"
 #include "node/hlist.hpp"

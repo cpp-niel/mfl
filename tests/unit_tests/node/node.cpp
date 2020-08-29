@@ -1,6 +1,6 @@
 #include "node/node.hpp"
 
-#include <doctest/doctest.h>
+#include "framework/doctest.hpp"
 #include "node/hlist.hpp"
 #include "node/box.hpp"
 

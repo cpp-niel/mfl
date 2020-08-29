@@ -1,6 +1,6 @@
 #include "node/vlist.hpp"
 
-#include <doctest/doctest.h>
+#include "framework/doctest.hpp"
 #include "node/box.hpp"
 #include "node/hlist.hpp"
 

@@ -1,6 +1,6 @@
 #include "node/hlist.hpp"
 
-#include <doctest/doctest.h>
+#include "framework/doctest.hpp"
 #include "node/box.hpp"
 
 namespace mfl

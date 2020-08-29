@@ -1,7 +1,7 @@
 #include "parser/parse.hpp"
 
 #include "framework/code_points.hpp"
-#include <doctest/doctest.h>
+#include "framework/doctest.hpp"
 #include "framework/node_types_are.hpp"
 #include "noad/fraction.hpp"
 

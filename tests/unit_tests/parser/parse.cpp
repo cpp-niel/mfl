@@ -1,6 +1,6 @@
 #include "parser/parse.hpp"
 
-#include <doctest/doctest.h>
+#include "framework/doctest.hpp"
 
 namespace mfl
 {
