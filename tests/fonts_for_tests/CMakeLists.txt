@@ -1,9 +1,11 @@
-cmake_minimum_required (VERSION 3.5)
+cmake_minimum_required (VERSION 3.14)
 
 project (fonts_for_tests)
 
 find_package(freetype CONFIG REQUIRED)
 find_package(harfbuzz CONFIG REQUIRED)
+find_package(expat CONFIG REQUIRED)
+find_package(Fontconfig)
 
 add_library (fonts_for_tests
         src/font_face.cpp
@@ -19,6 +21,8 @@ target_include_directories(fonts_for_tests PUBLIC ./src ./include ./../../includ
 
 target_link_libraries(fonts_for_tests PUBLIC
         freetype
+        expat::expat
+        Fontconfig::Fontconfig
         harfbuzz::harfbuzz
         project_options
         project_warnings
