@@ -90,29 +90,29 @@ namespace mfl
 
         TEST_CASE("formatting inches")
         {
-            CHECK(fmt::format("{}", 42_in) == "42.0\"");
-            CHECK(fmt::format("{}", -42_in) == "-42.0\"");
+            CHECK(fmt::format("{}", 42_in) == "42\"");
+            CHECK(fmt::format("{}", -42_in) == "-42\"");
             CHECK(fmt::format("{}", 42.42_in) == "42.42\"");
         }
 
         TEST_CASE("formatting dots per inch")
         {
-            CHECK(fmt::format("{}", 42_dpi) == "42.0dpi");
-            CHECK(fmt::format("{}", -42_dpi) == "-42.0dpi");
+            CHECK(fmt::format("{}", 42_dpi) == "42dpi");
+            CHECK(fmt::format("{}", -42_dpi) == "-42dpi");
             CHECK(fmt::format("{}", 42.42_dpi) == "42.42dpi");
         }
 
         TEST_CASE("formatting pixels")
         {
-            CHECK(fmt::format("{}", 42_px) == "42.0px");
-            CHECK(fmt::format("{}", -42_px) == "-42.0px");
+            CHECK(fmt::format("{}", 42_px) == "42px");
+            CHECK(fmt::format("{}", -42_px) == "-42px");
             CHECK(fmt::format("{}", 42.42_px) == "42.42px");
         }
 
         TEST_CASE("formatting points")
         {
-            CHECK(fmt::format("{}", 42_pt) == "42.0pt");
-            CHECK(fmt::format("{}", -42_pt) == "-42.0pt");
+            CHECK(fmt::format("{}", 42_pt) == "42pt");
+            CHECK(fmt::format("{}", -42_pt) == "-42pt");
             CHECK(fmt::format("{}", 42.42_pt) == "42.42pt");
         }
 
@@ -120,28 +120,28 @@ namespace mfl
         {
             std::ostringstream os;
             os << 42_in;
-            CHECK(os.str() == "42.0\"");
+            CHECK(os.str() == "42\"");
         }
 
         TEST_CASE("stream output dots per inch")
         {
             std::ostringstream os;
             os << 42_dpi;
-            CHECK(os.str() == "42.0dpi");
+            CHECK(os.str() == "42dpi");
         }
 
         TEST_CASE("stream output pixels")
         {
             std::ostringstream os;
             os << 42_px;
-            CHECK(os.str() == "42.0px");
+            CHECK(os.str() == "42px");
         }
 
         TEST_CASE("stream output points")
         {
             std::ostringstream os;
             os << 42_pt;
-            CHECK(os.str() == "42.0pt");
+            CHECK(os.str() == "42pt");
         }
     }
 }
