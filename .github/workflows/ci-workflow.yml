@@ -34,8 +34,7 @@ jobs:
               run: |
                   sudo add-apt-repository ppa:ubuntu-toolchain-r/test -y
                   sudo apt-get update -q
-                  sudo apt-get install gcc-10 -y
-                  sudo apt-get install g++-10 -y
+                  sudo apt-get install gperf gcc-10 g++-10 -y
             - name: install dependencies
               run: |
                   export CXX="g++-10" CC="gcc-10"
