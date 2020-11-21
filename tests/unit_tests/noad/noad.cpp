@@ -54,7 +54,7 @@ namespace mfl
             {
                 SUBCASE("returns empty list when input noads are empty")
                 {
-                    const auto result = to_hlist(display_style, false, false, {});
+                    const auto result = to_hlist(display_style, cramping::off, false, {});
                     CHECK(result.nodes.empty());
                 }
 
@@ -62,7 +62,7 @@ namespace mfl
                 {
                     const auto c = math_char{.kind = item_kind::ord};
                     const auto op = math_char{.kind = item_kind::op};
-                    const auto result = to_hlist(display_style, false, false, {c, op, c});
+                    const auto result = to_hlist(display_style, cramping::off, false, {c, op, c});
                     CHECK((node_types_are<glyph, glue_spec, glyph, glue_spec, glyph>(result.nodes)));
                 }
 
@@ -70,7 +70,7 @@ namespace mfl
                 {
                     const auto c = math_char{.kind = item_kind::ord};
                     const auto op = math_char{.kind = item_kind::bin};
-                    const auto result = to_hlist(display_style, false, false, {c, op, c});
+                    const auto result = to_hlist(display_style, cramping::off, false, {c, op, c});
                     CHECK((node_types_are<glyph, glue_spec, glyph, glue_spec, glyph>(result.nodes)));
                 }
 
@@ -78,7 +78,7 @@ namespace mfl
                 {
                     const auto c = math_char{.kind = item_kind::ord};
                     const auto op = math_char{.kind = item_kind::bin};
-                    const auto result = to_hlist(display_style, false, false, {c, op, op, c});
+                    const auto result = to_hlist(display_style, cramping::off, false, {c, op, op, c});
                     CHECK((node_types_are<glyph, glue_spec, glyph, glue_spec, glyph, glyph>(result.nodes)));
                 }
 
@@ -86,7 +86,7 @@ namespace mfl
                 {
                     const auto c = math_char{.kind = item_kind::ord};
                     const auto space = math_space{.space = kern{.size = 100}};
-                    const auto result = to_hlist(display_style, false, false, {c, space, c});
+                    const auto result = to_hlist(display_style, cramping::off, false, {c, space, c});
                     CHECK((node_types_are<glyph, kern, glyph>(result.nodes)));
                 }
 
@@ -94,7 +94,7 @@ namespace mfl
                 {
                     const auto c = math_char{.kind = item_kind::ord};
                     const auto space = math_space{.space = kern{.size = 100}, .is_math_units = false};
-                    const auto result = to_hlist(display_style, false, false, {c, space, c});
+                    const auto result = to_hlist(display_style, cramping::off, false, {c, space, c});
                     CHECK((node_types_are<glyph, kern, glyph>(result.nodes)));
                 }
 
@@ -105,7 +105,7 @@ namespace mfl
                         fraction{},  left_right{}, script{},  big_op{}, mlist{},   mlist_with_kind{},
                     };
 
-                    const auto result = to_hlist(display_style, false, false, noads);
+                    const auto result = to_hlist(display_style, cramping::off, false, noads);
                     CHECK(!result.nodes.empty());
                 }
             }
@@ -116,7 +116,7 @@ namespace mfl
                 const auto script_style = settings{.style = formula_style::script, .fonts = &fonts};
                 const auto c = math_char{.kind = item_kind::ord};
                 const auto space = math_space{.space = kern{.size = 100}, .is_non_script_only = true};
-                const auto result = to_hlist(script_style, false, false, {c, space, c});
+                const auto result = to_hlist(script_style, cramping::off, false, {c, space, c});
                 CHECK((node_types_are<glyph, glyph>(result.nodes)));
             }
         }

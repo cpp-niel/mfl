@@ -49,9 +49,9 @@ namespace mfl
 
         // when positioning over complex content we may have a wide accent so we make an auto
         // width glyph and position it horizontally in the center of the content box
-        hlist accent_over_complex_content(const settings s, const bool is_cramped, const accent& a)
+        hlist accent_over_complex_content(const settings s, const cramping cramp, const accent& a)
         {
-            auto content_box = clean_box(s, is_cramped, a.noads);
+            auto content_box = clean_box(s, cramp, a.noads);
             const auto w = content_box.dims.width;
             auto accent_glyph = make_auto_width_glyph(s, a.family, a.char_code, a.is_wide ? w : 0).first;
             const auto shift = (w / 2) - (width(accent_glyph) / 2);
@@ -59,12 +59,12 @@ namespace mfl
         }
     }
 
-    hlist accent_to_hlist(const settings s, const bool is_cramped, const accent& a)
+    hlist accent_to_hlist(const settings s, const cramping cramp, const accent& a)
     {
         if (a.noads.empty()) return accent_over_empty_box(s, a);
 
         if (is_accent_over_single_math_char(a)) return accent_over_math_char(s, a);
 
-        return accent_over_complex_content(s, is_cramped, a);
+        return accent_over_complex_content(s, cramp, a);
     }
 }

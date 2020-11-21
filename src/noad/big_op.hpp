@@ -25,5 +25,5 @@ namespace mfl
     struct settings;
     struct hlist;
 
-    hlist big_op_to_hlist(const settings s, const bool is_cramped, const big_op& op);
+    hlist big_op_to_hlist(const settings s, const cramping cramp, const big_op& op);
 }

@@ -24,14 +24,14 @@ namespace mfl
         SUBCASE("has an hbox for the radical symbol and a vbox for the overlined radicand")
         {
             const auto result = radical_to_hlist(
-                display_style, false, radical{.degree = degree_noads, .radicand = {x_noad}});
+                display_style, cramping::off, radical{.degree = degree_noads, .radicand = {x_noad}});
             CHECK(node_types_are<box, box>(result.nodes));
         }
 
         SUBCASE("the radical symbol box contains the a box for the degree, a kern and the actual symbol")
         {
             const auto result = radical_to_hlist(
-                display_style, false, radical{.degree = degree_noads, .radicand = {x_noad}});
+                display_style, cramping::off, radical{.degree = degree_noads, .radicand = {x_noad}});
 
             const box& symbol_box = std::get<wrapped_box>(result.nodes[0]);
             CHECK(symbol_box.kind == box_kind::hbox);
@@ -44,7 +44,7 @@ namespace mfl
             // case in this test must be negative because the corresponding property in the mock font face that
             // we are using is hard wired to a negative value
             const auto result = radical_to_hlist(
-                display_style, false, radical{.degree = degree_noads, .radicand = {x_noad}});
+                display_style, cramping::off, radical{.degree = degree_noads, .radicand = {x_noad}});
 
             const box& symbol_box = std::get<wrapped_box>(result.nodes[0]);
             const auto& kern_after_degree = std::get<kern>(symbol_box.nodes[2]);
@@ -54,7 +54,7 @@ namespace mfl
         SUBCASE("the radicand box contains the overline between two kerns and the content box")
         {
             const auto result = radical_to_hlist(
-                display_style, false, radical{.degree = degree_noads, .radicand = {x_noad}});
+                display_style, cramping::off, radical{.degree = degree_noads, .radicand = {x_noad}});
 
             const box& radicand_box = std::get<wrapped_box>(result.nodes[1]);
             CHECK(radicand_box.kind == box_kind::vbox);

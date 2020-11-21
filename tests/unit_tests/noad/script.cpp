@@ -25,14 +25,14 @@ namespace mfl
 
         SUBCASE("nucleus with no scripts translates to just the nucleus")
         {
-            const auto result = script_to_hlist(display_style, false, script{.nucleus = {x_noad}});
+            const auto result = script_to_hlist(display_style, cramping::off, script{.nucleus = {x_noad}});
             CHECK(node_types_are<glyph>(result.nodes));
         }
 
         SUBCASE("nucleus with subscript has subscript box shifted down")
         {
             const auto result =
-                script_to_hlist(display_style, false, script{.nucleus = {x_noad}, .sub = std::vector{x_noad}});
+                script_to_hlist(display_style, cramping::off, script{.nucleus = {x_noad}, .sub = std::vector{x_noad}});
             CHECK(node_types_are<glyph, box, kern>(result.nodes));
             const box& b = std::get<wrapped_box>(result.nodes[1]);
             CHECK(b.shift == 137216);
@@ -41,7 +41,7 @@ namespace mfl
         SUBCASE("nucleus with superscript has superscript box shifted up")
         {
             const auto result =
-                script_to_hlist(display_style, false, script{.nucleus = {x_noad}, .sup = std::vector{x_noad}});
+                script_to_hlist(display_style, cramping::off, script{.nucleus = {x_noad}, .sup = std::vector{x_noad}});
             CHECK(node_types_are<glyph, box, kern>(result.nodes));
             const box& b = std::get<wrapped_box>(result.nodes[1]);
             CHECK(b.shift == -235520);
@@ -50,7 +50,7 @@ namespace mfl
         SUBCASE("dual scripts translate to vbox with scripts separated by kern")
         {
             const auto result =
-                script_to_hlist(display_style, false,
+                script_to_hlist(display_style, cramping::off,
                                 script{.nucleus = {x_noad}, .sub = std::vector{x_noad}, .sup = std::vector{x_noad}});
             CHECK(node_types_are<glyph, box, kern>(result.nodes));
             const box& b = std::get<wrapped_box>(result.nodes[1]);
@@ -63,7 +63,7 @@ namespace mfl
         SUBCASE("text style")
         {
             const auto result =
-                script_to_hlist(text_style, false, script{.nucleus = {x_noad}, .sub = std::vector{x_noad}});
+                script_to_hlist(text_style, cramping::off, script{.nucleus = {x_noad}, .sub = std::vector{x_noad}});
             const box& b = std::get<wrapped_box>(result.nodes[1]);
             CHECK(b.shift == 137216);
         }
@@ -71,7 +71,7 @@ namespace mfl
         SUBCASE("script style")
         {
             const auto result =
-                script_to_hlist(script_style, false, script{.nucleus = {x_noad}, .sub = std::vector{x_noad}});
+                script_to_hlist(script_style, cramping::off, script{.nucleus = {x_noad}, .sub = std::vector{x_noad}});
             const box& b = std::get<wrapped_box>(result.nodes[1]);
             CHECK(b.shift == 137216);
         }
@@ -79,7 +79,7 @@ namespace mfl
         SUBCASE("script script style")
         {
             const auto result =
-                script_to_hlist(script_script_style, false, script{.nucleus = {x_noad}, .sub = std::vector{x_noad}});
+                script_to_hlist(script_script_style, cramping::off, script{.nucleus = {x_noad}, .sub = std::vector{x_noad}});
             const box& b = std::get<wrapped_box>(result.nodes[1]);
             CHECK(b.shift == 137216);
         }
@@ -87,7 +87,7 @@ namespace mfl
         SUBCASE("nucleus with multiple noads and subscript has subscript box shifted down")
         {
             const auto result =
-                script_to_hlist(display_style, false, script{.nucleus = {x_noad, x_noad}, .sub = std::vector{x_noad}});
+                script_to_hlist(display_style, cramping::off, script{.nucleus = {x_noad, x_noad}, .sub = std::vector{x_noad}});
             CHECK(node_types_are<box, box, kern>(result.nodes));
             const box& b = std::get<wrapped_box>(result.nodes[1]);
             CHECK(b.shift == 137216);

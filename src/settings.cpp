@@ -81,10 +81,10 @@ namespace mfl
 
     dist_t frac_denominator_min_gap(const settings s) { return frac_params(s).denominator_min_gap; }
 
-    dist_t superscript_shift(const settings s, const bool is_cramped)
+    dist_t superscript_shift(const settings s, const cramping cramp)
     {
         const auto& info = params(script_base_style(s)).math_info;
-        return is_cramped ? info.superscript_shift_up_cramped : info.superscript_shift_up;
+        return (cramp == cramping::on) ? info.superscript_shift_up_cramped : info.superscript_shift_up;
     }
 
     dist_t subscript_shift(const settings s) { return params(script_base_style(s)).math_info.subscript_shift_down; }

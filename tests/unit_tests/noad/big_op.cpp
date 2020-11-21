@@ -23,7 +23,7 @@ namespace mfl
 
         SUBCASE("with no scripts translates to box with glue inside vbox")
         {
-            const auto result = big_op_to_hlist(display_style, false, big_op{.nucleus = {prod_noad}});
+            const auto result = big_op_to_hlist(display_style, cramping::off, big_op{.nucleus = {prod_noad}});
             CHECK(node_types_are<box>(result.nodes));
             const box& vb = std::get<wrapped_box>(result.nodes[0]);
             CHECK(vb.kind == box_kind::vbox);
@@ -36,7 +36,7 @@ namespace mfl
         SUBCASE("with subscript in limit mode translates to vbox with op, gap, limit, and spacing")
         {
             const auto result =
-                big_op_to_hlist(display_style, false, big_op{.nucleus = {prod_noad}, .sub = std::vector{x_noad}});
+                big_op_to_hlist(display_style, cramping::off, big_op{.nucleus = {prod_noad}, .sub = std::vector{x_noad}});
             const box& vb = std::get<wrapped_box>(result.nodes[0]);
             CHECK(node_types_are<box, kern, box, kern>(vb.nodes));  // big op, gap, sub limit, spacing
         }
@@ -44,7 +44,7 @@ namespace mfl
         SUBCASE("with superscript in limit mode translates to vbox with spacing, limit, gap, and big op")
         {
             const auto result =
-                big_op_to_hlist(display_style, false, big_op{.nucleus = {prod_noad}, .sup = std::vector{x_noad}});
+                big_op_to_hlist(display_style, cramping::off, big_op{.nucleus = {prod_noad}, .sup = std::vector{x_noad}});
             const box& vb = std::get<wrapped_box>(result.nodes[0]);
             CHECK(node_types_are<kern, box, kern, box>(vb.nodes));  // spacing, sup limit, gap, big op
         }
@@ -52,7 +52,7 @@ namespace mfl
         SUBCASE("with dual scripts in limit mode translates to vbox with both limits")
         {
             const auto result =
-                big_op_to_hlist(display_style, false,
+                big_op_to_hlist(display_style, cramping::off,
                                 big_op{.nucleus = {prod_noad}, .sub = std::vector{x_noad}, .sup = std::vector{x_noad}});
             const box& vb = std::get<wrapped_box>(result.nodes[0]);
             CHECK(node_types_are<kern, box, kern, box, kern, box, kern>(
@@ -62,7 +62,7 @@ namespace mfl
         SUBCASE("with subscript in non-limit mode translates to nucleus, down-shifted script, and kern")
         {
             const auto result = big_op_to_hlist(
-                display_style, false,
+                display_style, cramping::off,
                 big_op{.limits = big_op_limits::no, .nucleus = {prod_noad}, .sub = std::vector{x_noad}});
             CHECK(node_types_are<box, box, kern>(result.nodes));
             const box& sub_box = std::get<wrapped_box>(result.nodes[1]);
@@ -72,7 +72,7 @@ namespace mfl
         SUBCASE("with superscript in non-limit mode translates to nucleus, up-shifted script, and kern")
         {
             const auto result = big_op_to_hlist(
-                display_style, false,
+                display_style, cramping::off,
                 big_op{.limits = big_op_limits::no, .nucleus = {prod_noad}, .sup = std::vector{x_noad}});
             CHECK(node_types_are<box, box, kern>(result.nodes));
             const box& sup_box = std::get<wrapped_box>(result.nodes[1]);
@@ -81,7 +81,7 @@ namespace mfl
 
         SUBCASE("with dual scripts in non-limit mode translates to nucleus, vbox with scripts, and kern")
         {
-            const auto result = big_op_to_hlist(display_style, false,
+            const auto result = big_op_to_hlist(display_style, cramping::off,
                                                 big_op{.limits = big_op_limits::no,
                                                        .nucleus = {prod_noad},
                                                        .sub = std::vector{x_noad},

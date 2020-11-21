@@ -14,5 +14,5 @@ namespace mfl
     struct settings;
     struct hlist;
 
-    hlist overline_to_hlist(const settings s, const bool is_cramped, const overline& ol);
+    hlist overline_to_hlist(const settings s, const cramping cramp, const overline& ol);
 }

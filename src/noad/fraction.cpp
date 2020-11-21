@@ -86,12 +86,12 @@ namespace mfl
         }
     }
 
-    hlist fraction_to_hlist(const settings s, const bool is_cramped, const fraction& f)
+    hlist fraction_to_hlist(const settings s, const cramping cramp, const fraction& f)
     {
         if (is_empty(f)) return {};
 
-        auto numerator_box = clean_box(fraction_settings(s), is_cramped, f.numerator);
-        auto denominator_box = clean_box(fraction_settings(s), true, f.denominator);
+        auto numerator_box = clean_box(fraction_settings(s), cramp, f.numerator);
+        auto denominator_box = clean_box(fraction_settings(s), cramping::on, f.denominator);
         return make_hlist(make_generalized_fraction(s, f.thickness, f.left_delim_code, f.right_delim_code,
                                                     std::move(numerator_box), std::move(denominator_box)));
     }

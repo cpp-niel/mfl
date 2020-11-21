@@ -18,5 +18,5 @@ namespace mfl
     struct settings;
     struct hlist;
 
-    hlist accent_to_hlist(const settings s, const bool is_cramped, const accent& a);
+    hlist accent_to_hlist(const settings s, const cramping cramp, const accent& a);
 }

@@ -16,5 +16,5 @@ namespace mfl
     struct settings;
     struct hlist;
 
-    hlist left_right_to_hlist(const settings s, const bool is_cramped, const left_right& l);
+    hlist left_right_to_hlist(const settings s, const cramping cramp, const left_right& l);
 }

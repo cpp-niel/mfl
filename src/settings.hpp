@@ -6,6 +6,12 @@ namespace mfl
 {
     class font_library;
 
+    enum class cramping
+    {
+        on,
+        off
+    };
+
     enum class formula_style
     {
         display,
@@ -32,7 +38,7 @@ namespace mfl
     [[nodiscard]] dist_t atop_denominator_shift(const settings s);
     [[nodiscard]] dist_t frac_denominator_shift(const settings s);
     [[nodiscard]] dist_t frac_denominator_min_gap(const settings s);
-    [[nodiscard]] dist_t superscript_shift(const settings s, const bool is_cramped);
+    [[nodiscard]] dist_t superscript_shift(const settings s, const cramping cramp);
     [[nodiscard]] dist_t subscript_shift(const settings s);
     [[nodiscard]] dist_t minimum_dual_script_gap(const settings s);
     [[nodiscard]] dist_t maximum_superscript_bottom_in_dual_script(const settings s);

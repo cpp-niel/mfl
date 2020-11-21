@@ -23,14 +23,14 @@ namespace mfl
 
         SUBCASE("no nodes created for fraction if no input noads")
         {
-            const auto result = fraction_to_hlist(display_style, false, {.numerator = {}, .denominator = {}});
+            const auto result = fraction_to_hlist(display_style, cramping::off, {.numerator = {}, .denominator = {}});
             CHECK(result.nodes.empty());
         }
 
         SUBCASE("structure of a default, non-delimited fraction")
         {
             const auto result =
-                fraction_to_hlist(display_style, false, {.numerator = {x_noad}, .denominator = {x_noad}});
+                fraction_to_hlist(display_style, cramping::off, {.numerator = {x_noad}, .denominator = {x_noad}});
             CHECK(node_types_are<box>(result.nodes));
             const box& b0 = std::get<wrapped_box>(result.nodes[0]);
             CHECK(
@@ -46,7 +46,7 @@ namespace mfl
         SUBCASE("fraction box is shifted up by the axis height")
         {
             const auto result =
-                fraction_to_hlist(display_style, false, {.numerator = {x_noad}, .denominator = {x_noad}});
+                fraction_to_hlist(display_style, cramping::off, {.numerator = {x_noad}, .denominator = {x_noad}});
             const box& b0 =
                 std::get<wrapped_box>(result.nodes[0]);  // the hbox containing the delimiters and the fraction
             const box& b1 = std::get<wrapped_box>(b0.nodes[1]);
@@ -56,7 +56,7 @@ namespace mfl
         SUBCASE("fraction without delimiters has correct kern width on each side")
         {
             const auto result =
-                fraction_to_hlist(display_style, false, {.numerator = {x_noad}, .denominator = {x_noad}});
+                fraction_to_hlist(display_style, cramping::off, {.numerator = {x_noad}, .denominator = {x_noad}});
             const box& b = std::get<wrapped_box>(result.nodes[0]);
             const kern& left_kern = std::get<kern>(b.nodes[0]);
             const kern& right_kern = std::get<kern>(b.nodes[2]);
@@ -69,7 +69,7 @@ namespace mfl
             // we specify that the delimiters are codepoints 1 and 2 and then check that
             // the mock size variants have been chosen (4 and 5)
             const auto result = fraction_to_hlist(
-                display_style, false,
+                display_style, cramping::off,
                 {.left_delim_code = 1, .numerator = {x_noad}, .denominator = {x_noad}, .right_delim_code = 2});
             const box& b = std::get<wrapped_box>(result.nodes[0]);
             CHECK(node_types_are<glyph, box, glyph>(b.nodes));
@@ -82,7 +82,7 @@ namespace mfl
         SUBCASE("glue is used to center the narrower of numerator and denominator")
         {
             const auto result =
-                fraction_to_hlist(display_style, false, {.numerator = {x_noad}, .denominator = {x_noad, x_noad}});
+                fraction_to_hlist(display_style, cramping::off, {.numerator = {x_noad}, .denominator = {x_noad, x_noad}});
             const box& b0 = std::get<wrapped_box>(result.nodes[0]);
             const box& b1 = std::get<wrapped_box>(b0.nodes[1]);
             const box& num = std::get<wrapped_box>(b1.nodes[0]);
@@ -100,7 +100,7 @@ namespace mfl
         SUBCASE("spacing")
         {
             const auto result =
-                fraction_to_hlist(display_style, false, {.numerator = {x_noad}, .denominator = {x_noad}});
+                fraction_to_hlist(display_style, cramping::off, {.numerator = {x_noad}, .denominator = {x_noad}});
             const box& b0 = std::get<wrapped_box>(result.nodes[0]);
             const box& b1 = std::get<wrapped_box>(b0.nodes[1]);
             const auto& num_space = std::get<kern>(b1.nodes[1]);
@@ -111,7 +111,7 @@ namespace mfl
 
         SUBCASE("spacing in text style is smaller")
         {
-            const auto result = fraction_to_hlist(text_style, false, {.numerator = {x_noad}, .denominator = {x_noad}});
+            const auto result = fraction_to_hlist(text_style, cramping::off, {.numerator = {x_noad}, .denominator = {x_noad}});
             const box& b0 = std::get<wrapped_box>(result.nodes[0]);
             const box& b1 = std::get<wrapped_box>(b0.nodes[1]);
             const auto& num_space = std::get<kern>(b1.nodes[1]);
@@ -123,13 +123,13 @@ namespace mfl
         SUBCASE("no nodes created for atop if no input noads")
         {
             const auto result =
-                fraction_to_hlist(display_style, false, {.numerator = {}, .denominator = {}, .thickness = 0});
+                fraction_to_hlist(display_style, cramping::off, {.numerator = {}, .denominator = {}, .thickness = 0});
             CHECK(result.nodes.empty());
         }
 
         SUBCASE("structure of a default, non-delimited atop")
         {
-            const auto result = fraction_to_hlist(display_style, false,
+            const auto result = fraction_to_hlist(display_style, cramping::off,
                                                   {.numerator = {x_noad}, .denominator = {x_noad}, .thickness = 0});
             CHECK(node_types_are<box>(result.nodes));
             const box& b0 = std::get<wrapped_box>(result.nodes[0]);
@@ -144,7 +144,7 @@ namespace mfl
 
         SUBCASE("atop spacing")
         {
-            const auto result = fraction_to_hlist(display_style, false,
+            const auto result = fraction_to_hlist(display_style, cramping::off,
                                                   {.numerator = {x_noad}, .denominator = {x_noad}, .thickness = 0});
             const box& b0 = std::get<wrapped_box>(result.nodes[0]);
             const box& b1 = std::get<wrapped_box>(b0.nodes[1]);
@@ -155,7 +155,7 @@ namespace mfl
         SUBCASE("atop spacing in text style is smaller")
         {
             const auto result =
-                fraction_to_hlist(text_style, false, {.numerator = {x_noad}, .denominator = {x_noad}, .thickness = 0});
+                fraction_to_hlist(text_style, cramping::off, {.numerator = {x_noad}, .denominator = {x_noad}, .thickness = 0});
             const box& b0 = std::get<wrapped_box>(result.nodes[0]);
             const box& b1 = std::get<wrapped_box>(b0.nodes[1]);
             const auto& space = std::get<kern>(b1.nodes[1]);
@@ -164,7 +164,7 @@ namespace mfl
 
         SUBCASE("atop spacing in script script style is smallest")
         {
-            const auto result = fraction_to_hlist(script_script_style, false,
+            const auto result = fraction_to_hlist(script_script_style, cramping::off,
                                                   {.numerator = {x_noad}, .denominator = {x_noad}, .thickness = 0});
             const box& b0 = std::get<wrapped_box>(result.nodes[0]);
             const box& b1 = std::get<wrapped_box>(b0.nodes[1]);
@@ -177,7 +177,7 @@ namespace mfl
             const noad deep_noad = math_char{.char_code = 10};
             const noad high_noad = math_char{.char_code = 11};
             const auto result = fraction_to_hlist(
-                script_script_style, false, {.numerator = {deep_noad}, .denominator = {high_noad}, .thickness = 0});
+                script_script_style, cramping::off, {.numerator = {deep_noad}, .denominator = {high_noad}, .thickness = 0});
             const box& b0 = std::get<wrapped_box>(result.nodes[0]);
             const box& b1 = std::get<wrapped_box>(b0.nodes[1]);
             const auto& space = std::get<kern>(b1.nodes[1]);

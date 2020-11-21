@@ -22,13 +22,13 @@ namespace mfl
 
         SUBCASE("no nodes created when underline contents have no noads")
         {
-            const auto result = underline_to_hlist(display_style, false, {.noads = {}});
+            const auto result = underline_to_hlist(display_style, cramping::off, {.noads = {}});
             CHECK(result.nodes.empty());
         }
 
         SUBCASE("becomes box containing box, kern, rule and kern")
         {
-            const auto result = underline_to_hlist(display_style, false, {.noads = {x_noad}});
+            const auto result = underline_to_hlist(display_style, cramping::off, {.noads = {x_noad}});
             CHECK(node_types_are<box>(result.nodes));
             const box& b = std::get<wrapped_box>(result.nodes[0]);
             CHECK(node_types_are<box, kern, rule, kern>(b.nodes));
@@ -36,7 +36,7 @@ namespace mfl
 
         SUBCASE("width of outer box, rule and inner box are all the same")
         {
-            const auto result = underline_to_hlist(display_style, false, {.noads = {x_noad}});
+            const auto result = underline_to_hlist(display_style, cramping::off, {.noads = {x_noad}});
             const box& outer_box = std::get<wrapped_box>(result.nodes[0]);
             const box& inner_box = std::get<wrapped_box>(outer_box.nodes[0]);
             const rule& r = std::get<rule>(outer_box.nodes[2]);

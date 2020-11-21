@@ -10,16 +10,16 @@
 
 namespace mfl
 {
-    hlist radical_to_hlist(const settings s, const bool is_cramped, const radical& r)
+    hlist radical_to_hlist(const settings s, const cramping cramp, const radical& r)
     {
         constexpr auto radical_char_code = 0x221a;
         if (r.radicand.empty()) return {.nodes = {make_glyph(s, font_family::roman, radical_char_code, false).first}};
 
-        auto degree_box = clean_box({.style = formula_style::script_script, .fonts = s.fonts}, true,
+        auto degree_box = clean_box({.style = formula_style::script_script, .fonts = s.fonts}, cramping::on,
                                     r.degree ? *r.degree : std::vector<noad>{});
 
         const auto min_height = (x_height(s) * 7) / 4;
-        auto content_box = clean_box(s, is_cramped, r.radicand);
+        auto content_box = clean_box(s, cramp, r.radicand);
         const auto vertical_gap = std::max(radical_vertical_gap(s), min_height - content_box.dims.height);
         const auto requested_height = content_box.dims.height + content_box.dims.depth + vertical_gap * 2;
 

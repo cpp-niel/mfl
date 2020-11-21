@@ -105,15 +105,16 @@ namespace mfl
         }
     }
 
-    layout_elements layout(const std::string_view input, const points font_size, const font_face_creator& create_font_face)
+    layout_elements layout(const std::string_view input, const points font_size,
+                           const font_face_creator& create_font_face)
     {
         font_library fonts{font_size, create_font_face};
 
         const auto [noads, error] = parse(input);
-        if (error)
-            return {.error = error};
+        if (error) return {.error = error};
 
-        const auto hbox = make_hbox(to_hlist({.style = formula_style::display, .fonts = &fonts}, false, false, noads));
+        const auto hbox =
+            make_hbox(to_hlist({.style = formula_style::display, .fonts = &fonts}, cramping::off, false, noads));
         layout_elements result{.width = dist_to_points(hbox.dims.width), .height = dist_to_points(hbox.dims.height)};
         layout_box(hbox, 0_pt, 0_pt, result);
         return result;

@@ -7,9 +7,9 @@
 
 namespace mfl
 {
-    hlist left_right_to_hlist(const settings s, const bool is_cramped, const left_right& l)
+    hlist left_right_to_hlist(const settings s, const cramping cramp, const left_right& l)
     {
-        auto content = clean_box(s, is_cramped, l.noads);
+        auto content = clean_box(s, cramp, l.noads);
         const auto requested_height = content.dims.depth + content.dims.height;
         hlist result;
         if (l.left_delim_code != 0)

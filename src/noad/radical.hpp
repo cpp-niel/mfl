@@ -16,5 +16,5 @@ namespace mfl
     struct settings;
     struct hlist;
 
-    hlist radical_to_hlist(const settings s, const bool is_cramped, const radical& r);
+    hlist radical_to_hlist(const settings s, const cramping cramp, const radical& r);
 }

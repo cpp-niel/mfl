@@ -22,7 +22,7 @@ namespace mfl
 
         SUBCASE("accent box over empty content box and kern if there are no noads under the accent")
         {
-            const auto result = accent_to_hlist(display_style, false, {.noads = {}});
+            const auto result = accent_to_hlist(display_style, cramping::off, {.noads = {}});
             CHECK(node_types_are<box>(result.nodes));
             const box& b = std::get<wrapped_box>(result.nodes[0]);
             CHECK(b.kind == box_kind::vbox);
@@ -34,7 +34,7 @@ namespace mfl
 
         SUBCASE("positive shift when there are no noads under the accent")
         {
-            const auto result = accent_to_hlist(display_style, false, {.noads = {}});
+            const auto result = accent_to_hlist(display_style, cramping::off, {.noads = {}});
             const box& b = std::get<wrapped_box>(result.nodes[0]);
             const box& accent_box = std::get<wrapped_box>(b.nodes[0]);
             CHECK(accent_box.shift == 310272);
@@ -45,7 +45,7 @@ namespace mfl
             // There is no shift in this case because the accent positioning is the difference of the
             // accent positions defined for the content and accent glyphs in the font face. The mock
             // font sets all these positions to the same value so the difference is zero
-            const auto result = accent_to_hlist(display_style, false, {.noads = {x_noad}});
+            const auto result = accent_to_hlist(display_style, cramping::off, {.noads = {x_noad}});
             const box& b = std::get<wrapped_box>(result.nodes[0]);
             const box& accent_box = std::get<wrapped_box>(b.nodes[0]);
             CHECK(accent_box.shift == 0);
@@ -53,7 +53,7 @@ namespace mfl
 
         SUBCASE("positive shift when there are multiple noads under the accent")
         {
-            const auto result = accent_to_hlist(display_style, false, {.noads = {x_noad, x_noad, x_noad}});
+            const auto result = accent_to_hlist(display_style, cramping::off, {.noads = {x_noad, x_noad, x_noad}});
             const box& b = std::get<wrapped_box>(result.nodes[0]);
             const box& accent_box = std::get<wrapped_box>(b.nodes[0]);
             CHECK(accent_box.shift == 316416);

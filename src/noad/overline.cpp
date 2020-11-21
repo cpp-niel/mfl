@@ -7,11 +7,11 @@
 
 namespace mfl
 {
-    hlist overline_to_hlist(const settings s, const bool is_cramped, const overline& ol)
+    hlist overline_to_hlist(const settings s, const cramping cramp, const overline& ol)
     {
         if (ol.noads.empty()) return {};
 
-        auto content = clean_box(s, is_cramped, ol.noads);
+        auto content = clean_box(s, cramp, ol.noads);
         const auto w = content.dims.width;
 
         auto l = make_vlist(kern{.size = overline_gap(s)}, rule{.width = w, .height = overline_thickness(s), .depth = 0},

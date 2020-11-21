@@ -41,27 +41,27 @@ namespace mfl
             std::vector<intermediate_term> terms;
         };
 
-        hlist noad_to_hlist(const settings s, const bool is_cramped, const noad& n)
+        hlist noad_to_hlist(const settings s, const cramping cramp, const noad& n)
         {
             return std::visit(
                 overload{[&](const math_char& c) { return math_char_to_hlist(s, c); },
-                         [&](const radical& r) { return radical_to_hlist(s, is_cramped, r); },
-                         [&](const accent& a) { return accent_to_hlist(s, is_cramped, a); },
+                         [&](const radical& r) { return radical_to_hlist(s, cramp, r); },
+                         [&](const accent& a) { return accent_to_hlist(s, cramp, a); },
                          [](const vcenter&) { return hlist{}; },
-                         [&](const overline& o) { return overline_to_hlist(s, is_cramped, o); },
-                         [&](const underline& u) { return underline_to_hlist(s, is_cramped, u); },
-                         [&](const fraction& f) { return fraction_to_hlist(s, is_cramped, f); },
-                         [&](const left_right& l) { return left_right_to_hlist(s, is_cramped, l); },
-                         [&](const script& sc) { return script_to_hlist(s, is_cramped, sc); },
-                         [&](const big_op& b) { return big_op_to_hlist(s, is_cramped, b); },
+                         [&](const overline& o) { return overline_to_hlist(s, cramp, o); },
+                         [&](const underline& u) { return underline_to_hlist(s, cramp, u); },
+                         [&](const fraction& f) { return fraction_to_hlist(s, cramp, f); },
+                         [&](const left_right& l) { return left_right_to_hlist(s, cramp, l); },
+                         [&](const script& sc) { return script_to_hlist(s, cramp, sc); },
+                         [&](const big_op& b) { return big_op_to_hlist(s, cramp, b); },
                          [](const math_space&) { return hlist{}; },
-                         [&](const mlist& m) { return to_hlist(s, is_cramped, false, m.noads); },
-                         [&](const mlist_with_kind& m) { return to_hlist(s, is_cramped, false, m.noads); }
+                         [&](const mlist& m) { return to_hlist(s, cramp, false, m.noads); },
+                         [&](const mlist_with_kind& m) { return to_hlist(s, cramp, false, m.noads); }
                          },
                 n);
         }
 
-        ilist noads_to_intermediate_terms(const settings s, const bool is_cramped, const std::vector<noad>& noads)
+        ilist noads_to_intermediate_terms(const settings s, const cramping cramp, const std::vector<noad>& noads)
         {
             ilist result;
             for (const auto& n : noads)
@@ -70,7 +70,7 @@ namespace mfl
                 else
                 {
                     result.terms.emplace_back(
-                        inoad{.translated_noad = noad_to_hlist(s, is_cramped, n), .kind = kind(n)});
+                        inoad{.translated_noad = noad_to_hlist(s, cramp, n), .kind = kind(n)});
                 }
             }
 
@@ -229,14 +229,14 @@ namespace mfl
         }
     }
 
-    box clean_box(const settings s, const bool is_cramped, const std::vector<noad>& noads)
+    box clean_box(const settings s, const cramping cramp, const std::vector<noad>& noads)
     {
-        return make_hbox(to_hlist(s, is_cramped, false, noads));
+        return make_hbox(to_hlist(s, cramp, false, noads));
     }
 
-    hlist to_hlist(const settings s, const bool is_cramped, const bool has_penalties, const std::vector<noad>& noads)
+    hlist to_hlist(const settings s, const cramping cramp, const bool has_penalties, const std::vector<noad>& noads)
     {
-        const auto iterms = noads_to_intermediate_terms(s, is_cramped, noads);
+        const auto iterms = noads_to_intermediate_terms(s, cramp, noads);
         return intermediate_terms_to_hlist(s, has_penalties, iterms);
     }
 
