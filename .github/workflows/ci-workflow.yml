@@ -9,7 +9,7 @@ jobs:
             - uses: actions/checkout@v1
             - name: install dependencies
               run: |
-                  brew install pkg-config
+                  brew install automake pkg-config
                   export CXX="$(brew --prefix)/opt/llvm/bin/clang++" CC="$(brew --prefix)/opt/llvm/bin/clang"
                   export LDFLAGS="-L$(brew --prefix)/opt/llvm/lib -Wl,-rpath,$(brew --prefix)/opt/llvm/lib"
                   vcpkg update
