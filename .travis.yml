@@ -19,7 +19,8 @@ install:
     ./bootstrap-vcpkg.sh -disableMetrics
     ./vcpkg integrate install
     ./vcpkg update
-    ./vcpkg install libuuid expat range-v3 fmt cairo harfbuzz freetype
+    sed -i 's/"${CURRENT_PACKAGES_DIR}\/debug\/etc")/"${CURRENT_PACKAGES_DIR}\/debug\/etc")\nfile(REMOVE_RECURSE "${CURRENT_PACKAGES_DIR}\/share\/fontconfig\/locale")/' ./ports/fontconfig/portfile.cmake
+    ./vcpkg install libuuid expat range-v3 fmt cairo harfbuzz freetype doctest
     cd ..
 
 before_script:

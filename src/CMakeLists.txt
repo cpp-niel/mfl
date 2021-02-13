@@ -62,13 +62,3 @@ target_link_libraries(mfl
         fmt::fmt
         ${CMAKE_THREAD_LIBS_INIT}
         )
-
-include(GNUInstallDirs)
-
-install(TARGETS mfl project_options project_warnings EXPORT mfl-export LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR} ARCHIVE DESTINATION ${CMAKE_INSTALL_LIBDIR})
-install(EXPORT mfl-export DESTINATION ${CMAKE_INSTALL_LIBDIR}/cmake/mfl NAMESPACE mfl:: FILE mfl-config.cmake)
-
-if(CMAKE_BUILD_TYPE STREQUAL Release)
-    install(DIRECTORY ${PROJECT_SOURCE_DIR}/include/ DESTINATION ${CMAKE_INSTALL_INCLUDEDIR} FILES_MATCHING PATTERN *.hpp)
-endif()
-
