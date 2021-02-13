@@ -33,7 +33,7 @@ script:
   - |
     mkdir build
     cd build
-    cmake ./.. -DCMAKE_BUILD_TYPE=Debug -DCMAKE_CXX_FLAGS=--coverage -DCMAKE_C_FLAGS=--coverage -DCMAKE_TOOLCHAIN_FILE=./../vcpkg/scripts/buildsystems/vcpkg.cmake
+    cmake ./.. -DCMAKE_BUILD_TYPE=Debug -DENABLE_COVERAGE:BOOL=TRUE -DCMAKE_TOOLCHAIN_FILE=./../vcpkg/scripts/buildsystems/vcpkg.cmake
     cmake --build . -- -j2
     ./tests/unit_tests/unit_tests
     cd ..

@@ -1,4 +1,4 @@
-cmake_minimum_required (VERSION 3.5)
+cmake_minimum_required (VERSION 3.12)
 
 find_package(unofficial-cairo REQUIRED)
 find_package(doctest CONFIG REQUIRED)
