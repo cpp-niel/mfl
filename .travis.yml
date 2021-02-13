@@ -14,6 +14,7 @@ install:
     cd vcpkg
     ./bootstrap-vcpkg.sh -disableMetrics
     ./vcpkg integrate install
+    ./vcpkg update
     ./vcpkg install range-v3 fmt cairo harfbuzz freetype
     cd ..
 
