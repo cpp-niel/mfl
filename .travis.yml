@@ -15,7 +15,7 @@ install:
     ./bootstrap-vcpkg.sh -disableMetrics
     ./vcpkg integrate install
     ./vcpkg update
-    ./vcpkg install range-v3 fmt cairo harfbuzz freetype
+    ./vcpkg install libuuid expat range-v3 fmt cairo harfbuzz freetype
     cd ..
 
 before_script:
