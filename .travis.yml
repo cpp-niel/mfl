@@ -5,6 +5,10 @@ dist: bionic
 os: linux
 compiler: gcc
 
+before_install:
+  - sudo apt-get update
+  - sudo apt-get -y install autopoint gperf
+
 install:
   - |
     wget http://kayari.org/gcc-latest/gcc-latest.deb && sudo dpkg -i gcc-latest.deb
