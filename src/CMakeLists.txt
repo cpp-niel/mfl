@@ -1,4 +1,4 @@
-cmake_minimum_required (VERSION 3.12)
+cmake_minimum_required (VERSION 3.14)
 
 find_package(fmt REQUIRED)
 find_package(range-v3 REQUIRED)
