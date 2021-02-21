@@ -1,6 +1,8 @@
 mfl
 &middot;
-[![GitHub build](https://github.com/cpp-niel/mfl/workflows/continuous-integration/badge.svg)](https://github.com/cpp-niel/mfl/workflows/continuous-integration/badge.svg)
+[![MacOS build](https://github.com/cpp-niel/mfl/workflows/macos/badge.svg)](https://github.com/cpp-niel/mfl/workflows/macos/badge.svg)
+[![Ubuntu build](https://github.com/cpp-niel/mfl/workflows/ubuntu/badge.svg)](https://github.com/cpp-niel/mfl/workflows/ubuntu/badge.svg)
+[![Windows build](https://github.com/cpp-niel/mfl/workflows/windows/badge.svg)](https://github.com/cpp-niel/mfl/workflows/windows/badge.svg)
 [![Travis build](https://travis-ci.org/cpp-niel/mfl.svg?branch=master)](https://travis-ci.org/cpp-niel/mfl)
 [![Coverage Status](https://coveralls.io/repos/github/cpp-niel/mfl/badge.svg?branch=master)](https://coveralls.io/github/cpp-niel/mfl?branch=master)
 [![Codacy Badge](https://api.codacy.com/project/badge/Grade/7c69b659287948279110d52066f1d9d5)](https://www.codacy.com/manual/cpp-niel/mfl?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=cpp-niel/mfl&amp;utm_campaign=Badge_Grade)
