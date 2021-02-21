@@ -5,6 +5,7 @@ project (fonts_for_tests)
 find_package(freetype CONFIG REQUIRED)
 find_package(harfbuzz CONFIG REQUIRED)
 find_package(expat CONFIG REQUIRED)
+find_package(fmt CONFIG REQUIRED)
 find_package(Fontconfig)
 
 if(CMAKE_CXX_COMPILER_ID STREQUAL "GNU" OR CMAKE_CXX_COMPILER_ID STREQUAL "Clang")
@@ -29,6 +30,7 @@ target_link_libraries(fonts_for_tests PUBLIC
         Fontconfig::Fontconfig
         harfbuzz::harfbuzz
         expat::expat
+        fmt::fmt
         project_options
         project_warnings
         )
