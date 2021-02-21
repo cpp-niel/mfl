@@ -2,6 +2,8 @@
 
 #include "mfl/detail/quantity.hpp"
 
+#include <fmt/format.h>
+
 #include <array>
 
 namespace mfl

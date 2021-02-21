@@ -3,6 +3,7 @@
 #include "parser/parser_state.hpp"
 #include "parser/parser_utilities.hpp"
 
+#include <fmt/format.h>
 #include <range/v3/algorithm/contains.hpp>
 
 #include <string>

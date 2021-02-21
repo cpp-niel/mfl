@@ -15,14 +15,11 @@
 #include "parser/utf8.hpp"
 
 #include <fmt/format.h>
-#include <range/v3/algorithm/contains.hpp>
 #include <range/v3/algorithm/find_if.hpp>
-#include <range/v3/view/map.hpp>
 
 #include <array>
 #include <tuple>
 #include <utility>
-#include <vector>
 
 namespace mfl::parser
 {

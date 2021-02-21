@@ -2,6 +2,8 @@
 
 #include "framework/doctest.hpp"
 
+#include <fmt/format.h>
+
 #include <sstream>
 
 namespace mfl

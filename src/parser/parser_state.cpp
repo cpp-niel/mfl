@@ -1,5 +1,7 @@
 #include "parser/parser_state.hpp"
 
+#include <fmt/format.h>
+
 namespace mfl::parser
 {
     parser_state::parser_state(lexer& lex) : lexer_(lex)

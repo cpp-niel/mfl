@@ -2,6 +2,8 @@
 
 #include "freetype_error.hpp"
 
+#include <fmt/format.h>
+
 #include <filesystem>
 
 namespace mfl::fft
