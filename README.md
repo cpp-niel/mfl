@@ -26,8 +26,8 @@ needed to render the formula like this:
 ## Contents
 
 -   [Design goals](#design-goals)
--   Installation
--   Usage
+-   [Installation](#installation)
+-   [Usage](#usage)
 -   Examples
 -   [License](#license)
 -   [Contact](#contact)
@@ -62,7 +62,36 @@ provides more details on what is supported and how to use *mfl*.
 
 ## Installation
 
+Using [vcpkg](https://github.com/microsoft/vcpkg):
+```
+    > vcpkg install mfl
+```
+
+Manual installation:
+
+ - Install CMake 3.14 or higher.
+ - For the library, install the following packages so that CMake's `find_package` can find them:
+   * [fmt](https://github.com/fmtlib/fmt)
+   * [range-v3](https://github.com/ericniebler/range-v3)
+ - For the tests, install the following packages so that CMake's `find_package` can find them:
+   * [cairo](https://www.cairographics.org)
+   * [doctest](https://github.com/onqtam/doctest)
+   * [FreeType](https://www.freetype.org)
+   * [HarfBuzz](http://harfbuzz.org/)
+ - Then at the command prompt in the mfl root directory:
+```
+    > mkdir build
+    > cd build
+    > cmake ..
+```
+
 ## Usage
+
+Using CMake:
+```cmake
+find_package(mfl CONFIG REQUIRED)
+target_link_libraries(main PRIVATE mfl::mfl)
+```
 
 ## Examples
 
