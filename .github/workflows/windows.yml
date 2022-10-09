@@ -19,6 +19,6 @@ jobs:
           cd ${{ github.workspace }}
           mkdir build
           cd build
-          cmake -G "Visual Studio 16 2019" -DCMAKE_BUILD_TYPE:STRING=Release -DCMAKE_TOOLCHAIN_FILE=${{ github.workspace }}\..\vcpkg\scripts\buildsystems\vcpkg.cmake -DCMAKE_CXX_FLAGS="/permissive- /std:c++latest /Zc:__cplusplus /utf-8 /EHsc /DNOMINMAX" ./..
+          cmake -G "Visual Studio 17 2022" -A x64 -DCMAKE_BUILD_TYPE:STRING=Release -DCMAKE_TOOLCHAIN_FILE=${{ github.workspace }}\..\vcpkg\scripts\buildsystems\vcpkg.cmake -DCMAKE_CXX_FLAGS="/permissive- /std:c++latest /Zc:__cplusplus /utf-8 /EHsc /DNOMINMAX" ./..
           cmake --build . --config "Release"
           .\tests\unit_tests\Release\unit_tests.exe
