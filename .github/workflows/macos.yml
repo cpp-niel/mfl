@@ -8,12 +8,11 @@ jobs:
       - uses: actions/checkout@v1
       - name: install dependencies
         run: |
-          brew install automake pkg-config
+          brew install automake pkg-config ossp-uuid
           vcpkg update
           vcpkg install expat range-v3 fmt cairo harfbuzz freetype doctest
       - name: build & test
         run: |
-          cd ../mfl
           mkdir build
           cd build
           cmake ./.. -DCMAKE_TOOLCHAIN_FILE=/usr/local/share/vcpkg/scripts/buildsystems/vcpkg.cmake

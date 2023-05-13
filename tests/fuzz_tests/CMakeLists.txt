@@ -15,8 +15,8 @@ target_include_directories(fuzz_tests PUBLIC
         )
 
 target_link_libraries(fuzz_tests PUBLIC
-        project_options
-        project_warnings
+        mfl_options
+        mfl_warnings
         fonts_for_tests
         mfl
         -coverage

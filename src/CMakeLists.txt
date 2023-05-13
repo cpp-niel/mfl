@@ -56,8 +56,8 @@ target_include_directories(mfl PRIVATE ${PROJECT_SOURCE_DIR}/src)
 
 target_link_libraries(mfl
         PUBLIC
-        project_options
-        project_warnings
+        mfl_options
+        mfl_warnings
         range-v3
         fmt::fmt
         ${CMAKE_THREAD_LIBS_INIT}

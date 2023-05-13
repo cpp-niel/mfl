@@ -1,6 +1,8 @@
 cmake_minimum_required (VERSION 3.14)
 
-find_package(unofficial-cairo REQUIRED)
+find_path(CAIRO_INCLUDE_DIR cairo.h PATH_SUFFIXES include "include/cairo")
+find_library(CAIRO_LIB cairo)
+find_library(PIXMAN_LIB pixman-1)
 find_package(doctest CONFIG REQUIRED)
 
 project (approval_tests)
@@ -19,13 +21,15 @@ target_include_directories(approval_tests PUBLIC
         ./../fonts_for_tests/include
         ./../../include
         ./../../src
+        ${CAIRO_INCLUDE_DIR}
         )
 
 target_link_libraries(approval_tests PUBLIC
-        project_options
-        project_warnings
+        mfl_options
+        mfl_warnings
         fonts_for_tests
         mfl
-        unofficial::cairo::cairo
+        ${CAIRO_LIB}
+        ${PIXMAN_LIB}
         doctest::doctest
         )
