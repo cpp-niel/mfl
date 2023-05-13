@@ -4,8 +4,8 @@ function(enable_sanitizers project_name)
 
         option(ENABLE_COVERAGE "Enable coverage reporting for gcc/clang" FALSE)
         if(ENABLE_COVERAGE)
-            target_compile_options(project_options INTERFACE --coverage -O0 -g)
-            target_link_libraries(project_options INTERFACE gcov)
+            target_compile_options(mfl_options INTERFACE --coverage -O0 -g)
+            target_link_libraries(mfl_options INTERFACE gcov)
         endif()
 
         set(SANITIZERS "")

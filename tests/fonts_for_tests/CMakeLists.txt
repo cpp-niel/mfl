@@ -31,8 +31,8 @@ target_link_libraries(fonts_for_tests PUBLIC
         harfbuzz::harfbuzz
         expat::expat
         fmt::fmt
-        project_options
-        project_warnings
+        mfl_options
+        mfl_warnings
         )
 
 if(CMAKE_CXX_COMPILER_ID STREQUAL "GNU" OR CMAKE_CXX_COMPILER_ID STREQUAL "Clang")
