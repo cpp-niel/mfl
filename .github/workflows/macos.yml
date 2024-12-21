@@ -9,8 +9,9 @@ jobs:
       - name: install dependencies
         run: |
           brew install automake pkg-config ossp-uuid
-          vcpkg update
-          vcpkg install expat range-v3 fmt cairo harfbuzz freetype doctest
+          ${{ github.workspace }}/vcpkg/bootstrap-vcpkg 
+          ${{ github.workspace }}/vcpkg/vcpkg update
+          ${{ github.workspace }}/vcpkg/vcpkg install expat range-v3 fmt cairo harfbuzz freetype doctest
       - name: build & test
         run: |
           mkdir build
