@@ -50,7 +50,6 @@ tasks:
   install:
     - task: build
     - cmake --install ./build --prefix {{.INSTALL_PREFIX | default "./install"}}
-    - cd build && cpack -C Release -G {{.CPACK_GENERATOR | default "ZIP"}}
 
   test:
     - task: build_template
