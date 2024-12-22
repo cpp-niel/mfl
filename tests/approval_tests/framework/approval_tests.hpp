@@ -13,7 +13,7 @@ namespace mfl
                     .fileOptions()
                     .withFileExtension(".svg")
                     .withReporter(ApprovalTests::QuietReporter()));
-            //.withReporter(ApprovalTests::AutoApproveReporter()));
+                    //.withReporter(ApprovalTests::AutoApproveReporter()));
         else
             ApprovalTests::Approvals::verify(
                 str, ApprovalTests::Options(ApprovalTests::Scrubbers::createRegexScrubber(R"(<g id="surface\d+">)", R"(<g id="surface0">)"))
