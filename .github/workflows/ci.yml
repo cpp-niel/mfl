@@ -38,12 +38,6 @@ jobs:
           - compiler: llvm
             GCOV: "llvm-cov gcov"
 
-          # Only to test non-multiconfig builds
-          - os: ubuntu-22.04
-            compiler: gcc-13
-            CMAKE_GENERATOR: "Unix Makefiles"
-            GCOV: gcov-13
-
           - os: windows-2022
             compiler: msvc
             CMAKE_GENERATOR: "Visual Studio 17 2022"

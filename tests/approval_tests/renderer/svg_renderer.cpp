@@ -73,7 +73,8 @@ namespace mfl
             cairo_set_font_face(cr_, cr_face.get());
             cairo_set_font_size(cr_, points_to_pixels(g.size, dpi_).value());
             const auto [px, py] = to_cairo_pos(x + points_to_pixels(g.x, dpi_), y + points_to_pixels(g.y, dpi_));
-            cairo_glyph_t glyph{.index = g.index, .x = px.value(), .y = py.value()};
+            const auto index = static_cast<unsigned long>(g.index);
+            const auto glyph = cairo_glyph_t{.index = index, .x = px.value(), .y = py.value()};
             cairo_show_glyphs(cr_, &glyph, 1);
         }
 
