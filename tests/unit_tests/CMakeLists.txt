@@ -48,3 +48,7 @@ set_property(TARGET unit_tests PROPERTY CXX_STANDARD 20)
 target_include_directories(unit_tests PUBLIC ./ ./../../include ./../../src)
 
 target_link_libraries(unit_tests PUBLIC mfl_options mfl_warnings mfl doctest::doctest)
+
+enable_testing()
+include(framework/doctest.cmake)
+doctest_discover_tests(unit_tests)

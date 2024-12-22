@@ -31,8 +31,6 @@ if(CMAKE_CXX_COMPILER_ID STREQUAL "Clang")
     add_subdirectory(tests/fuzz_tests)
 endif()
 
-enable_testing()
-
 include(GNUInstallDirs)
 
 install(TARGETS mfl mfl_options mfl_warnings EXPORT mfl-export LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR} ARCHIVE DESTINATION ${CMAKE_INSTALL_LIBDIR})
