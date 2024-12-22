@@ -1,6 +1,5 @@
 {
   "dependencies": [
-    "libuuid",
     "fmt",
     "range-v3",
     "cairo",
