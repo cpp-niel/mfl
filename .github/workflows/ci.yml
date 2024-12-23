@@ -47,7 +47,7 @@ jobs:
 
           - os: macos-14
             compiler: llvm
-            CONFIGURE_FLAGS: "-rpath ${{ env.HOME }}/llvm/lib"
+            CONFIGURE_FLAGS: "-DCMAKE_BUILD_RPATH=${{ env.HOME }}/llvm/lib"
 
     steps:
       - uses: actions/checkout@v4
