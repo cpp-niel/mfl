@@ -27,7 +27,7 @@ add_subdirectory(tests/fonts_for_tests)
 add_subdirectory(tests/unit_tests)
 add_subdirectory(tests/approval_tests)
 
-if(CMAKE_CXX_COMPILER_ID STREQUAL "Clang")
+if(UNIX AND CMAKE_CXX_COMPILER_ID STREQUAL "Clang")
     add_subdirectory(tests/fuzz_tests)
 endif()
 

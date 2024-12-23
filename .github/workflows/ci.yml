@@ -47,7 +47,11 @@ jobs:
 
           - os: macos-14
             compiler: llvm
-            CONFIGURE_FLAGS: "-DCMAKE_BUILD_RPATH=${{ env.HOME }}/llvm/lib"
+            CONFIGURE_FLAGS: "-DCMAKE_BUILD_RPATH=/Users/runner/llvm/lib"
+
+        exclude:
+          - os: windows-2022
+            compiler: gcc
 
     steps:
       - uses: actions/checkout@v4
