@@ -47,7 +47,7 @@ jobs:
 
           - os: macos-14
             compiler: llvm
-            CONFIGURE_FLAGS: "-CMAKE_MACOSX_RPATH=1 -DCMAKE_BUILD_RPATH=/Users/runner/llvm/lib"
+            CONFIGURE_FLAGS: "-DCMAKE_CXX_FLAGS=\"-stdlib=libc++ -I/Users/runner/llvm/include\" -DCMAKE_EXE_LINKER_FLAGS=\"-L/Users/runner/llvm/lib\" -CMAKE_MACOSX_RPATH=1 -DCMAKE_BUILD_RPATH=/Users/runner/llvm/lib"
 
         exclude:
           - os: macos-14
