@@ -47,9 +47,12 @@ jobs:
 
           - os: macos-14
             compiler: llvm
-            CONFIGURE_FLAGS: "-DCMAKE_BUILD_RPATH=/Users/runner/llvm/lib"
+            CONFIGURE_FLAGS: "-CMAKE_MACOSX_RPATH=1 -DCMAKE_BUILD_RPATH=/Users/runner/llvm/lib"
 
         exclude:
+          - os: macos-14
+            compiler: gcc
+
           - os: windows-2022
             compiler: gcc
 
