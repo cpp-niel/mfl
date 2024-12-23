@@ -37,7 +37,7 @@ namespace mfl::parser::utf8
 
     uint32_t decode(uint32_t* state, uint32_t* codep, const char c)
     {
-        const uint32_t byte = reinterpret_cast<const uint8_t&>(c);  // NOLINT
+        const auto byte = static_cast<uint32_t>(static_cast<unsigned char>(c));
         uint32_t type = utf8d[byte];  // NOLINT
 
         *codep = (*state != accept_utf8_decoding) ? (byte & 0x3fu) | (*codep << 6) : (0xff >> type) & (byte); // NOLINT

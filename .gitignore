@@ -105,3 +105,9 @@ cmake-*
 # vscode
 # ========
 .vscode
+
+# ========
+# vcpkg
+# ========
+vcpkg
+vcpkg_installed

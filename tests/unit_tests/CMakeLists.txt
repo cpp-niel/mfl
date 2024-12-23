@@ -4,6 +4,9 @@ project (unit_tests)
 
 find_package(doctest CONFIG REQUIRED)
 
+add_compile_options("$<$<C_COMPILER_ID:MSVC>:/utf-8>")
+add_compile_options("$<$<CXX_COMPILER_ID:MSVC>:/utf-8>")
+
 add_executable (unit_tests
         dist.cpp
         framework/mock_font_face.cpp
@@ -48,3 +51,7 @@ set_property(TARGET unit_tests PROPERTY CXX_STANDARD 20)
 target_include_directories(unit_tests PUBLIC ./ ./../../include ./../../src)
 
 target_link_libraries(unit_tests PUBLIC mfl_options mfl_warnings mfl doctest::doctest)
+
+enable_testing()
+include(framework/doctest.cmake)
+doctest_discover_tests(unit_tests)

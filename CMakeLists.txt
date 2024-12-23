@@ -25,13 +25,9 @@ include(cmake/StaticAnalyzers.cmake)
 add_subdirectory(src)
 add_subdirectory(tests/fonts_for_tests)
 add_subdirectory(tests/unit_tests)
+add_subdirectory(tests/approval_tests)
 
-# Building approval tests causes ICE on msvc
-if(CMAKE_CXX_COMPILER_ID STREQUAL "GNU" OR CMAKE_CXX_COMPILER_ID MATCHES ".*Clang")
-    add_subdirectory(tests/approval_tests)
-endif()
-
-if(CMAKE_CXX_COMPILER_ID STREQUAL "Clang")
+if(UNIX AND CMAKE_CXX_COMPILER_ID STREQUAL "Clang")
     add_subdirectory(tests/fuzz_tests)
 endif()
 
@@ -43,4 +39,3 @@ install(EXPORT mfl-export DESTINATION ${CMAKE_INSTALL_LIBDIR}/cmake/mfl NAMESPAC
 if(CMAKE_BUILD_TYPE STREQUAL Release)
     install(DIRECTORY ${PROJECT_SOURCE_DIR}/include/ DESTINATION ${CMAKE_INSTALL_INCLUDEDIR} FILES_MATCHING PATTERN *.hpp)
 endif()
-

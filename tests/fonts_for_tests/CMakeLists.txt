@@ -8,7 +8,7 @@ find_package(expat CONFIG REQUIRED)
 find_package(fmt CONFIG REQUIRED)
 find_package(Fontconfig)
 
-if(CMAKE_CXX_COMPILER_ID STREQUAL "GNU" OR CMAKE_CXX_COMPILER_ID STREQUAL "Clang")
+if(UNIX AND NOT APPLE)
     find_path(LIBUUID_INCLUDE_DIR uuid.h PATH_SUFFIXES uuid)
     find_library(LIBUUID_LIBRARY libuuid.a)
 endif()
@@ -35,6 +35,6 @@ target_link_libraries(fonts_for_tests PUBLIC
         mfl_warnings
         )
 
-if(CMAKE_CXX_COMPILER_ID STREQUAL "GNU" OR CMAKE_CXX_COMPILER_ID STREQUAL "Clang")
+if(UNIX AND NOT APPLE)
     target_link_libraries(fonts_for_tests PUBLIC ${LIBUUID_LIBRARY})
 endif()

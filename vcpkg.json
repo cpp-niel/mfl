@@ -1,0 +1,10 @@
+{
+  "dependencies": [
+    "fmt",
+    "range-v3",
+    "cairo",
+    "doctest",
+    "freetype",
+    "harfbuzz"
+  ]
+}
