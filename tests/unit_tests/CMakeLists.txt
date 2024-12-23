@@ -4,6 +4,9 @@ project (unit_tests)
 
 find_package(doctest CONFIG REQUIRED)
 
+add_compile_options("$<$<C_COMPILER_ID:MSVC>:/utf-8>")
+add_compile_options("$<$<CXX_COMPILER_ID:MSVC>:/utf-8>")
+
 add_executable (unit_tests
         dist.cpp
         framework/mock_font_face.cpp
