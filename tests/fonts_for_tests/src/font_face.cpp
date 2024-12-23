@@ -17,13 +17,13 @@ namespace mfl::fft
 
         constexpr int font_unit_factor = 1024;
 
-        int32_t font_units_to_dist(const int u) { return u * font_unit_factor; }
+        std::int32_t font_units_to_dist(const int u) { return u * font_unit_factor; }
 
         std::vector<size_variant> get_size_variants(hb_font_t* font, const size_t glyph_index, const hb_direction_t dir)
         {
             const auto max_number_of_variants = 20;
             auto variants = std::array<hb_ot_math_glyph_variant_t, max_number_of_variants>{};
-            uint32_t num_variants = max_number_of_variants;
+            std::uint32_t num_variants = max_number_of_variants;
             const auto glyph_codepoint = static_cast<hb_codepoint_t>(glyph_index);
             hb_ot_math_get_glyph_variants(font, glyph_codepoint, dir, 0, &num_variants, variants.data());
 

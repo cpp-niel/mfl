@@ -7,7 +7,7 @@ namespace mfl::parser::utf8
     // Copyright (c) 2008-2009 Bjoern Hoehrmann <bjoern@hoehrmann.de>
     // See http://bjoern.hoehrmann.de/utf-8/decoder/dfa/ for details.
 
-    static constexpr auto utf8d = std::array<uint8_t, 400>{
+    static constexpr auto utf8d = std::array<std::uint8_t, 400>{
         0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,
         0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,  // 00..1f
         0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,
@@ -35,10 +35,10 @@ namespace mfl::parser::utf8
         1,   3,   1,   1,   1,   1,   1,   1,   1,   1,   1,   1,   1,   1,   1,   1,  // s7..s8
     };
 
-    uint32_t decode(uint32_t* state, uint32_t* codep, const char c)
+    std::uint32_t decode(std::uint32_t* state, std::uint32_t* codep, const char c)
     {
-        const auto byte = static_cast<uint32_t>(static_cast<unsigned char>(c));
-        uint32_t type = utf8d[byte];  // NOLINT
+        const auto byte = static_cast<std::uint32_t>(static_cast<unsigned char>(c));
+        std::uint32_t type = utf8d[byte];  // NOLINT
 
         *codep = (*state != accept_utf8_decoding) ? (byte & 0x3fu) | (*codep << 6) : (0xff >> type) & (byte); // NOLINT
 
@@ -49,7 +49,7 @@ namespace mfl::parser::utf8
     std::optional<code_point> to_ucs4(const std::string_view s)
     {
         code_point result = 0;
-        uint32_t state = 0;
+        std::uint32_t state = 0;
         auto num_decoded = 0;
 
         for (auto c : s)

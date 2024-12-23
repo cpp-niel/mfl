@@ -1,8 +1,10 @@
 #pragma once
 
 #include "mfl/abstract_font_face.hpp"
+#include "mfl/font_family.hpp"
 #include "mfl/units.hpp"
 
+#include <cstddef>
 #include <optional>
 #include <string>
 #include <string_view>
@@ -13,7 +15,7 @@ namespace mfl
     struct shaped_glyph
     {
         font_family family = font_family::roman;
-        size_t index = 0;
+        std::size_t index = 0;
         points size;
         points x;
         points y;

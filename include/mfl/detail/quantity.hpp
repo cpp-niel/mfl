@@ -2,7 +2,6 @@
 
 #include <fmt/format.h>
 
-#include <compare>
 #include <iostream>
 
 namespace mfl::detail

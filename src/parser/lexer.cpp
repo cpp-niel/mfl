@@ -101,7 +101,7 @@ namespace mfl::parser
         else if (!scanner_.is_at_end())
         {
             code_point result_code_point = 0;
-            uint32_t state = 0;
+            std::uint32_t state = 0;
 
             const auto decode_utf8 = [&](const char c) {
               return utf8::decode(&state, &result_code_point, c) != utf8::accept_utf8_decoding;

@@ -2,6 +2,7 @@
 
 #include "dist.hpp"
 #include "node/node.hpp"
+#include "node/vlist.hpp"
 
 #include <vector>
 

@@ -83,7 +83,7 @@ namespace mfl::parser
             digit
         };
 
-        [[nodiscard]] std::pair<script_case, uint32_t> alpha_info(const code_point code)
+        [[nodiscard]] std::pair<script_case, std::uint32_t> alpha_info(const code_point code)
         {
             constexpr auto upper_a = code_point(0x0041);
             constexpr auto upper_z = code_point(0x005a);

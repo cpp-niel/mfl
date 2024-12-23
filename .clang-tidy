@@ -1,5 +1,5 @@
 
-Checks: '*,-fuchsia-*,-google-*,-zircon-*,-abseil-*,-llvmlibc-*,-*-magic-numbers,-modernize-use-trailing-return-type,-hicpp-no-assembler,-hicpp-braces-around-statements,-readability-named-parameter,-readability-braces-around-statements,-readability-avoid-const-params-in-decls,-llvm-*'
+Checks: '*,-altera-*,-fuchsia-*,-google-*,-zircon-*,-abseil-*,-llvmlibc-*,-*-identifier-length,-*-magic-numbers,-*-include-cleaner,-modernize-use-trailing-return-type,-hicpp-no-assembler,-hicpp-braces-around-statements,-readability-named-parameter,-readability-braces-around-statements,-readability-avoid-const-params-in-decls,-llvm-*'
 WarningsAsErrors: '1'
 HeaderFilterRegex: '.*[a-z]\.hpp'  # hack to exclude the doctest and approval test code from analysis (they are the only headers with a digit before the .hpp)
 FormatStyle: none

@@ -4,5 +4,5 @@
 
 namespace mfl
 {
-    using code_point = uint32_t;
+    using code_point = std::uint32_t;
 }

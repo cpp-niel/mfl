@@ -1,12 +1,12 @@
 #include "noad/accent.hpp"
 
-#include "noad/math_char.hpp"
-#include "noad/noad.hpp"
+#include "noad.hpp"
 #include "node/box.hpp"
 #include "node/hlist.hpp"
-#include "node/node.hpp"
-#include "node/vlist.hpp"
 #include "settings.hpp"
+
+#include <utility>
+#include <variant>
 
 namespace mfl
 {
@@ -47,7 +47,7 @@ namespace mfl
             return accent_hlist(s, shift, make_hbox(make_hlist(accentee_glyph)), accenter_glyph);
         }
 
-        // when positioning over complex content we may have a wide accent so we make an auto
+        // when positioning over complex content we may have a wide accent, so we make an auto
         // width glyph and position it horizontally in the center of the content box
         hlist accent_over_complex_content(const settings s, const cramping cramp, const accent& a)
         {

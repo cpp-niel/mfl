@@ -5,6 +5,7 @@
 #include "mfl/units.hpp"
 
 #include <cstddef>
+#include <cstdint>
 #include <functional>
 #include <memory>
 #include <vector>
@@ -13,38 +14,38 @@ namespace mfl
 {
     struct fraction_constants
     {
-        int32_t numerator_shift_up = 0;
-        int32_t denominator_shift_down = 0;
-        int32_t numerator_min_gap = 0;
-        int32_t denominator_min_gap = 0;
+        std::int32_t numerator_shift_up = 0;
+        std::int32_t denominator_shift_down = 0;
+        std::int32_t numerator_min_gap = 0;
+        std::int32_t denominator_min_gap = 0;
     };
 
     struct math_constants
     {
-        int32_t axis_height = 0;
-        int32_t fraction_rule_thickness = 0;
-        int32_t subscript_drop = 0;
-        int32_t subscript_shift_down = 0;
-        int32_t superscript_drop = 0;
-        int32_t superscript_shift_up = 0;
-        int32_t superscript_shift_up_cramped = 0;
-        int32_t minimum_dual_script_gap = 0;
-        int32_t maximum_superscript_bottom_in_dual_script = 0;
-        int32_t space_after_script = 0;
-        int32_t radical_vertical_gap = 0;
-        int32_t radical_rule_thickness = 0;
-        int32_t radical_extra_ascender = 0;
-        int32_t radical_kern_before_degree = 0;
-        int32_t radical_kern_after_degree = 0;
-        int32_t radical_degree_bottom_raise_percent = 0;
-        int32_t overline_gap = 0;
-        int32_t overline_padding = 0;
-        int32_t overline_thickness = 0;
-        int32_t underline_gap = 0;
-        int32_t underline_padding = 0;
-        int32_t underline_thickness = 0;
-        int32_t lower_limit_min_gap = 0;
-        int32_t upper_limit_min_gap = 0;
+        std::int32_t axis_height = 0;
+        std::int32_t fraction_rule_thickness = 0;
+        std::int32_t subscript_drop = 0;
+        std::int32_t subscript_shift_down = 0;
+        std::int32_t superscript_drop = 0;
+        std::int32_t superscript_shift_up = 0;
+        std::int32_t superscript_shift_up_cramped = 0;
+        std::int32_t minimum_dual_script_gap = 0;
+        std::int32_t maximum_superscript_bottom_in_dual_script = 0;
+        std::int32_t space_after_script = 0;
+        std::int32_t radical_vertical_gap = 0;
+        std::int32_t radical_rule_thickness = 0;
+        std::int32_t radical_extra_ascender = 0;
+        std::int32_t radical_kern_before_degree = 0;
+        std::int32_t radical_kern_after_degree = 0;
+        std::int32_t radical_degree_bottom_raise_percent = 0;
+        std::int32_t overline_gap = 0;
+        std::int32_t overline_padding = 0;
+        std::int32_t overline_thickness = 0;
+        std::int32_t underline_gap = 0;
+        std::int32_t underline_padding = 0;
+        std::int32_t underline_thickness = 0;
+        std::int32_t lower_limit_min_gap = 0;
+        std::int32_t upper_limit_min_gap = 0;
         fraction_constants default_fraction;
         fraction_constants display_style_fraction;
         fraction_constants default_atop;
@@ -54,17 +55,17 @@ namespace mfl
     struct math_glyph_info
     {
         size_t glyph_index = 0;
-        int32_t width = 0;
-        int32_t height = 0;
-        int32_t depth = 0;
-        int32_t italic_correction = 0;
-        int32_t accent_hpos = 0;
+        std::int32_t width = 0;
+        std::int32_t height = 0;
+        std::int32_t depth = 0;
+        std::int32_t italic_correction = 0;
+        std::int32_t accent_hpos = 0;
     };
 
     struct size_variant
     {
         size_t glyph_index = 0;
-        int32_t size = 0;
+        std::int32_t size = 0;
     };
 
     struct abstract_font_face

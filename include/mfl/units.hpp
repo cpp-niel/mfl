@@ -2,7 +2,7 @@
 
 #include "mfl/detail/quantity.hpp"
 
-#include <fmt/format.h>
+#include <fmt/core.h>
 
 #include <array>
 
@@ -49,14 +49,14 @@ namespace mfl
 namespace fmt
 {
     template<>
-    struct formatter<mfl::inches> : mfl::unit_formatter<mfl::inches, '\"'> {};
+    struct [[maybe_unused]] formatter<mfl::inches> : mfl::unit_formatter<mfl::inches, '\"'> {};
 
     template <>
-    struct formatter<mfl::dots_per_inch> : mfl::unit_formatter<mfl::dots_per_inch, 'd', 'p', 'i'> {};
+    struct [[maybe_unused]] formatter<mfl::dots_per_inch> : mfl::unit_formatter<mfl::dots_per_inch, 'd', 'p', 'i'> {};
 
     template <>
-    struct formatter<mfl::pixels> : mfl::unit_formatter<mfl::pixels, 'p', 'x'> {};
+    struct [[maybe_unused]] formatter<mfl::pixels> : mfl::unit_formatter<mfl::pixels, 'p', 'x'> {};
 
     template <>
-    struct formatter<mfl::points> : mfl::unit_formatter<mfl::points, 'p', 't'> {};
+    struct [[maybe_unused]] formatter<mfl::points> : mfl::unit_formatter<mfl::points, 'p', 't'> {};
 }
