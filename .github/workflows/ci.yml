@@ -45,6 +45,10 @@ jobs:
           - os: macos-14
             compiler: appleclang
 
+          - os: macos-14
+            compiler: llvm
+            CONFIGURE_FLAGS: "-rpath ${{ env.HOME }}/llvm/lib"
+
     steps:
       - uses: actions/checkout@v4
 
@@ -94,6 +98,7 @@ jobs:
         env:
           CMAKE_GENERATOR: ${{matrix.CMAKE_GENERATOR}}
           GCOV: ${{matrix.GCOV}}
+          CONFIGURE_FLAGS: ${{matrix.CONFIGURE_FLAGS}}
 
       - name: Test release
         run: |
@@ -101,6 +106,7 @@ jobs:
         env:
           CMAKE_GENERATOR: ${{matrix.CMAKE_GENERATOR}}
           GCOV: ${{matrix.GCOV}}
+          CONFIGURE_FLAGS: ${{matrix.CONFIGURE_FLAGS}}
 
       - name: Install
         run: |
