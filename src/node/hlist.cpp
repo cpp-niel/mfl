@@ -1,15 +1,11 @@
 #include "node/hlist.hpp"
 
-#include "node/node.hpp"
-
-#include <range/v3/algorithm/max.hpp>
-#include <range/v3/numeric.hpp>
-#include <range/v3/view/transform.hpp>
+#include <algorithm>
+#include <numeric>
+#include <ranges>
 
 namespace mfl
 {
-    namespace rv = ranges::views;
-
     hlist extend(node_variant&& n, const dist_t d)
     {
         auto result = make_hlist(std::move(n));
@@ -26,16 +22,16 @@ namespace mfl
 
     dist_t hlist_width(const hlist& l)
     {
-        return ranges::accumulate(l.nodes, dist_t(0), [&](const dist_t acc, const node_variant& n) { return acc + width(n); });
+        return std::accumulate(l.nodes.begin(), l.nodes.end(), dist_t(0), [&](const dist_t acc, const node_variant& n) { return acc + width(n); });
     }
 
     dist_t hlist_depth(const hlist& l)
     {
-        return l.nodes.empty() ? 0 : ranges::max(l.nodes | rv::transform([](const node_variant& n) { return depth(n); }));
+        return l.nodes.empty() ? 0 : std::ranges::max(l.nodes | std::views::transform([](const node_variant& n) { return depth(n); }));
     }
 
     dist_t hlist_height(const hlist& l)
     {
-        return l.nodes.empty() ? 0 : ranges::max(l.nodes | rv::transform([](const node_variant& n) { return height(n); }));
+        return l.nodes.empty() ? 0 : std::ranges::max(l.nodes | std::views::transform([](const node_variant& n) { return height(n); }));
     }
 }

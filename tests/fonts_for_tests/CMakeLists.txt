@@ -19,7 +19,7 @@ add_library (fonts_for_tests
         src/freetype_error.cpp
         )
 
-set_property(TARGET fonts_for_tests PROPERTY CXX_STANDARD 20)
+set_property(TARGET fonts_for_tests PROPERTY CXX_STANDARD 23)
 
 target_compile_definitions(fonts_for_tests PRIVATE MFL_FONT_DIR="${CMAKE_CURRENT_LIST_DIR}/otf/")
 

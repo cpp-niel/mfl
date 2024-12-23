@@ -3,21 +3,18 @@
 #include "parser/parser_state.hpp"
 #include "parser/symbols/arrows.hpp"
 #include "parser/symbols/binary_operators.hpp"
+#include "parser/symbols/relational_operators.hpp"
 #include <parser/symbols/delimiters.hpp>
 #include <parser/symbols/punctuation.hpp>
-#include "parser/symbols/relational_operators.hpp"
 
-#include <range/v3/algorithm/contains.hpp>
-#include <range/v3/view/map.hpp>
-
-#include <array>
+#include <algorithm>
+#include <ranges>
 
 namespace mfl::parser
 {
     namespace
     {
         using namespace std::string_literals;
-        namespace rv = ranges::views;
 
         item_kind char_kind(const std::string_view s)
         {
@@ -41,22 +38,23 @@ namespace mfl::parser
             if (symbol_name.starts_with("\\"))
             {
                 const auto name = symbol_name.substr(1);
-                if (ranges::contains(rv::keys(binary_operators), name)
-                    or ranges::contains(rv::keys(additional_binary_operators), name))
+                if (std::ranges::contains(binary_operators | std::views::keys, name)
+                    || std::ranges::contains(additional_binary_operators | std::views::keys, name))
                     return item_kind::bin;
 
-                if (ranges::contains(rv::keys(relational_operators), name)
-                    or ranges::contains(rv::keys(additional_relational_operators), name)
-                    or ranges::contains(rv::keys(negations), name)
-                    or ranges::contains(rv::keys(additional_negations), name)
-                    or ranges::contains(rv::keys(arrows), name) or ranges::contains(rv::keys(additional_arrows), name))
+                if (std::ranges::contains(relational_operators | std::views::keys, name)
+                    || std::ranges::contains(additional_relational_operators | std::views::keys, name)
+                    || std::ranges::contains(negations | std::views::keys, name)
+                    || std::ranges::contains(additional_negations | std::views::keys, name)
+                    || std::ranges::contains(arrows | std::views::keys, name)
+                    || std::ranges::contains(additional_arrows | std::views::keys, name))
                     return item_kind::rel;
 
-                if (ranges::contains(rv::keys(left_delimiters), name)) return item_kind::open;
+                if (std::ranges::contains(left_delimiters | std::views::keys, name)) return item_kind::open;
 
-                if (ranges::contains(rv::keys(right_delimiters), name)) return item_kind::close;
+                if (std::ranges::contains(right_delimiters | std::views::keys, name)) return item_kind::close;
 
-                if (ranges::contains(rv::keys(punctuation_symbols), name)) return item_kind::punct;
+                if (std::ranges::contains(punctuation_symbols | std::views::keys, name)) return item_kind::punct;
             }
 
             return item_kind::ord;

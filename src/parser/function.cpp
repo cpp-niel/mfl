@@ -5,8 +5,7 @@
 #include "parser/parser_utilities.hpp"
 #include "parser/unicode_index.hpp"
 
-#include <range/v3/algorithm/contains.hpp>
-
+#include <algorithm>
 #include <array>
 #include <string_view>
 
@@ -24,7 +23,7 @@ namespace mfl::parser
         const auto sub_function_names =
             std::array{"det"sv, "gcd"sv, "inf"sv, "lim"sv, "liminf"sv, "limsup"sv, "max"sv, "min"sv, "Pr"sv, "sup"sv};
 
-        bool is_sub_function(const std::string& name) { return ranges::contains(sub_function_names, name); }
+        bool is_sub_function(const std::string& name) { return std::ranges::contains(sub_function_names, name); }
     }
 
     mlist_with_kind create_operatorname(parser_state& state)
@@ -42,7 +41,7 @@ namespace mfl::parser
         return result;
     }
 
-    bool is_function(const std::string& name) { return ranges::contains(function_names, name); }
+    bool is_function(const std::string& name) { return std::ranges::contains(function_names, name); }
 
     mlist_with_kind create_function(parser_state& state)
     {

@@ -6,17 +6,15 @@
 #include "parser/symbols/accents.hpp"
 #include "parser/unicode_index.hpp"
 
-#include <range/v3/algorithm/contains.hpp>
-#include <range/v3/view/map.hpp>
-
-#include <array>
+#include <algorithm>
+#include <ranges>
 
 namespace mfl::parser
 {
     bool is_accent(const std::string& name)
     {
-        namespace rv = ranges::views;
-        return ranges::contains(rv::keys(accents), name) or ranges::contains(rv::keys(additional_accents), name);
+        return std::ranges::contains(accents | std::views::keys, name)
+               || std::ranges::contains(additional_accents | std::views::keys, name);
     }
 
     accent create_accent(parser_state& state)

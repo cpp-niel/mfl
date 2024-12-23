@@ -2,14 +2,13 @@
 
 #include "font_library.hpp"
 #include "node/hlist.hpp"
-#include "node/glyph.hpp"
 #include "settings.hpp"
 
 namespace mfl
 {
     namespace
     {
-        size_t find_best_size_glyph_index(const abstract_font_face& face, const code_point char_code,
+        std::size_t find_best_size_glyph_index(const abstract_font_face& face, const code_point char_code,
                                           const dist_t requested_size, const bool is_horizontal)
         {
             using namespace units_literals;

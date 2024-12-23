@@ -2,10 +2,6 @@
 
 #include "node/box.hpp"
 #include "node/hlist.hpp"
-#include "node/kern.hpp"
-#include "node/node.hpp"
-#include "node/rule.hpp"
-#include "node/vlist.hpp"
 #include "settings.hpp"
 
 namespace mfl

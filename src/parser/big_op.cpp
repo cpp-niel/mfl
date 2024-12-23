@@ -4,18 +4,14 @@
 #include "parser/parser_utilities.hpp"
 #include "parser/symbols/big_operators.hpp"
 
-#include <range/v3/algorithm/contains.hpp>
-#include <range/v3/view/map.hpp>
-
-#include <array>
+#include <algorithm>
+#include <ranges>
 
 namespace mfl::parser
 {
-    namespace rv = ranges::views;
-
     bool is_big_op(const std::string& name)
     {
-        return ranges::contains(rv::keys(big_op_symbols), name) || ranges::contains(rv::keys(integral_symbols), name);
+        return std::ranges::contains(big_op_symbols | std::views::keys, name) || std::ranges::contains(integral_symbols | std::views::keys, name);
     }
 
     big_op_limits big_op_limit_style(const std::string& name, parser_state& state)
@@ -35,7 +31,7 @@ namespace mfl::parser
             }
         }
 
-        if (ranges::contains(rv::keys(integral_symbols), name)) return big_op_limits::no;
+        if (std::ranges::contains(integral_symbols | std::views::keys, name)) return big_op_limits::no;
 
         return big_op_limits::normal;
     }

@@ -1,7 +1,6 @@
 #include "noad/left_right.hpp"
 
 #include "node/box.hpp"
-#include "node/node.hpp"
 #include "node/hlist.hpp"
 #include "settings.hpp"
 

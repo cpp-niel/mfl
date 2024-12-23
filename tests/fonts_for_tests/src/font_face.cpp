@@ -1,13 +1,10 @@
 #include "fonts_for_tests/font_face.hpp"
 
-#include "fonts_for_tests/freetype.hpp"
-
 #include <harfbuzz/hb-ft.h>
 #include <harfbuzz/hb-ot.h>
-#include <range/v3/algorithm/contains.hpp>
-#include <range/v3/range/conversion.hpp>
-#include <range/v3/view/take.hpp>
-#include <range/v3/view/transform.hpp>
+
+#include <algorithm>
+#include <ranges>
 
 namespace mfl::fft
 {
@@ -40,8 +37,10 @@ namespace mfl::fft
                 return size_variant{.glyph_index = v.glyph, .size = font_units_to_dist(std::abs(size))};
             };
 
-            namespace rv = ranges::views;
-            return variants | rv::take(num_variants) | rv::transform(to_size_variant) | ranges::to_vector;
+            return variants                                  //
+                   | std::views::take(num_variants)          //
+                   | std::views::transform(to_size_variant)  //
+                   | std::ranges::to<std::vector>();
         }
     }
 
@@ -131,7 +130,7 @@ namespace mfl::fft
         // width and then when positioning a superscript on that X the italic correction is applied again,
         // but this prevents superscripts from overlapping with italic symbols in the nucleus.
         const auto integral_indices = std::array{1699, 1705, 1711, 1717, 1723, 1729};
-        const auto integral_fix = ranges::contains(integral_indices, glyph_index) ? -italic_correction : 0;
+        const auto integral_fix = std::ranges::contains(integral_indices, glyph_index) ? -italic_correction : 0;
 
         hb_glyph_extents_t extents;
         hb_font_get_glyph_extents_for_origin(hb_font.get(), glyph_codepoint, HB_DIRECTION_LTR,

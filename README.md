@@ -69,7 +69,6 @@ Manual installation:
  - Install CMake 3.14 or higher.
  - For the library, install the following packages so that CMake's `find_package` can find them:
    * [fmt](https://github.com/fmtlib/fmt)
-   * [range-v3](https://github.com/ericniebler/range-v3)
  - For the tests, install the following packages so that CMake's `find_package` can find them:
    * [cairo](https://www.cairographics.org)
    * [doctest](https://github.com/onqtam/doctest)
@@ -138,7 +137,6 @@ the principles behind the layout of most formula elements.
 
 Many thanks to the authors and contributors of the following third party libraries, fonts,
 tools and services with which *mfl* is developed, built and tested:
--   [**range-v3**](https://github.com/ericniebler/range-v3) for extended range support
 -   [**fmt**](https://github.com/fmtlib/fmt) for text formatting
 -   [**Clang**](https://clang.llvm.org) for compilation, standard library, static analysis, sanitizers and code formatting
 -   [**GCC**](https://gcc.gnu.org) for compilation, standard library

@@ -4,8 +4,6 @@
 #include "parser/parser_utilities.hpp"
 #include "parser/unicode_index.hpp"
 
-#include <range/v3/algorithm/find_if.hpp>
-
 #include <array>
 #include <string_view>
 
@@ -29,13 +27,13 @@ namespace mfl::parser
     }
     bool is_font_choice(const std::string& name)
     {
-        return (ranges::find_if(font_commands, [&](const auto c) { return c.first == name; }) != font_commands.end());
+        return (std::ranges::find_if(font_commands, [&](const auto c) { return c.first == name; }) != font_commands.end());
     }
 
     std::vector<noad> create_font_group(parser_state& state)
     {
         const auto name = state.consume_lexer_value();
-        const auto it = ranges::find_if(font_commands, [&](const auto c) { return c.first == name; });
+        const auto it = std::ranges::find_if(font_commands, [&](const auto c) { return c.first == name; });
         scoped_state s(state, {.font = it->second});
 
         return parse_expression(state);

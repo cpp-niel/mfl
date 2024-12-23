@@ -14,7 +14,7 @@ add_executable (approval_tests
         renderer/svg_renderer.cpp
         )
 
-set_property(TARGET approval_tests PROPERTY CXX_STANDARD 20)
+set_property(TARGET approval_tests PROPERTY CXX_STANDARD 23)
 
 target_include_directories(approval_tests PUBLIC
         ./

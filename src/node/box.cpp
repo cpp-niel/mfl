@@ -2,7 +2,6 @@
 
 #include "node/glue.hpp"
 #include "node/hlist.hpp"
-#include "node/vlist.hpp"
 #include "settings.hpp"
 
 namespace mfl
@@ -19,16 +18,13 @@ namespace mfl
         hlist hlist_with_unit_glue(box&& box)
         {
             const auto unit_glue_spec = glue_spec{.size = 0,
-                .stretch = {.value = unit_distance, .order = infinity_order::fil},
-                .shrink = {.value = unit_distance, .order = infinity_order::fil}};
+                                                  .stretch = {.value = unit_distance, .order = infinity_order::fil},
+                                                  .shrink = {.value = unit_distance, .order = infinity_order::fil}};
             return make_hlist(unit_glue_spec, std::move(box), unit_glue_spec);
         }
     }
 
-    box make_hbox(const box_dims& dims, hlist&& l)
-    {
-        return box{.dims = dims, .nodes = std::move(l.nodes)};
-    }
+    box make_hbox(const box_dims& dims, hlist&& l) { return box{.dims = dims, .nodes = std::move(l.nodes)}; }
 
     box make_hbox(hlist&& l)
     {
@@ -38,10 +34,7 @@ namespace mfl
         return make_hbox({.width = hlist_width(l), .height = hlist_height(l), .depth = hlist_depth(l)}, std::move(l));
     }
 
-    box make_empty_box()
-    {
-        return make_hbox({}, {});
-    }
+    box make_empty_box() { return make_hbox({}, {}); }
 
     box rebox(const dist_t new_width, box&& b)
     {
@@ -75,8 +68,8 @@ namespace mfl
         }
 
         const auto dims = box_dims{.width = width,
-            .height = vlist_size(up_list) + height(ref_node),
-            .depth = vlist_size(down_list) + depth(ref_node)};
+                                   .height = vlist_size(up_list) + height(ref_node),
+                                   .depth = vlist_size(down_list) + depth(ref_node)};
 
         std::vector<node_variant> nodes;
         nodes.reserve(up_list.nodes.size() + 1 + down_list.nodes.size());

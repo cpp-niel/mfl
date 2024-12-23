@@ -6,7 +6,7 @@
 #include "node/hlist.hpp"
 #include "node/vstack.hpp"
 
-#include <range/v3/algorithm/max.hpp>
+#include <algorithm>
 
 namespace mfl
 {
@@ -95,7 +95,7 @@ namespace mfl
             const auto candidate_positions =
                 std::array{sup_pos0(s, is_nucleus_single_character, nuc_height), superscript_shift(s, cramp),
                            sup_depth + (x_height(s) / 4)};
-            return ranges::max(candidate_positions);
+            return std::ranges::max(candidate_positions);
         }
 
         dist_t subscript_alone_pos(const settings s, const bool is_nucleus_single_character, const dist_t nuc_depth,
@@ -103,7 +103,7 @@ namespace mfl
         {
             const auto candidate_positions = std::array{sub_pos0(s, is_nucleus_single_character, nuc_depth),
                                                         subscript_shift(s), sub_height - almost_x_height(s)};
-            return ranges::max(candidate_positions);
+            return std::ranges::max(candidate_positions);
         }
 
         hlist make_subscript_hlist(const settings s, nucleus_result&& nuc, box&& sub_box)

@@ -1,7 +1,6 @@
 #include "node/vstack.hpp"
 
 #include "node/box.hpp"
-#include "node/node.hpp"
 
 #include <vector>
 

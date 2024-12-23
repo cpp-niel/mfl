@@ -1,7 +1,5 @@
 #include "renderer/svg_renderer.hpp"
 
-#include "fonts_for_tests/font_face.hpp"
-
 #include <cairo-ft.h>
 #include <cairo-svg.h>
 #include <cairo.h>

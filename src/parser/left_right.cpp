@@ -4,8 +4,8 @@
 #include "parser/parser_utilities.hpp"
 
 #include <fmt/format.h>
-#include <range/v3/algorithm/contains.hpp>
 
+#include <algorithm>
 #include <string>
 
 namespace mfl::parser
@@ -29,11 +29,11 @@ namespace mfl::parser
 
         delimiter_type get_delimiter_type(const std::string_view name)
         {
-            if ((name.length() == 1) and (R"(()[]{}|/\)"sv.find(name[0]) != std::string::npos))
+            if ((name.length() == 1) && (R"(()[]{}|/\)"sv.find(name[0]) != std::string::npos))
                 return delimiter_type::symbol;
 
             if (name.starts_with("\\")
-                and (ranges::contains(command_delimiter_names, name.substr(1, name.length() - 1))))
+                && (std::ranges::contains(command_delimiter_names, name.substr(1, name.length() - 1))))
                 return delimiter_type::command;
 
             return delimiter_type::none;

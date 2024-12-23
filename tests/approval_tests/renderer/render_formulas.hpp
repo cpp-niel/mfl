@@ -4,13 +4,10 @@
 #include "fonts_for_tests/font_face.hpp"
 #include "renderer/svg_renderer.hpp"
 
-#include "concepts.hpp"
 #include "mfl/layout.hpp"
 #include "mfl/units.hpp"
 
-#include <range/v3/view/drop.hpp>
-#include <range/v3/view/take.hpp>
-
+#include <ranges>
 #include <sstream>
 #include <string>
 #include <type_traits>
@@ -39,10 +36,8 @@ namespace mfl
         std::vector<column_config> columns;
     };
 
-    template <range_of_convertible_to<std::string> Strings>
-    std::string render_formulas(const approval_test_config& config, const Strings& formulas)
+    std::string render_formulas(const approval_test_config& config, const std::ranges::range auto& formulas)
     {
-        namespace rv = ranges::views;
         std::ostringstream os;
         {
             const auto ft = fft::freetype();
@@ -53,7 +48,7 @@ namespace mfl
             for (const auto& col : config.columns)
             {
                 auto y = config.height - col.initial_offset;
-                for (const auto& formula : formulas | rv::drop(num_formulas_processed) | rv::take(col.num_rows))
+                for (const auto& formula : formulas | std::views::drop(num_formulas_processed) | std::views::take(col.num_rows))
                 {
                     renderer.render(col.x, y, layout(formula, config.font_size, create_font_face));
                     if (config.render_input) renderer.render_tt_text(col.x + config.input_offset, y, formula);

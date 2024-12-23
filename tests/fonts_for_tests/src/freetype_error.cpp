@@ -2,8 +2,8 @@
 
 #include <ft2build.h>
 #include FT_FREETYPE_H
-#include <range/v3/algorithm/find_if.hpp>
 
+#include <algorithm>
 #include <array>
 #include <string>
 
@@ -31,7 +31,7 @@ namespace mfl::fft
     {
         using namespace std::string_literals;
         const auto it =
-            ranges::find_if(error_definitions, [&](const error_definition& e) { return e.err_code == error_code; });
+            std::ranges::find_if(error_definitions, [&](const error_definition& e) { return e.err_code == error_code; });
 
         if (it == error_definitions.end())
             return "Unknown freetype error code: "s + std::to_string(error_code);

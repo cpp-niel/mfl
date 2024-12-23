@@ -1,6 +1,6 @@
 #include "font_library.hpp"
 
-#include <range/v3/algorithm.hpp>
+#include <algorithm>
 #include <utility>
 
 namespace mfl
@@ -31,7 +31,7 @@ namespace mfl
 
     const abstract_font_face& font_library::get_face(const font_family family, const points size) const
     {
-        auto it = ranges::find_if(cached_faces_, [&](const auto& entry) { return entry.first == family; });
+        auto it = std::ranges::find_if(cached_faces_, [&](const auto& entry) { return entry.first == family; });
         if (it == cached_faces_.end())
         {
             cached_faces_.emplace_back(family, create_face_(family));

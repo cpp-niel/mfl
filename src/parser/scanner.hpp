@@ -1,9 +1,8 @@
 #pragma once
 
-#include "concepts.hpp"
-
 #include <fmt/format.h>
 
+#include <concepts>
 #include <iostream>
 #include <istream>
 #include <string>
@@ -32,8 +31,7 @@ namespace mfl::parser
         void skip_whitespace();
         void skip_char();
 
-        template <predicate<char> Predicate>
-        [[nodiscard]] std::string take_while(const Predicate& is_predicate_true)
+        [[nodiscard]] std::string take_while(const std::predicate<char> auto& is_predicate_true)
         {
             std::string result(1, current_char_);
             while (get_char(current_char_) && is_predicate_true(current_char_))

@@ -3,8 +3,6 @@
 #include "parser/parser_state.hpp"
 #include "parser/parser_utilities.hpp"
 
-#include <range/v3/algorithm/find_if.hpp>
-
 #include <string_view>
 
 namespace mfl::parser
@@ -28,7 +26,7 @@ namespace mfl::parser
     }
     bool is_explicit_space(const std::string& name)
     {
-        return (ranges::find_if(explicit_spaces, [&](const auto& p) { return p.first == name; })
+        return (std::ranges::find_if(explicit_spaces, [&](const auto& p) { return p.first == name; })
                 != explicit_spaces.end());
     }
 
@@ -36,7 +34,7 @@ namespace mfl::parser
     {
         const auto name = state.consume_lexer_value();
 
-        const auto it = ranges::find_if(explicit_spaces, [&](const auto& p) { return p.first == name; });
+        const auto it = std::ranges::find_if(explicit_spaces, [&](const auto& p) { return p.first == name; });
 
         return {.space = kern{.size = it->second}, .is_math_units = true};
     }

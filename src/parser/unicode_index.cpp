@@ -1,6 +1,5 @@
 #include "parser/unicode_index.hpp"
 
-#include "concepts.hpp"
 #include "parser/parser_state.hpp"
 #include "parser/symbols/accents.hpp"
 #include "parser/symbols/arrows.hpp"
@@ -15,7 +14,6 @@
 #include "parser/utf8.hpp"
 
 #include <fmt/format.h>
-#include <range/v3/algorithm/find_if.hpp>
 
 #include <array>
 #include <tuple>
@@ -38,10 +36,9 @@ namespace mfl::parser
             {"|", 0x2016},
         }};
 
-        template<range_of<symbol_pair> Symbols>
-        code_point check(const Symbols& symbols, const std::string_view name)
+        code_point check(const std::span<const symbol_pair> symbols, const std::string_view name)
         {
-            const auto it = ranges::find_if(symbols, [&](const auto entry) { return name == entry.first; });
+            const auto it = std::ranges::find_if(symbols, [&](const auto entry) { return name == entry.first; });
             return (it == symbols.end()) ? 0 : it->second;
         }
 
@@ -114,7 +111,7 @@ namespace mfl::parser
         code_point_from_special_cases(const code_point code,
                                       const std::array<std::pair<code_point, code_point>, N>& mappings)
         {
-            const auto it = ranges::find_if(mappings, [&](const auto& e) { return e.first == code; });
+            const auto it = std::ranges::find_if(mappings, [&](const auto& e) { return e.first == code; });
             if (it != mappings.end()) return it->second;
 
             return std::nullopt;

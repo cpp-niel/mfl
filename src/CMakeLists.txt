@@ -1,7 +1,6 @@
 cmake_minimum_required (VERSION 3.14)
 
 find_package(fmt REQUIRED)
-find_package(range-v3 REQUIRED)
 find_package(Threads)
 
 add_library(mfl
@@ -58,7 +57,6 @@ target_link_libraries(mfl
         PUBLIC
         mfl_options
         mfl_warnings
-        range-v3
         fmt::fmt
         ${CMAKE_THREAD_LIBS_INIT}
         )

@@ -1,6 +1,5 @@
 #include "noad/noad.hpp"
 
-#include "concepts.hpp"
 #include "node/hlist.hpp"
 #include "mlist_with_kind.hpp"
 #include "noad/accent.hpp"
@@ -16,10 +15,7 @@
 #include "settings.hpp"
 
 #include <algorithm>
-#include <range/v3/algorithm/find.hpp>
-#include <range/v3/algorithm/find_if.hpp>
-#include <range/v3/range/operations.hpp>
-#include <range/v3/view/drop.hpp>
+#include <span>
 
 namespace mfl
 {
@@ -93,8 +89,8 @@ namespace mfl
 
             struct table_entry
             {
-                item_kind left;
-                item_kind right;
+                item_kind left = item_kind::none;
+                item_kind right = item_kind::none;
                 std::optional<ispace> space;
             };
 
@@ -120,7 +116,7 @@ namespace mfl
                         ((e.right == right) or (e.right == item_kind::any)));
             };
 
-            if (const auto it = ranges::find_if(table, is_entry_for_items); it != table.end())
+            if (const auto it = std::ranges::find_if(table, is_entry_for_items); it != table.end())
                 return it->space;
 
             return std::nullopt;
@@ -153,11 +149,10 @@ namespace mfl
             return {};
         }
 
-        template<range_of<intermediate_term> Terms>
-        item_kind kind_of_next_inoad(const Terms& iterms)
+        item_kind kind_of_next_inoad(const std::span<const intermediate_term> iterms)
         {
             const auto it =
-                ranges::find_if(iterms, [](const intermediate_term& t) { return std::holds_alternative<inoad>(t); });
+                std::ranges::find_if(iterms, [](const intermediate_term& t) { return std::holds_alternative<inoad>(t); });
 
             return it == iterms.end() ? item_kind::none : std::get<inoad>(*it).kind;
         }
@@ -166,18 +161,17 @@ namespace mfl
         {
             constexpr auto kinds = std::array<item_kind, 6>{item_kind::bin,  item_kind::op,    item_kind::rel,
                                                             item_kind::open, item_kind::punct, item_kind::none};
-            return ranges::find(kinds, kind) != kinds.end();
+            return std::ranges::find(kinds, kind) != kinds.end();
         }
 
         bool check_next(const item_kind kind)
         {
             constexpr auto kinds =
                 std::array<item_kind, 4>{item_kind::rel, item_kind::close, item_kind::punct, item_kind::none};
-            return ranges::find(kinds, kind) != kinds.end();
+            return std::ranges::find(kinds, kind) != kinds.end();
         }
 
-        template<range_of<intermediate_term> Terms>
-        item_kind change_kind(const item_kind prev_kind, const item_kind kind, const Terms& iterms)
+        item_kind change_kind(const item_kind prev_kind, const item_kind kind, const std::span<const intermediate_term> iterms)
         {
             if (kind != item_kind::bin) return kind;
 
@@ -185,15 +179,14 @@ namespace mfl
                                                                                          : item_kind::bin;
         }
 
-        // NOLINTNEXTLINE(misc-no-recursion)
-        template<range_of<intermediate_term> Terms>
+        // NOLINTNEXTLINE(*-no-recursion)
         void intermediate_terms_to_hlist(const settings s, const bool has_penalties, const item_kind prev_kind,
-                                         const Terms& iterms, hlist& result)
+                                         const std::span<const intermediate_term> iterms, hlist& result)
         {
-            if (!ranges::empty(iterms))
+            if (!iterms.empty())
             {
-                const auto& term = ranges::front(iterms);
-                auto tail = ranges::views::drop(iterms, 1);
+                const auto& term = iterms.front();
+                auto tail = iterms.subspan(1);
                 item_kind kind = item_kind::none;
                 if (std::holds_alternative<inoad>(term))
                 {

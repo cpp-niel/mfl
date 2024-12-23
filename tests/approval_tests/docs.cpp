@@ -1,7 +1,6 @@
 #include "framework/approval_tests.hpp"
 #include "renderer/render_formulas.hpp"
 
-#include "concepts.hpp"
 #include "parser/parser_state.hpp"
 #include "parser/symbols/accents.hpp"
 #include "parser/symbols/arrows.hpp"
@@ -16,9 +15,8 @@
 
 #include <doctest/doctest.h>
 #include <fmt/format.h>
-#include <range/v3/view/enumerate.hpp>
-#include <range/v3/view/map.hpp>
-#include <range/v3/view/transform.hpp>
+
+#include <ranges>
 
 namespace mfl
 {
@@ -26,24 +24,22 @@ namespace mfl
     {
         using namespace ::mfl::units_literals;
         using namespace ::std::string_literals;
-        namespace rv = ranges::views;
 
         struct symbol_render_config
         {
-            size_t num_columns = 1;
+            std::size_t num_columns = 1;
             pixels line_height = 30_px;
             pixels input_offset = 30_px;
         };
 
-        template <range_of_convertible_to<std::string> Strings>
-        auto render_symbols(const symbol_render_config& config, const Strings& symbols)
+        auto render_symbols(const symbol_render_config& config, const std::ranges::range auto& symbols)
         {
-            const auto d = std::div(long(ranges::distance(symbols)), long(config.num_columns));
+            const auto d = std::div(long(std::ranges::distance(symbols)), long(config.num_columns));
             const auto num_rows = size_t(d.quot + ((d.rem > 0) ? 1 : 0));
             const auto width = 720_px;
             const auto height = double(num_rows) * config.line_height + 40_px;
             auto columns = std::vector<column_config>(config.num_columns);
-            for (auto&& [i, col] : rv::enumerate(columns))
+            for (auto&& [i, col] : std::views::enumerate(columns))
             {
                 col.x = (double(i) * (width / double(config.num_columns))) + 10_px;
                 col.line_height = config.line_height;
@@ -55,7 +51,7 @@ namespace mfl
                                     .render_input = true,
                                     .input_offset = config.input_offset,
                                     .columns = columns},
-                                   symbols | rv::transform([](const auto& sym) { return "\\"s + sym; }));
+                                   symbols | std::views::transform([](const auto& sym) { return "\\"s + sym; }));
         }
     }
 
@@ -149,7 +145,8 @@ namespace mfl
 
     TEST_CASE("big_ops")
     {
-        const auto result = render_symbols({.num_columns = 3, .line_height = 60_px}, rv::keys(parser::big_op_symbols));
+        const auto result =
+            render_symbols({.num_columns = 3, .line_height = 60_px}, parser::big_op_symbols | std::views::keys);
 
         approve_svg(result);
     }
@@ -179,15 +176,16 @@ namespace mfl
     TEST_CASE("big_ops_integrals")
     {
         const auto result = render_symbols({.num_columns = 3, .line_height = 60_px, .input_offset = 60_px},
-                                           rv::keys(parser::integral_symbols));
+                                           parser::integral_symbols | std::views::keys);
 
         approve_svg(result);
     }
 
     TEST_CASE("accents")
     {
-        const auto formulas =
-            rv::keys(parser::accents) | rv::transform([](const char* name) { return fmt::format("{}{{a}}", name); });
+        const auto formulas = parser::accents     //
+                              | std::views::keys  //
+                              | std::views::transform([](const char* name) { return fmt::format("{}{{a}}", name); });
         const auto result = render_symbols({.num_columns = 5}, formulas);
 
         approve_svg(result);
@@ -215,8 +213,9 @@ namespace mfl
     TEST_CASE("additional_accents")
     {
         // TODO - some additional accents are set in the wrong place
-        const auto formulas = rv::keys(parser::additional_accents)
-                              | rv::transform([](const char* name) { return fmt::format("{}{{a}}", name); });
+        const auto formulas = parser::additional_accents  //
+                              | std::views::keys          //
+                              | std::views::transform([](const char* name) { return fmt::format("{}{{a}}", name); });
         const auto result = render_symbols({.num_columns = 3}, formulas);
 
         approve_svg(result);
@@ -311,10 +310,10 @@ namespace mfl
 
     TEST_CASE("delimiters")
     {
-        const auto formulas = rv::zip(rv::keys(parser::left_delimiters), rv::keys(parser::right_delimiters))
-                              | rv::transform([](const auto delims) {
-                                    return fmt::format("{} x \\{}", std::get<0>(delims), std::get<1>(delims));
-                                });
+        const auto formulas =
+            std::views::zip(parser::left_delimiters | std::views::keys, parser::right_delimiters | std::views::keys)
+            | std::views::transform(
+                [](const auto delims) { return fmt::format("{} x \\{}", std::get<0>(delims), std::get<1>(delims)); });
         const auto result = render_symbols({.num_columns = 2, .input_offset = 40_px}, formulas);
 
         approve_svg(result);
@@ -361,68 +360,69 @@ namespace mfl
 
     TEST_CASE("greek_alphabet_lowercase")
     {
-        approve_svg(render_symbols({.num_columns = 4}, rv::keys(parser::greek_alphabet_lowercase)));
+        approve_svg(render_symbols({.num_columns = 4}, parser::greek_alphabet_lowercase | std::views::keys));
     }
 
     TEST_CASE("greek_alphabet_uppercase")
     {
-        approve_svg(render_symbols({.num_columns = 4}, rv::keys(parser::greek_alphabet_uppercase)));
+        approve_svg(render_symbols({.num_columns = 4}, parser::greek_alphabet_uppercase | std::views::keys));
     }
 
     TEST_CASE("binary_operators")
     {
-        approve_svg(render_symbols({.num_columns = 4}, rv::keys(parser::binary_operators)));
+        approve_svg(render_symbols({.num_columns = 4}, parser::binary_operators | std::views::keys));
     }
 
     TEST_CASE("additional_binary_operators")
     {
-        approve_svg(render_symbols({.num_columns = 3}, rv::keys(parser::additional_binary_operators)));
+        approve_svg(render_symbols({.num_columns = 3}, parser::additional_binary_operators | std::views::keys));
     }
 
     TEST_CASE("relational_operators")
     {
-        approve_svg(render_symbols({.num_columns = 4}, rv::keys(parser::relational_operators)));
+        approve_svg(render_symbols({.num_columns = 4}, parser::relational_operators | std::views::keys));
     }
 
     TEST_CASE("additional_relational_operators")
     {
-        approve_svg(render_symbols({.num_columns = 3}, rv::keys(parser::additional_relational_operators)));
+        approve_svg(render_symbols({.num_columns = 3}, parser::additional_relational_operators | std::views::keys));
     }
 
     TEST_CASE("negations")
     {
-        approve_svg(render_symbols({.num_columns = 4}, rv::keys(parser::negations)));
+        approve_svg(render_symbols({.num_columns = 4}, parser::negations | std::views::keys));
     }
 
     TEST_CASE("additional_negations")
     {
-        approve_svg(render_symbols({.num_columns = 3}, rv::keys(parser::additional_negations)));
+        approve_svg(render_symbols({.num_columns = 3}, parser::additional_negations | std::views::keys));
     }
 
     TEST_CASE("arrows")
     {
-        approve_svg(render_symbols({.num_columns = 3}, rv::keys(parser::arrows)));
+        approve_svg(render_symbols({.num_columns = 3}, parser::arrows | std::views::keys));
     }
 
     TEST_CASE("additional_arrows")
     {
-        approve_svg(render_symbols({.num_columns = 3}, rv::keys(parser::additional_arrows)));
+        approve_svg(render_symbols({.num_columns = 3}, parser::additional_arrows | std::views::keys));
     }
 
     TEST_CASE("punctuation")
     {
-        approve_svg(render_symbols({.num_columns = 3}, rv::keys(parser::punctuation_symbols)));
+        approve_svg(render_symbols({.num_columns = 3}, parser::punctuation_symbols | std::views::keys));
     }
 
     TEST_CASE("letterlike")
     {
-        approve_svg(render_symbols({.num_columns = 4}, rv::keys(parser::letterlike_symbols)));
+        approve_svg(render_symbols({.num_columns = 4}, parser::letterlike_symbols | std::views::keys));
     }
 
     TEST_CASE("combining_symbols")
     {
-        const auto formulas = rv::keys(parser::combining_symbols)
-                              | rv::transform([](const char* name) { return fmt::format("c \\{}", name); });
+        const auto formulas = parser::combining_symbols  //
+                              | std::views::keys         //
+                              | std::views::transform([](const char* name) { return fmt::format("c \\{}", name); });
         const auto result = render_formulas({.width = 720_px,
                                              .height = 100_px,
                                              .render_input = true,
@@ -441,7 +441,7 @@ namespace mfl
 
     TEST_CASE("dots")
     {
-        approve_svg(render_symbols({.num_columns = 4}, rv::keys(parser::dots)));
+        approve_svg(render_symbols({.num_columns = 4}, parser::dots | std::views::keys));
     }
 
     TEST_CASE("spaces")
