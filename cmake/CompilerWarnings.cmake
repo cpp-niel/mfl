@@ -69,6 +69,7 @@ function(
                 -Wlogical-op # warn about logical operations being used where bitwise were probably wanted
                 -Wuseless-cast # warn if you perform a cast to the same type
                 -Wno-missing-field-initializers # don't warn when not all fields are explicitly initialized
+                -Wstringop-overflow # workaround gcc 13 bug: https://gcc.gnu.org/bugzilla/show_bug.cgi?id=100366
                 )
     endif()
 
