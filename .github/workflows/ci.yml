@@ -41,7 +41,7 @@ jobs:
             compiler: msvc
             CMAKE_GENERATOR: "Visual Studio 17 2022"
 
-          - os: macos-14
+          - os: macos-15
             compiler: appleclang
 
         exclude:

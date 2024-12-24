@@ -37,10 +37,13 @@ namespace mfl::fft
                 return size_variant{.glyph_index = v.glyph, .size = font_units_to_dist(std::abs(size))};
             };
 
-            return variants                                  //
-                   | std::views::take(num_variants)          //
-                   | std::views::transform(to_size_variant)  //
-                   | std::ranges::to<std::vector>();
+            // todo: should be std::ranges::to, but not yet available on CI compilers
+            auto result = std::vector<size_variant>(num_variants);
+            std::ranges::copy(variants                              //
+                                  | std::views::take(num_variants)  //
+                                  | std::views::transform(to_size_variant),
+                              result.begin());
+            return result;
         }
     }
 
