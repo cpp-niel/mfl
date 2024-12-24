@@ -16,6 +16,7 @@
 #include <fmt/format.h>
 
 #include <array>
+#include <span>
 #include <tuple>
 #include <utility>
 

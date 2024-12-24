@@ -19,7 +19,7 @@ jobs:
 
       matrix:
         os:
-          - ubuntu-22.04
+          - ubuntu-24.04
           - windows-2022
         compiler:
           - llvm
@@ -41,8 +41,9 @@ jobs:
             compiler: msvc
             CMAKE_GENERATOR: "Visual Studio 17 2022"
 
-          - os: macos-14
-            compiler: appleclang
+          # todo: enable when appleclang supports C++23
+          #- os: macos-15
+          #  compiler: appleclang
 
         exclude:
           - os: windows-2022
