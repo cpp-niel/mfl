@@ -3,13 +3,11 @@
 
 #include <doctest/doctest.h>
 
-#include <iostream>
-
 namespace mfl
 {
     TEST_CASE("mfl")
     {
-        std::vector<std::string> formulas = {
+        const std::vector<std::string> formulas = {
             R"(M(s)<M(t)<|M| = m \qquad y'' = c\{f[y',y(x)] + g(x)\})",
             R"(a = \sqrt[2]{b^2 + c^2} \qquad \sqrt[n]{\frac{x^n - y^n}{1 + u^{2n}}} \qquad \sqrt[3]{-q + \sqrt{q^2 + p^3}})",
             R"(A^{x_i^2}_{j^{2n}_{n,m}} \qquad \Gamma(x) \equiv \lim_{n \rightarrow \infty} \prod_{v=0}^{n-1} \frac{n!n^{x-1}}{x+v} \equiv \int^\infty_0 e^{-t}t^{x-1} \, dt)",
@@ -31,7 +29,7 @@ namespace mfl
 
     TEST_CASE("mfl_large")
     {
-        std::vector<std::string> formulas = {
+        const std::vector<std::string> formulas = {
             R"(M(s)<M(t)<|M| = m)",
             R"(y'' = c\{f[y',y(x)] + g(x)\})",
             R"(A^{x_i^2}_{j^{2n}_{n,m}})",
@@ -48,7 +46,7 @@ namespace mfl
 
     TEST_CASE("mathtext")
     {
-        std::vector<std::string> formulas = {
+        const std::vector<std::string> formulas = {
             R"(a+b+\dot s+\dot{s}+\ldots)",
             R"(x \doteq y)",
             R"(\frac{\$100.00}{y})",
@@ -97,7 +95,7 @@ namespace mfl
 
     TEST_CASE("MathML_torture_test")
     {
-        std::vector<std::string> formulas = {
+        const std::vector<std::string> formulas = {
             R"({x}^{2}{y}^{2})",
             R"({}_{2}F_{3})",
             R"(\frac{x+{y}^{2}}{k+1})",

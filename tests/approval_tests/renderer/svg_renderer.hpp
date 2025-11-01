@@ -22,8 +22,8 @@ namespace mfl
         svg_renderer(svg_renderer&&) = delete;
         svg_renderer& operator=(svg_renderer&&) = delete;
 
-        void render(const pixels x, const pixels y, const layout_elements& elements);
-        void render_tt_text(const pixels x, const pixels y, const std::string& text);
+        void render(const pixels x, const pixels y, const layout_elements& elements) const;
+        void render_tt_text(const pixels x, const pixels y, const std::string& text) const;
 
     private:
         class impl;
