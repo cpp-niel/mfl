@@ -10,7 +10,6 @@
 #include <ranges>
 #include <sstream>
 #include <string>
-#include <type_traits>
 #include <vector>
 
 namespace mfl
@@ -44,19 +43,19 @@ namespace mfl
             auto create_font_face = [&](const font_family family) { return std::make_unique<fft::font_face>(family, ft); };
 
             svg_renderer renderer(os, config.width, config.height, config.dpi, ft);
-            auto num_formulas_processed = size_t(0);
-            for (const auto& col : config.columns)
+            auto num_formulas_processed = size_t{0};
+            for (const auto& [initial_offset, line_height, x, num_rows] : config.columns)
             {
-                auto y = config.height - col.initial_offset;
-                for (const auto& formula : formulas | std::views::drop(num_formulas_processed) | std::views::take(col.num_rows))
+                auto y = config.height - initial_offset;
+                for (const auto& formula : formulas | std::views::drop(num_formulas_processed) | std::views::take(num_rows))
                 {
-                    renderer.render(col.x, y, layout(formula, config.font_size, create_font_face));
-                    if (config.render_input) renderer.render_tt_text(col.x + config.input_offset, y, formula);
+                    renderer.render(x, y, layout(formula, config.font_size, create_font_face));
+                    if (config.render_input) renderer.render_tt_text(x + config.input_offset, y, formula);
 
-                    y -= col.line_height;
+                    y -= line_height;
                 }
 
-                num_formulas_processed += col.num_rows;
+                num_formulas_processed += num_rows;
             }
         }
 
