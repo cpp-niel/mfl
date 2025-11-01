@@ -40,9 +40,9 @@ namespace mfl::parser::utf8
         const auto byte = static_cast<std::uint32_t>(static_cast<unsigned char>(c));
         std::uint32_t type = utf8d[byte];  // NOLINT
 
-        *codep = (*state != accept_utf8_decoding) ? (byte & 0x3fu) | (*codep << 6) : (0xff >> type) & (byte); // NOLINT
+        *codep = (*state != accept_utf8_decoding) ? (byte & 0x3fu) | (*codep << 6) : (0xff >> type) & (byte);  // NOLINT
 
-        *state = utf8d[256 + *state * 16 + type]; // NOLINT
+        *state = utf8d[256 + *state * 16 + type];  // NOLINT
         return *state;
     }
 

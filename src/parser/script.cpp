@@ -1,8 +1,8 @@
 #include "parser/script.hpp"
 
+#include "noad/script.hpp"
 #include "parser/parser_state.hpp"
 #include "parser/parser_utilities.hpp"
-#include "noad/script.hpp"
 
 namespace mfl::parser
 {
@@ -56,7 +56,8 @@ namespace mfl::parser
 
         if (sub0 && sub1) state.set_error("Ambiguous subscripts. Use braces to group the subscripts unambiguously.");
 
-        if (sup0 && sup1) state.set_error("Ambiguous superscripts. Use braces to group the superscripts unambiguously.");
+        if (sup0 && sup1)
+            state.set_error("Ambiguous superscripts. Use braces to group the superscripts unambiguously.");
 
         optional_noads sub = sub0 ? sub0 : sub1;
 

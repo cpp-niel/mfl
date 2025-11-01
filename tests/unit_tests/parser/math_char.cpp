@@ -17,11 +17,10 @@ namespace mfl::parser
             CHECK(expected.family == actual.family);
         }
 
-        //TEST_CASE("parse a single multi-byte utf8 math_char")
+        // TEST_CASE("parse a single multi-byte utf8 math_char")
         //{
-        //    const auto expected = math_char{.kind = item_kind::bin, .family = font_family::roman, .char_code = 0x2200};
-        //    const auto [noads, error] = parse("∀");
-        //    const auto actual = std::get<math_char>(noads[0]);
+        //    const auto expected = math_char{.kind = item_kind::bin, .family = font_family::roman, .char_code =
+        //    0x2200}; const auto [noads, error] = parse("∀"); const auto actual = std::get<math_char>(noads[0]);
         //    CHECK(expected.kind == actual.kind);
         //    CHECK(expected.char_code == actual.char_code);
         //    CHECK(expected.family == actual.family);
@@ -85,8 +84,8 @@ namespace mfl::parser
         {
             const auto [noads, error] = parse("*");
             const auto actual = std::get<math_char>(noads[0]);
-                CHECK(actual.kind == item_kind::bin);
-                CHECK(actual.family == font_family::roman);
+            CHECK(actual.kind == item_kind::bin);
+            CHECK(actual.family == font_family::roman);
         }
 
         TEST_CASE("kind is bin and font family is roman for command binary operators")

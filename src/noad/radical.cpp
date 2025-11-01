@@ -25,17 +25,15 @@ namespace mfl
         constexpr auto percent_divisor = dist_t(100);
         degree_box.shift = -degree_box.dims.depth
                            - (height(radical_symbol) * radical_degree_bottom_raise_percent(s)) / percent_divisor;
-        auto radical_box =
-            make_hbox({.nodes = {kern{.size = radical_kern_before_degree(s)}, std::move(degree_box),
-                                 kern{.size = radical_kern_after_degree(s)}, radical_symbol}});
+        auto radical_box = make_hbox({.nodes = {kern{.size = radical_kern_before_degree(s)}, std::move(degree_box),
+                                                kern{.size = radical_kern_after_degree(s)}, radical_symbol}});
         radical_box.shift = shift;
         const auto content_box_width = content_box.dims.width;
-        auto radicand_box =
-            make_vbox(content_box_width, std::move(content_box),
-                      {.nodes = {kern{.size = vertical_gap},
-                                 rule{.width = content_box_width, .height = radical_rule_thickness(s)},
-                                 kern{.size = radical_extra_ascender(s)}}},
-                      {});
+        auto radicand_box = make_vbox(content_box_width, std::move(content_box),
+                                      {.nodes = {kern{.size = vertical_gap},
+                                                 rule{.width = content_box_width, .height = radical_rule_thickness(s)},
+                                                 kern{.size = radical_extra_ascender(s)}}},
+                                      {});
         return {.nodes = {std::move(radical_box), std::move(radicand_box)}};
     }
 }

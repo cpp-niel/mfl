@@ -22,22 +22,25 @@ namespace mfl
 
         SUBCASE("becomes a content box with a delimiter glyph on either side")
         {
-            const auto result = left_right_to_hlist(
-                display_style, cramping::off, left_right{.left_delim_code = 10, .noads = {x_noad}, .right_delim_code = 20});
-                CHECK(node_types_are<glyph, box, glyph>(result.nodes));
+            const auto result =
+                left_right_to_hlist(display_style, cramping::off,
+                                    left_right{.left_delim_code = 10, .noads = {x_noad}, .right_delim_code = 20});
+            CHECK(node_types_are<glyph, box, glyph>(result.nodes));
         }
 
         SUBCASE("becomes a content box with a delimiter glyph on right side when left delimiter is zero")
         {
-            const auto result = left_right_to_hlist(
-                display_style, cramping::off, left_right{.left_delim_code = 0, .noads = {x_noad}, .right_delim_code = 20});
-                CHECK(node_types_are<box, glyph>(result.nodes));
+            const auto result =
+                left_right_to_hlist(display_style, cramping::off,
+                                    left_right{.left_delim_code = 0, .noads = {x_noad}, .right_delim_code = 20});
+            CHECK(node_types_are<box, glyph>(result.nodes));
         }
 
         SUBCASE("becomes a content box with a delimiter glyph on left side when right delimiter is zero")
         {
-            const auto result = left_right_to_hlist(
-                display_style, cramping::off, left_right{.left_delim_code = 10, .noads = {x_noad}, .right_delim_code = 0});
+            const auto result =
+                left_right_to_hlist(display_style, cramping::off,
+                                    left_right{.left_delim_code = 10, .noads = {x_noad}, .right_delim_code = 0});
             CHECK(node_types_are<glyph, box>(result.nodes));
         }
     }

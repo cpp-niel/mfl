@@ -10,10 +10,7 @@ namespace mfl
         inches points_to_inches(const points x) { return inches{x.value() / points_per_inch}; }
     }
 
-    pixels inches_to_pixels(const inches x, const dots_per_inch dpi)
-    {
-        return pixels{x.value() * dpi.value()};
-    }
+    pixels inches_to_pixels(const inches x, const dots_per_inch dpi) { return pixels{x.value() * dpi.value()}; }
 
     points pixels_to_points(const pixels x, const dots_per_inch dpi)
     {

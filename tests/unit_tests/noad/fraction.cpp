@@ -1,9 +1,9 @@
 #include "noad/fraction.hpp"
 
 #include "font_library.hpp"
-#include "node/hlist.hpp"
 #include "noad/noad.hpp"
 #include "node/box.hpp"
+#include "node/hlist.hpp"
 #include "settings.hpp"
 
 #include "framework/doctest.hpp"
@@ -81,8 +81,8 @@ namespace mfl
 
         SUBCASE("glue is used to center the narrower of numerator and denominator")
         {
-            const auto result =
-                fraction_to_hlist(display_style, cramping::off, {.numerator = {x_noad}, .denominator = {x_noad, x_noad}});
+            const auto result = fraction_to_hlist(display_style, cramping::off,
+                                                  {.numerator = {x_noad}, .denominator = {x_noad, x_noad}});
             const box& b0 = std::get<wrapped_box>(result.nodes[0]);
             const box& b1 = std::get<wrapped_box>(b0.nodes[1]);
             const box& num = std::get<wrapped_box>(b1.nodes[0]);
@@ -111,7 +111,8 @@ namespace mfl
 
         SUBCASE("spacing in text style is smaller")
         {
-            const auto result = fraction_to_hlist(text_style, cramping::off, {.numerator = {x_noad}, .denominator = {x_noad}});
+            const auto result =
+                fraction_to_hlist(text_style, cramping::off, {.numerator = {x_noad}, .denominator = {x_noad}});
             const box& b0 = std::get<wrapped_box>(result.nodes[0]);
             const box& b1 = std::get<wrapped_box>(b0.nodes[1]);
             const auto& num_space = std::get<kern>(b1.nodes[1]);
@@ -154,8 +155,8 @@ namespace mfl
 
         SUBCASE("atop spacing in text style is smaller")
         {
-            const auto result =
-                fraction_to_hlist(text_style, cramping::off, {.numerator = {x_noad}, .denominator = {x_noad}, .thickness = 0});
+            const auto result = fraction_to_hlist(text_style, cramping::off,
+                                                  {.numerator = {x_noad}, .denominator = {x_noad}, .thickness = 0});
             const box& b0 = std::get<wrapped_box>(result.nodes[0]);
             const box& b1 = std::get<wrapped_box>(b0.nodes[1]);
             const auto& space = std::get<kern>(b1.nodes[1]);
@@ -176,8 +177,9 @@ namespace mfl
         {
             const noad deep_noad = math_char{.char_code = 10};
             const noad high_noad = math_char{.char_code = 11};
-            const auto result = fraction_to_hlist(
-                script_script_style, cramping::off, {.numerator = {deep_noad}, .denominator = {high_noad}, .thickness = 0});
+            const auto result =
+                fraction_to_hlist(script_script_style, cramping::off,
+                                  {.numerator = {deep_noad}, .denominator = {high_noad}, .thickness = 0});
             const box& b0 = std::get<wrapped_box>(result.nodes[0]);
             const box& b1 = std::get<wrapped_box>(b0.nodes[1]);
             const auto& space = std::get<kern>(b1.nodes[1]);

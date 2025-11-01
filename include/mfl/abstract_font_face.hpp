@@ -73,7 +73,8 @@ namespace mfl
         virtual ~abstract_font_face() = default;
         [[nodiscard]] virtual math_constants constants() const = 0;
         [[nodiscard]] virtual math_glyph_info glyph_info(const size_t glyph_index) const = 0;
-        [[nodiscard]] virtual size_t glyph_index_from_code_point(const code_point char_code, const bool use_large_variant) const = 0;
+        [[nodiscard]] virtual size_t glyph_index_from_code_point(const code_point char_code,
+                                                                 const bool use_large_variant) const = 0;
         [[nodiscard]] virtual std::vector<size_variant> horizontal_size_variants(const code_point char_code) const = 0;
         [[nodiscard]] virtual std::vector<size_variant> vertical_size_variants(const code_point char_code) const = 0;
         virtual void set_size(const points size) = 0;

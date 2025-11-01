@@ -119,7 +119,10 @@ namespace mfl
         cairo_font_face_t* cr_mono_face_ = nullptr;
         const fft::freetype& ft_;
 
-        [[nodiscard]] std::pair<pixels, pixels> to_cairo_pos(const pixels x, const pixels y) const { return {x, height_ - y}; }
+        [[nodiscard]] std::pair<pixels, pixels> to_cairo_pos(const pixels x, const pixels y) const
+        {
+            return {x, height_ - y};
+        }
     };
 
     svg_renderer::svg_renderer(std::ostream& os, const pixels width, const pixels height, const dots_per_inch dpi,
