@@ -1,9 +1,9 @@
 #include "noad/script.hpp"
 
 #include "font_library.hpp"
-#include "node/hlist.hpp"
 #include "noad/noad.hpp"
 #include "node/box.hpp"
+#include "node/hlist.hpp"
 #include "settings.hpp"
 
 #include "framework/code_points.hpp"
@@ -78,16 +78,16 @@ namespace mfl
 
         SUBCASE("script script style")
         {
-            const auto result =
-                script_to_hlist(script_script_style, cramping::off, script{.nucleus = {x_noad}, .sub = std::vector{x_noad}});
+            const auto result = script_to_hlist(script_script_style, cramping::off,
+                                                script{.nucleus = {x_noad}, .sub = std::vector{x_noad}});
             const box& b = std::get<wrapped_box>(result.nodes[1]);
             CHECK(b.shift == 137216);
         }
 
         SUBCASE("nucleus with multiple noads and subscript has subscript box shifted down")
         {
-            const auto result =
-                script_to_hlist(display_style, cramping::off, script{.nucleus = {x_noad, x_noad}, .sub = std::vector{x_noad}});
+            const auto result = script_to_hlist(display_style, cramping::off,
+                                                script{.nucleus = {x_noad, x_noad}, .sub = std::vector{x_noad}});
             CHECK(node_types_are<box, box, kern>(result.nodes));
             const box& b = std::get<wrapped_box>(result.nodes[1]);
             CHECK(b.shift == 137216);

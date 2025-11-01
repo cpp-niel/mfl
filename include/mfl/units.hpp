@@ -48,15 +48,23 @@ namespace mfl
 
 namespace fmt
 {
-    template<>
-    struct [[maybe_unused]] formatter<mfl::inches> : mfl::unit_formatter<mfl::inches, '\"'> {};
+    template <>
+    struct [[maybe_unused]] formatter<mfl::inches> : mfl::unit_formatter<mfl::inches, '\"'>
+    {
+    };
 
     template <>
-    struct [[maybe_unused]] formatter<mfl::dots_per_inch> : mfl::unit_formatter<mfl::dots_per_inch, 'd', 'p', 'i'> {};
+    struct [[maybe_unused]] formatter<mfl::dots_per_inch> : mfl::unit_formatter<mfl::dots_per_inch, 'd', 'p', 'i'>
+    {
+    };
 
     template <>
-    struct [[maybe_unused]] formatter<mfl::pixels> : mfl::unit_formatter<mfl::pixels, 'p', 'x'> {};
+    struct [[maybe_unused]] formatter<mfl::pixels> : mfl::unit_formatter<mfl::pixels, 'p', 'x'>
+    {
+    };
 
     template <>
-    struct [[maybe_unused]] formatter<mfl::points> : mfl::unit_formatter<mfl::points, 'p', 't'> {};
+    struct [[maybe_unused]] formatter<mfl::points> : mfl::unit_formatter<mfl::points, 'p', 't'>
+    {
+    };
 }

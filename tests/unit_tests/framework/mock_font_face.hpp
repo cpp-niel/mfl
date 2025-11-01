@@ -10,8 +10,7 @@ namespace mfl
     {
         [[nodiscard]] math_constants constants() const override;
         [[nodiscard]] math_glyph_info glyph_info(const size_t glyph_index) const override;
-        [[nodiscard]] size_t glyph_index_from_code_point(const code_point char_code,
-                                                         const bool) const override
+        [[nodiscard]] size_t glyph_index_from_code_point(const code_point char_code, const bool) const override
         {
             return size_t(char_code);
         }

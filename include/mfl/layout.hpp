@@ -38,5 +38,6 @@ namespace mfl
         std::optional<std::string> error;
     };
 
-    layout_elements layout(const std::string_view input, const points font_size, const font_face_creator& create_font_face);
+    layout_elements layout(const std::string_view input, const points font_size,
+                           const font_face_creator& create_font_face);
 }

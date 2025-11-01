@@ -35,16 +35,16 @@ namespace mfl
 
         SUBCASE("with subscript in limit mode translates to vbox with op, gap, limit, and spacing")
         {
-            const auto result =
-                big_op_to_hlist(display_style, cramping::off, big_op{.nucleus = {prod_noad}, .sub = std::vector{x_noad}});
+            const auto result = big_op_to_hlist(display_style, cramping::off,
+                                                big_op{.nucleus = {prod_noad}, .sub = std::vector{x_noad}});
             const box& vb = std::get<wrapped_box>(result.nodes[0]);
             CHECK(node_types_are<box, kern, box, kern>(vb.nodes));  // big op, gap, sub limit, spacing
         }
 
         SUBCASE("with superscript in limit mode translates to vbox with spacing, limit, gap, and big op")
         {
-            const auto result =
-                big_op_to_hlist(display_style, cramping::off, big_op{.nucleus = {prod_noad}, .sup = std::vector{x_noad}});
+            const auto result = big_op_to_hlist(display_style, cramping::off,
+                                                big_op{.nucleus = {prod_noad}, .sup = std::vector{x_noad}});
             const box& vb = std::get<wrapped_box>(result.nodes[0]);
             CHECK(node_types_are<kern, box, kern, box>(vb.nodes));  // spacing, sup limit, gap, big op
         }

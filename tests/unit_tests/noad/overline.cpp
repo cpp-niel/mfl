@@ -1,9 +1,9 @@
 #include "noad/overline.hpp"
 
 #include "font_library.hpp"
-#include "node/hlist.hpp"
 #include "noad/noad.hpp"
 #include "node/box.hpp"
+#include "node/hlist.hpp"
 #include "settings.hpp"
 
 #include "framework/code_points.hpp"

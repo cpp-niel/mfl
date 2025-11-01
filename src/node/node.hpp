@@ -23,6 +23,6 @@ namespace mfl
     [[nodiscard]] dist_t vheight(const node_variant& n);
     [[nodiscard]] dist_t vsize(const node_variant& n);
 
-    template<typename N>
+    template <typename N>
     concept node = is_variant_alternative<N, node_variant>::value || std::is_same_v<N, node_variant>;
 }

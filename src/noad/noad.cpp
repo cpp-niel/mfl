@@ -1,6 +1,5 @@
 #include "noad/noad.hpp"
 
-#include "node/hlist.hpp"
 #include "mlist_with_kind.hpp"
 #include "noad/accent.hpp"
 #include "noad/big_op.hpp"
@@ -12,6 +11,7 @@
 #include "noad/script.hpp"
 #include "noad/underline.hpp"
 #include "node/box.hpp"
+#include "node/hlist.hpp"
 #include "settings.hpp"
 
 #include <algorithm>
@@ -39,22 +39,20 @@ namespace mfl
 
         hlist noad_to_hlist(const settings s, const cramping cramp, const noad& n)
         {
-            return std::visit(
-                overload{[&](const math_char& c) { return math_char_to_hlist(s, c); },
-                         [&](const radical& r) { return radical_to_hlist(s, cramp, r); },
-                         [&](const accent& a) { return accent_to_hlist(s, cramp, a); },
-                         [](const vcenter&) { return hlist{}; },
-                         [&](const overline& o) { return overline_to_hlist(s, cramp, o); },
-                         [&](const underline& u) { return underline_to_hlist(s, cramp, u); },
-                         [&](const fraction& f) { return fraction_to_hlist(s, cramp, f); },
-                         [&](const left_right& l) { return left_right_to_hlist(s, cramp, l); },
-                         [&](const script& sc) { return script_to_hlist(s, cramp, sc); },
-                         [&](const big_op& b) { return big_op_to_hlist(s, cramp, b); },
-                         [](const math_space&) { return hlist{}; },
-                         [&](const mlist& m) { return to_hlist(s, cramp, false, m.noads); },
-                         [&](const mlist_with_kind& m) { return to_hlist(s, cramp, false, m.noads); }
-                         },
-                n);
+            return std::visit(overload{[&](const math_char& c) { return math_char_to_hlist(s, c); },
+                                       [&](const radical& r) { return radical_to_hlist(s, cramp, r); },
+                                       [&](const accent& a) { return accent_to_hlist(s, cramp, a); },
+                                       [](const vcenter&) { return hlist{}; },
+                                       [&](const overline& o) { return overline_to_hlist(s, cramp, o); },
+                                       [&](const underline& u) { return underline_to_hlist(s, cramp, u); },
+                                       [&](const fraction& f) { return fraction_to_hlist(s, cramp, f); },
+                                       [&](const left_right& l) { return left_right_to_hlist(s, cramp, l); },
+                                       [&](const script& sc) { return script_to_hlist(s, cramp, sc); },
+                                       [&](const big_op& b) { return big_op_to_hlist(s, cramp, b); },
+                                       [](const math_space&) { return hlist{}; },
+                                       [&](const mlist& m) { return to_hlist(s, cramp, false, m.noads); },
+                                       [&](const mlist_with_kind& m) { return to_hlist(s, cramp, false, m.noads); }},
+                              n);
         }
 
         ilist noads_to_intermediate_terms(const settings s, const cramping cramp, const std::vector<noad>& noads)
@@ -65,8 +63,7 @@ namespace mfl
                 if (std::holds_alternative<math_space>(n)) { result.terms.emplace_back(std::get<math_space>(n)); }
                 else
                 {
-                    result.terms.emplace_back(
-                        inoad{.translated_noad = noad_to_hlist(s, cramp, n), .kind = kind(n)});
+                    result.terms.emplace_back(inoad{.translated_noad = noad_to_hlist(s, cramp, n), .kind = kind(n)});
                 }
             }
 
@@ -112,12 +109,11 @@ namespace mfl
                 {.left = item_kind::op, .right = item_kind::ord, .space = thin_skip_always}};
 
             const auto is_entry_for_items = [&](const table_entry& e) {
-                return (((e.left == left) or (e.left == item_kind::any)) and
-                        ((e.right == right) or (e.right == item_kind::any)));
+                return (((e.left == left) or (e.left == item_kind::any))
+                        and ((e.right == right) or (e.right == item_kind::any)));
             };
 
-            if (const auto it = std::ranges::find_if(table, is_entry_for_items); it != table.end())
-                return it->space;
+            if (const auto it = std::ranges::find_if(table, is_entry_for_items); it != table.end()) return it->space;
 
             return std::nullopt;
         }
@@ -151,8 +147,8 @@ namespace mfl
 
         item_kind kind_of_next_inoad(const std::span<const intermediate_term> iterms)
         {
-            const auto it =
-                std::ranges::find_if(iterms, [](const intermediate_term& t) { return std::holds_alternative<inoad>(t); });
+            const auto it = std::ranges::find_if(
+                iterms, [](const intermediate_term& t) { return std::holds_alternative<inoad>(t); });
 
             return it == iterms.end() ? item_kind::none : std::get<inoad>(*it).kind;
         }
@@ -171,7 +167,8 @@ namespace mfl
             return std::ranges::find(kinds, kind) != kinds.end();
         }
 
-        item_kind change_kind(const item_kind prev_kind, const item_kind kind, const std::span<const intermediate_term> iterms)
+        item_kind change_kind(const item_kind prev_kind, const item_kind kind,
+                              const std::span<const intermediate_term> iterms)
         {
             if (kind != item_kind::bin) return kind;
 
@@ -194,7 +191,8 @@ namespace mfl
                     kind = change_kind(prev_kind, n.kind, tail);
                     const auto space = make_space(s, math_spacing(prev_kind, n.kind));
                     result.nodes.insert(result.nodes.end(), space.nodes.begin(), space.nodes.end());
-                    result.nodes.insert(result.nodes.end(), n.translated_noad.nodes.begin(), n.translated_noad.nodes.end());
+                    result.nodes.insert(result.nodes.end(), n.translated_noad.nodes.begin(),
+                                        n.translated_noad.nodes.end());
                 }
                 else if (std::holds_alternative<ispace>(term))
                 {
@@ -216,7 +214,9 @@ namespace mfl
         item_kind nucleus_kind(const script& s)
         {
             if ((s.nucleus.size() == 1) && (std::holds_alternative<math_char>(s.nucleus.front())))
-            { return std::get<math_char>(s.nucleus.front()).kind; }
+            {
+                return std::get<math_char>(s.nucleus.front()).kind;
+            }
 
             return item_kind::ord;
         }

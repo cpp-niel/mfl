@@ -13,7 +13,7 @@ namespace mfl
     };
 
     template <class... Ts>
-    overload(Ts...)->overload<Ts...>;
+    overload(Ts...) -> overload<Ts...>;
 
     template <typename T>
     class recursive_wrapper
@@ -27,9 +27,9 @@ namespace mfl
         // node_variants. To achieve this the variant actually has a recursive_wrapper<box> alternative
         // and box is forward declared. But we want the wrapper to behave like a box, so we allow
         // implicit conversions.
-        recursive_wrapper(T&& x) : p_(std::make_shared<T>(std::forward<T>(x))) {} // NOLINT(hicpp-explicit-conversions)
-        operator const T&() const { return *p_; } // NOLINT(hicpp-explicit-conversions)
-        operator T&() { return *p_; } // NOLINT(hicpp-explicit-conversions)
+        recursive_wrapper(T&& x) : p_(std::make_shared<T>(std::forward<T>(x))) {}  // NOLINT(hicpp-explicit-conversions)
+        operator const T&() const { return *p_; }                                  // NOLINT(hicpp-explicit-conversions)
+        operator T&() { return *p_; }                                              // NOLINT(hicpp-explicit-conversions)
 
     private:
         std::shared_ptr<T> p_;
@@ -39,7 +39,8 @@ namespace mfl
     struct is_variant_alternative;
 
     template <typename T, typename... Args>
-    struct is_variant_alternative<T, std::variant<Args...>> : std::bool_constant<(std::is_convertible_v<T, Args> || ...)>
+    struct is_variant_alternative<T, std::variant<Args...>>
+        : std::bool_constant<(std::is_convertible_v<T, Args> || ...)>
     {
     };
 }

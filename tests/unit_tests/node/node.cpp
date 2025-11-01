@@ -1,8 +1,8 @@
 #include "node/node.hpp"
 
 #include "framework/doctest.hpp"
-#include "node/hlist.hpp"
 #include "node/box.hpp"
+#include "node/hlist.hpp"
 
 namespace mfl
 {

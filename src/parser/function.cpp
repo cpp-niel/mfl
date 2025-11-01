@@ -15,10 +15,11 @@ namespace mfl::parser
     {
         using namespace std::string_view_literals;
 
-        const auto function_names = std::array{
-            "arccos"sv, "csc"sv, "ker"sv, "min"sv,    "arcsin"sv, "deg"sv, "lg"sv,   "Pr"sv,     "arctan"sv, "det"sv,  "lim"sv,
-            "sec"sv,    "arg"sv, "dim"sv, "liminf"sv, "sin"sv,    "cos"sv, "exp"sv,  "limsup"sv, "sinh"sv,   "cosh"sv, "gcd"sv,
-            "ln"sv,     "sup"sv, "cot"sv, "hom"sv,    "log"sv,    "tan"sv, "coth"sv, "inf"sv,    "max"sv,    "tanh"sv};
+        const auto function_names =
+            std::array{"arccos"sv, "csc"sv, "ker"sv,    "min"sv,  "arcsin"sv, "deg"sv, "lg"sv,     "Pr"sv,
+                       "arctan"sv, "det"sv, "lim"sv,    "sec"sv,  "arg"sv,    "dim"sv, "liminf"sv, "sin"sv,
+                       "cos"sv,    "exp"sv, "limsup"sv, "sinh"sv, "cosh"sv,   "gcd"sv, "ln"sv,     "sup"sv,
+                       "cot"sv,    "hom"sv, "log"sv,    "tan"sv,  "coth"sv,   "inf"sv, "max"sv,    "tanh"sv};
 
         const auto sub_function_names =
             std::array{"det"sv, "gcd"sv, "inf"sv, "lim"sv, "liminf"sv, "limsup"sv, "max"sv, "min"sv, "Pr"sv, "sup"sv};
@@ -51,8 +52,8 @@ namespace mfl::parser
         for (auto c : name)
         {
             nucleus.emplace_back(math_char{.kind = item_kind::ord,
-                                        .family = font_family::roman,
-                                        .char_code = unicode_index(std::string_view(&c, 1), state)});
+                                           .family = font_family::roman,
+                                           .char_code = unicode_index(std::string_view(&c, 1), state)});
         }
 
         if (is_sub_function(name) && (state.lexer_token() == tokens::subscript))

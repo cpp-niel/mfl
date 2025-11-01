@@ -49,10 +49,7 @@ namespace mfl::parser
             lexer_.move_to_next_token();
     }
 
-    std::optional<std::string> parser_state::error() const
-    {
-        return error_;
-    }
+    std::optional<std::string> parser_state::error() const { return error_; }
 
     scoped_state::scoped_state(parser_state& state, const scope_settings& settings) : state_(state)
     {

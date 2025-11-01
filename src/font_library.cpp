@@ -17,7 +17,8 @@ namespace mfl
             const auto capital_m_index = face.glyph_index_from_code_point('M', false);
             const auto capital_m_width = face.glyph_info(capital_m_index).width;
 
-            return {.size = size, .x_height = x_height, .capital_m_width = capital_m_width, .math_info = face.constants()};
+            return {
+                .size = size, .x_height = x_height, .capital_m_width = capital_m_width, .math_info = face.constants()};
         }
     }
 

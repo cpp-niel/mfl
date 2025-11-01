@@ -18,20 +18,15 @@ namespace mfl::parser
 
         std::pair<bool, tokens> is_punctuator(const char c)
         {
-            if (c == '{')
-                return {true, tokens::open_brace};
+            if (c == '{') return {true, tokens::open_brace};
 
-            if (c == '}')
-                return {true, tokens::close_brace};
+            if (c == '}') return {true, tokens::close_brace};
 
-            if (c == '_')
-                return {true, tokens::subscript};
+            if (c == '_') return {true, tokens::subscript};
 
-            if (c == '^')
-                return {true, tokens::superscript};
+            if (c == '^') return {true, tokens::superscript};
 
-            if (c == '\'')
-                return {true, tokens::prime};
+            if (c == '\'') return {true, tokens::prime};
 
             return {false, tokens::unknown};
         }
@@ -104,11 +99,10 @@ namespace mfl::parser
             std::uint32_t state = 0;
 
             const auto decode_utf8 = [&](const char c) {
-              return utf8::decode(&state, &result_code_point, c) != utf8::accept_utf8_decoding;
+                return utf8::decode(&state, &result_code_point, c) != utf8::accept_utf8_decoding;
             };
 
-            if (decode_utf8(scanner_.current_char()))
-                value_ = scanner_.take_while(decode_utf8);
+            if (decode_utf8(scanner_.current_char())) value_ = scanner_.take_while(decode_utf8);
 
             value_.push_back(scanner_.current_char());
             scanner_.skip_char();

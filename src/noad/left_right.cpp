@@ -12,12 +12,14 @@ namespace mfl
         const auto requested_height = content.dims.depth + content.dims.height;
         hlist result;
         if (l.left_delim_code != 0)
-            result.nodes.emplace_back(make_auto_height_glyph(s, font_family::roman, l.left_delim_code, requested_height).first);
+            result.nodes.emplace_back(
+                make_auto_height_glyph(s, font_family::roman, l.left_delim_code, requested_height).first);
 
         result.nodes.emplace_back(std::move(content));
 
         if (l.right_delim_code != 0)
-            result.nodes.emplace_back(make_auto_height_glyph(s, font_family::roman, l.right_delim_code, requested_height).first);
+            result.nodes.emplace_back(
+                make_auto_height_glyph(s, font_family::roman, l.right_delim_code, requested_height).first);
 
         return result;
     }

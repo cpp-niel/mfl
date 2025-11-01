@@ -9,8 +9,8 @@ namespace mfl
     node_variant vstack(node_variant&& node0, node_variant&& node1, const vstack_distances distances)
     {
         const auto dims = box_dims{.width = std::max(width(node0), width(node1)),
-            .height = vsize(node0) + distances.node0_to_baseline,
-            .depth = vsize(node1) + (distances.node0_to_node1 - distances.node0_to_baseline)};
+                                   .height = vsize(node0) + distances.node0_to_baseline,
+                                   .depth = vsize(node1) + (distances.node0_to_node1 - distances.node0_to_baseline)};
 
         std::vector<node_variant> nodes;
         nodes.emplace_back(std::move(node0));

@@ -92,9 +92,8 @@ namespace mfl
         dist_t sup_pos(const settings s, const cramping cramp, const bool is_nucleus_single_character,
                        const dist_t nuc_height, const dist_t sup_depth)
         {
-            const auto candidate_positions =
-                std::array{sup_pos0(s, is_nucleus_single_character, nuc_height), superscript_shift(s, cramp),
-                           sup_depth + (x_height(s) / 4)};
+            const auto candidate_positions = std::array{sup_pos0(s, is_nucleus_single_character, nuc_height),
+                                                        superscript_shift(s, cramp), sup_depth + (x_height(s) / 4)};
             return std::ranges::max(candidate_positions);
         }
 
@@ -170,8 +169,7 @@ namespace mfl
 
             if (sub_box && !sup_box) return make_subscript_hlist(s, std::move(nucleus), std::move(*sub_box));
 
-            if (!sub_box && sup_box)
-                return make_superscript_hlist(s, cramp, std::move(nucleus), std::move(*sup_box));
+            if (!sub_box && sup_box) return make_superscript_hlist(s, cramp, std::move(nucleus), std::move(*sup_box));
 
             return make_dual_scripts_hlist(s, cramp, std::move(nucleus), std::move(*sub_box), std::move(*sup_box));
         }
@@ -184,9 +182,8 @@ namespace mfl
         }
     }
 
-    template<gen_script Script>
-    hlist gen_script_to_hlist(const settings s, const cramping cramp, const bool use_limit_pos,
-                              const Script& n)
+    template <gen_script Script>
+    hlist gen_script_to_hlist(const settings s, const cramping cramp, const bool use_limit_pos, const Script& n)
     {
         constexpr auto is_big_op = std::is_same_v<decltype(n), const big_op&>;
         auto nucleus = make_nucleus(s, cramp, is_big_op, n.nucleus);

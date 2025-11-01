@@ -1,7 +1,7 @@
 #pragma once
 
-#include "fonts_for_tests/freetype.hpp"
 #include "fonts_for_tests/font_face.hpp"
+#include "fonts_for_tests/freetype.hpp"
 #include "renderer/svg_renderer.hpp"
 
 #include "mfl/layout.hpp"
@@ -40,14 +40,17 @@ namespace mfl
         std::ostringstream os;
         {
             const auto ft = fft::freetype();
-            auto create_font_face = [&](const font_family family) { return std::make_unique<fft::font_face>(family, ft); };
+            auto create_font_face = [&](const font_family family) {
+                return std::make_unique<fft::font_face>(family, ft);
+            };
 
             svg_renderer renderer(os, config.width, config.height, config.dpi, ft);
             auto num_formulas_processed = size_t{0};
             for (const auto& [initial_offset, line_height, x, num_rows] : config.columns)
             {
                 auto y = config.height - initial_offset;
-                for (const auto& formula : formulas | std::views::drop(num_formulas_processed) | std::views::take(num_rows))
+                for (const auto& formula :
+                     formulas | std::views::drop(num_formulas_processed) | std::views::take(num_rows))
                 {
                     renderer.render(x, y, layout(formula, config.font_size, create_font_face));
                     if (config.render_input) renderer.render_tt_text(x + config.input_offset, y, formula);

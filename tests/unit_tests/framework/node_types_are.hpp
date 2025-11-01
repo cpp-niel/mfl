@@ -30,6 +30,7 @@ namespace mfl
         constexpr auto expected_num_nodes = sizeof...(NodeTypes);
         if (nodes.size() != expected_num_nodes) return false;
 
-        return detail::node_types_are(std::tuple<NodeTypes...>{}, nodes, std::make_index_sequence<expected_num_nodes>());
+        return detail::node_types_are(std::tuple<NodeTypes...>{}, nodes,
+                                      std::make_index_sequence<expected_num_nodes>());
     }
 }
