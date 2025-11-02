@@ -9,6 +9,6 @@ namespace mfl
     {
         return std::ranges::fold_left_first(
                    l.nodes | std::views::transform([](const node_variant& n) { return vsize(n); }), std::plus{})
-            .value_or({});
+            .value_or(dist_t{});
     }
 }
