@@ -2,8 +2,8 @@
 
 #include "node/node.hpp"
 
-#include <vector>
 #include <utility>
+#include <vector>
 
 namespace mfl
 {
@@ -14,7 +14,7 @@ namespace mfl
 
     [[nodiscard]] dist_t vlist_size(const vlist& l);
 
-    template<node... Node>
+    template <node... Node>
     [[nodiscard]] vlist make_vlist(Node&&... nodes)
     {
         vlist result;

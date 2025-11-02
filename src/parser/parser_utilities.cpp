@@ -20,8 +20,7 @@ namespace mfl::parser
         {
             if ((state.lexer_token() == tokens::eof) && (end_token != tokens::eof))
             {
-                if (!state.error())
-                    state.set_error("expected token not found");
+                if (!state.error()) state.set_error("expected token not found");
 
                 return {};
             }
@@ -97,8 +96,7 @@ namespace mfl::parser
 
     std::vector<noad> parse_expression(parser_state& state)
     {
-        if (state.lexer_token() == tokens::open_brace)
-            return parse_required_group(state);
+        if (state.lexer_token() == tokens::open_brace) return parse_required_group(state);
 
         return parse_item(state);
     }
@@ -123,8 +121,8 @@ namespace mfl::parser
             state.set_error(fmt::format("'{}' does not represent a valid floating point value.", number_string));
 
         // TODO - do this instead when from_chars becomes available ...
-        //const auto result = std::from_chars(number_string.data(), number_string.data() + number_string.size(), &value);
-        //if (result.ec == std::errc::invalid_argument)
+        // const auto result = std::from_chars(number_string.data(), number_string.data() + number_string.size(),
+        // &value); if (result.ec == std::errc::invalid_argument)
         //    state.set_error(fmt::format("'{}' does not represent a valid floating point value.", number_string));
 
         return value;

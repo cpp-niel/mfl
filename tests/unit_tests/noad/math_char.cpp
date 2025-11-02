@@ -36,8 +36,7 @@ namespace mfl
 
         SUBCASE("[math_char] find correct height variant of glyph")
         {
-            const auto char_index_for_height = [&](const dist_t h)
-            {
+            const auto char_index_for_height = [&](const dist_t h) {
                 return make_auto_height_glyph(display_style, font_family::roman, 1, h).first.index;
             };
 
@@ -50,8 +49,7 @@ namespace mfl
 
         SUBCASE("[math_char] find correct width variant of glyph")
         {
-            const auto char_index_for_width = [&](const dist_t w)
-            {
+            const auto char_index_for_width = [&](const dist_t w) {
                 return make_auto_width_glyph(display_style, font_family::roman, 1, w).first.index;
             };
 

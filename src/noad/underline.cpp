@@ -13,8 +13,9 @@ namespace mfl
         auto content = clean_box(s, cramp, ul.noads);
         const auto w = content.dims.width;
 
-        auto l = make_vlist(kern{.size = underline_gap(s)}, rule{.width = w, .height = underline_thickness(s), .depth = 0},
-                            kern{.size = underline_padding(s)});
+        auto l =
+            make_vlist(kern{.size = underline_gap(s)}, rule{.width = w, .height = underline_thickness(s), .depth = 0},
+                       kern{.size = underline_padding(s)});
         return make_hlist(make_down_vbox(w, std::move(content), std::move(l)));
     }
 }

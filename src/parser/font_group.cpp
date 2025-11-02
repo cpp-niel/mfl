@@ -27,7 +27,8 @@ namespace mfl::parser
     }
     bool is_font_choice(const std::string& name)
     {
-        return (std::ranges::find_if(font_commands, [&](const auto c) { return c.first == name; }) != font_commands.end());
+        return (std::ranges::find_if(font_commands, [&](const auto c) { return c.first == name; })
+                != font_commands.end());
     }
 
     std::vector<noad> create_font_group(parser_state& state)

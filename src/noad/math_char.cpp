@@ -9,14 +9,13 @@ namespace mfl
     namespace
     {
         std::size_t find_best_size_glyph_index(const abstract_font_face& face, const code_point char_code,
-                                          const dist_t requested_size, const bool is_horizontal)
+                                               const dist_t requested_size, const bool is_horizontal)
         {
             using namespace units_literals;
             const auto variants =
                 is_horizontal ? face.horizontal_size_variants(char_code) : face.vertical_size_variants(char_code);
 
-            if (variants.empty())
-                return face.glyph_index_from_code_point(char_code, false);
+            if (variants.empty()) return face.glyph_index_from_code_point(char_code, false);
 
             auto result = variants.front().glyph_index;
             for (const auto [glyph_index, size] : variants)

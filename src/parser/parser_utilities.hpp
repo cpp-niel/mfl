@@ -16,7 +16,7 @@ namespace mfl::parser
 
     [[nodiscard]] mlist parse_until_token(parser_state& state, const tokens end_token);
     [[nodiscard]] std::vector<noad> parse_until_token_and_value(parser_state& state, const tokens& end_token,
-                                                  const std::string& value);
+                                                                const std::string& value);
     [[nodiscard]] std::vector<noad> parse_required_group(parser_state& state);
     [[nodiscard]] std::pair<optional_noads, optional_noads> parse_sub_sup(parser_state& state);
     [[nodiscard]] std::vector<noad> parse_item(parser_state& state);

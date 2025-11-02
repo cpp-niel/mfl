@@ -11,7 +11,8 @@ namespace mfl::parser
 {
     bool is_big_op(const std::string& name)
     {
-        return std::ranges::contains(big_op_symbols | std::views::keys, name) || std::ranges::contains(integral_symbols | std::views::keys, name);
+        return std::ranges::contains(big_op_symbols | std::views::keys, name)
+               || std::ranges::contains(integral_symbols | std::views::keys, name);
     }
 
     big_op_limits big_op_limit_style(const std::string& name, parser_state& state)

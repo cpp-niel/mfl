@@ -52,6 +52,7 @@ namespace mfl::parser
         scoped_state& operator=(const scoped_state&) = delete;
         scoped_state(scoped_state&&) = delete;
         scoped_state& operator=(scoped_state&&) = delete;
+
     private:
         parser_state& state_;
     };
