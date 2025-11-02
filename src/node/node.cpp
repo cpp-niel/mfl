@@ -9,16 +9,16 @@ namespace mfl
     dist_t depth(const node_variant& n)
     {
         return std::visit(overload{[](const box& b) { return b.dims.depth + b.shift; },
-                                   [](const glue_spec&) { return dist_t(0); }, [](const glyph& g) { return g.depth; },
-                                   [](const kern&) { return dist_t(0); }, [](const rule& r) { return r.depth; }},
+                                   [](const glue_spec&) { return dist_t{0}; }, [](const glyph& g) { return g.depth; },
+                                   [](const kern&) { return dist_t{0}; }, [](const rule& r) { return r.depth; }},
                           n);
     }
 
     dist_t height(const node_variant& n)
     {
         return std::visit(overload{[](const box& b) { return b.dims.height - b.shift; },
-                                   [](const glue_spec&) { return dist_t(0); }, [](const glyph& g) { return g.height; },
-                                   [](const kern&) { return dist_t(0); }, [](const rule& r) { return r.height; }},
+                                   [](const glue_spec&) { return dist_t{0}; }, [](const glyph& g) { return g.height; },
+                                   [](const kern&) { return dist_t{0}; }, [](const rule& r) { return r.height; }},
                           n);
     }
 
@@ -42,8 +42,8 @@ namespace mfl
     dist_t vwidth(const node_variant& n)
     {
         return std::visit(overload{[](const box& b) { return b.shift + b.dims.width; },
-                                   [](const glue_spec&) { return dist_t(0); }, [](const glyph& g) { return g.width; },
-                                   [](const kern&) { return dist_t(0); }, [](const rule& r) { return r.width; }},
+                                   [](const glue_spec&) { return dist_t{0}; }, [](const glyph& g) { return g.width; },
+                                   [](const kern&) { return dist_t{0}; }, [](const rule& r) { return r.width; }},
                           n);
     }
 

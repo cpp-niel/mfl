@@ -17,9 +17,9 @@ namespace mfl
 
         hlist hlist_with_unit_glue(box&& box)
         {
-            const auto unit_glue_spec = glue_spec{.size = 0,
-                                                  .stretch = {.value = unit_distance, .order = infinity_order::fil},
-                                                  .shrink = {.value = unit_distance, .order = infinity_order::fil}};
+            constexpr auto unit_glue_spec = glue_spec{.size = 0,
+                                                      .stretch = {.value = unit_distance, .order = infinity_order::fil},
+                                                      .shrink = {.value = unit_distance, .order = infinity_order::fil}};
             return make_hlist(unit_glue_spec, std::move(box), unit_glue_spec);
         }
     }
@@ -60,7 +60,7 @@ namespace mfl
 
     box make_vbox(const dist_t width, node_variant&& ref_node, vlist&& up_list, vlist&& down_list)
     {
-        auto shift = dist_t(0);
+        auto shift = dist_t{0};
         if (std::holds_alternative<wrapped_box>(ref_node))
         {
             auto& b = static_cast<box&>(std::get<wrapped_box>(ref_node));
@@ -75,7 +75,7 @@ namespace mfl
         nodes.reserve(up_list.nodes.size() + 1 + down_list.nodes.size());
         std::move(up_list.nodes.rbegin(), up_list.nodes.rend(), std::back_inserter(nodes));
         nodes.emplace_back(std::move(ref_node));
-        std::move(down_list.nodes.begin(), down_list.nodes.end(), std::back_inserter(nodes));
+        std::ranges::move(down_list.nodes, std::back_inserter(nodes));
 
         return box{.kind = box_kind::vbox, .dims = dims, .shift = shift, .nodes = std::move(nodes)};
     }

@@ -50,8 +50,8 @@ namespace mfl::parser
 
         if (sup0 && sup1) state.set_error("multiple superscripts");
 
-        optional_noads sub = sub0 ? sub0 : sub1;
-        optional_noads sup = sup0 ? sup0 : sup1;
+        const optional_noads sub = sub0 ? sub0 : sub1;
+        const optional_noads sup = sup0 ? sup0 : sup1;
         return {.limits = limits,
                 .nucleus = {math_char{.kind = item_kind::op, .char_code = unicode_index("\\" + op_name, state)}},
                 .sub = sub,

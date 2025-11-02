@@ -1,5 +1,5 @@
 // if the width_diff is positive
-//  find highest order for which the sum of all stretch glues in the node list is non-zero
+//  find the highest order for which the sum of all stretch glues in the node list is non-zero
 //   return the sum and the corresponding order
 //    result is glue_param{.scale = width_diff / sum, .order = order}
 //
@@ -20,8 +20,8 @@ namespace mfl
             for (const auto& n : nodes)
             {
                 std::visit(overload{[&](const glue_spec& glue) {
-                                        const auto& s = glue.*scale;
-                                        if (s.order == order) glue_sum += s.value;
+                                        if (const auto& [value, scale_order] = glue.*scale; scale_order == order)
+                                            glue_sum += value;
                                     },
                                     [](const auto&) {}},
                            n);
@@ -35,11 +35,11 @@ namespace mfl
             using enum infinity_order;
             for (const auto order : {filll, fill, fil, normal})
             {
-                const auto glue_sum = sum_of_glue_by_order(order, scale, nodes);
-                if (glue_sum != 0) return std::pair(order, glue_sum);
+                if (const auto glue_sum = sum_of_glue_by_order(order, scale, nodes); glue_sum != 0)
+                    return std::pair(order, glue_sum);
             }
 
-            return std::pair(infinity_order::normal, dist_t(0));
+            return std::pair(normal, dist_t{0});
         }
 
         glue_param calculate_glue_param(const dist_t width_diff, const std::vector<node_variant>& nodes,

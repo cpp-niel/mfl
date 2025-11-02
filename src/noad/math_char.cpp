@@ -18,11 +18,11 @@ namespace mfl
             if (variants.empty()) return face.glyph_index_from_code_point(char_code, false);
 
             auto result = variants.front().glyph_index;
-            for (const auto v : variants)
+            for (const auto [glyph_index, size] : variants)
             {
-                if (v.size > requested_size) return result;
+                if (size > requested_size) return result;
 
-                result = v.glyph_index;
+                result = glyph_index;
             }
 
             return result;

@@ -2,7 +2,7 @@
 
 namespace mfl::parser
 {
-    std::string to_string(tokens t)
+    std::string to_string(const tokens t)
     {
         switch (t)
         {

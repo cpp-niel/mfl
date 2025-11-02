@@ -22,7 +22,7 @@ namespace mfl
             }
         };
 
-        struct istring_view_stream : virtual string_view_buf, std::istream
+        struct istring_view_stream final : virtual string_view_buf, std::istream
         {
             explicit istring_view_stream(const std::string_view s)
                 : string_view_buf(s), std::istream(static_cast<std::streambuf*>(this))
@@ -36,7 +36,7 @@ namespace mfl
         istring_view_stream is(input);
         parser::lexer lx(is);
         parser::parser_state state(lx);
-        const auto result = parser::parse_until_token(state, parser::tokens::eof);
-        return {result.noads, state.error()};
+        const auto [noads] = parser::parse_until_token(state, parser::tokens::eof);
+        return {noads, state.error()};
     }
 }

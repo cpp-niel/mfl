@@ -23,7 +23,7 @@ namespace mfl::parser
         [[nodiscard]] tokens lexer_token() const;
         void consume_token(const tokens tok);
         [[nodiscard]] std::string lexer_value() const;
-        [[nodiscard]] std::string consume_lexer_value();
+        [[nodiscard]] std::string consume_lexer_value() const;
         [[nodiscard]] std::pair<tokens, std::string> lexer_state() const;
 
         void set_font_choice(const font_choice choice);

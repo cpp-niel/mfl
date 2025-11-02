@@ -13,7 +13,7 @@ namespace mfl::parser
     {
         using namespace std::string_view_literals;
 
-        const auto font_commands = std::array<std::pair<std::string_view, font_choice>, 9>{{
+        constexpr auto font_commands = std::array<std::pair<std::string_view, font_choice>, 9>{{
             {"mathcal"sv, font_choice::calligraphic},
             {"mathnormal"sv, font_choice::normal},
             {"mathbf"sv, font_choice::bold},

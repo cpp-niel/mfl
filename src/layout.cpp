@@ -33,10 +33,10 @@ namespace mfl
         {
             if (std::holds_alternative<glue_spec>(n))
             {
-                const auto& glue = std::get<glue_spec>(n);
-                if (glue_scale == 0.0) return glue.size;
+                const auto& [size, stretch, shrink] = std::get<glue_spec>(n);
+                if (glue_scale == 0.0) return size;
 
-                const auto w = (glue_scale < 0.0) ? glue.shrink.value : glue.stretch.value;
+                const auto w = (glue_scale < 0.0) ? shrink.value : stretch.value;
                 return static_cast<dist_t>(glue_scale * static_cast<double>(w));
             }
 
