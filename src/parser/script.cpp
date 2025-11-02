@@ -4,6 +4,8 @@
 #include "parser/parser_state.hpp"
 #include "parser/parser_utilities.hpp"
 
+#include <algorithm>
+
 namespace mfl::parser
 {
     namespace
@@ -70,10 +72,7 @@ namespace mfl::parser
             else if (sup1)
                 std::ranges::move(*sup1, std::back_inserter(*sup));
         }
-        else
-        {
-            sup = sup0 ? sup0 : sup1;
-        }
+        else { sup = sup0 ? sup0 : sup1; }
 
         if (sub || sup) return {script{.nucleus = nucleus, .sub = sub, .sup = sup}};
 
