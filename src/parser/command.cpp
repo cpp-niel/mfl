@@ -6,12 +6,10 @@
 #include "parser/fraction.hpp"
 #include "parser/function.hpp"
 #include "parser/left_right.hpp"
-#include "parser/lexer.hpp"
 #include "parser/line.hpp"
 #include "parser/math_char.hpp"
 #include "parser/math_space.hpp"
 #include "parser/parser_state.hpp"
-#include "parser/parser_utilities.hpp"
 #include "parser/radical.hpp"
 
 namespace mfl::parser

@@ -24,7 +24,7 @@ namespace mfl::parser
 
     std::string parser_state::lexer_value() const { return lexer_.value(); }
 
-    std::string parser_state::consume_lexer_value()
+    std::string parser_state::consume_lexer_value() const
     {
         auto movable_result = lexer_.value();
         lexer_.move_to_next_token();

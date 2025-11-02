@@ -83,16 +83,16 @@ namespace mfl::parser
 
         [[nodiscard]] std::pair<script_case, std::uint32_t> alpha_info(const code_point code)
         {
-            constexpr auto upper_a = code_point(0x0041);
-            constexpr auto upper_z = code_point(0x005a);
-            constexpr auto upper_alpha = code_point(0x0391);
-            constexpr auto upper_omega = code_point(0x03a9);
-            constexpr auto lower_a = code_point(0x0061);
-            constexpr auto lower_z = code_point(0x007a);
-            constexpr auto lower_alpha = code_point(0x03b1);
-            constexpr auto lower_omega = code_point(0x03c9);
-            constexpr auto zero = code_point(0x0030);
-            constexpr auto nine = code_point(0x0039);
+            constexpr auto upper_a = code_point{0x0041};
+            constexpr auto upper_z = code_point{0x005a};
+            constexpr auto upper_alpha = code_point{0x0391};
+            constexpr auto upper_omega = code_point{0x03a9};
+            constexpr auto lower_a = code_point{0x0061};
+            constexpr auto lower_z = code_point{0x007a};
+            constexpr auto lower_alpha = code_point{0x03b1};
+            constexpr auto lower_omega = code_point{0x03c9};
+            constexpr auto zero = code_point{0x0030};
+            constexpr auto nine = code_point{0x0039};
 
             if ((code >= upper_a) && (code <= upper_z)) return {script_case::roman_upper, code - upper_a};
 
@@ -161,7 +161,7 @@ namespace mfl::parser
             return std::nullopt;
         }
 
-        const auto alpha_start_code_points = std::array<std::tuple<font_choice, script_case, code_point>, 21>{
+        constexpr auto alpha_start_code_points = std::array<std::tuple<font_choice, script_case, code_point>, 21>{
             std::tuple{font_choice::normal, script_case::roman_upper, 0x1d434},
             std::tuple{font_choice::normal, script_case::roman_lower, 0x1d44e},
             std::tuple{font_choice::normal, script_case::greek_upper, 0x0391},
@@ -204,7 +204,7 @@ namespace mfl::parser
 
     code_point unicode_index(const std::string_view name, parser_state& state)
     {
-        constexpr auto elongated_minus_sign = code_point(0x2212);
+        constexpr auto elongated_minus_sign = code_point{0x2212};
         if (name == "-") return elongated_minus_sign;
 
         if ((name.length() > 1) && (name[0] == '\\')) return tex_code_point(name.substr(1, name.length() - 1), state);
@@ -223,11 +223,9 @@ namespace mfl::parser
     {
         if (auto [script, offset] = alpha_info(code); script != script_case::none)
         {
-            const auto special_code = special_letter_code_point(code, font);
-            if (special_code) return *special_code;
+            if (const auto special_code = special_letter_code_point(code, font)) return *special_code;
 
-            const auto start = alpha_start_code_point(font, script);
-            if (start > 0) return start + offset;
+            if (const auto start = alpha_start_code_point(font, script); start > 0) return start + offset;
         }
 
         return code;

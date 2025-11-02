@@ -26,7 +26,7 @@ namespace mfl::parser
             const auto [num_triple_primes, final_num_primes] = std::div(num_primes, 3);
 
             std::vector<noad> result;
-            result.reserve(std::size_t(num_triple_primes) + ((final_num_primes > 0) ? 1U : 0U));
+            result.reserve(static_cast<std::size_t>(num_triple_primes) + ((final_num_primes > 0) ? 1U : 0U));
             for (auto i = 0; i < num_triple_primes; ++i)
             {
                 result.emplace_back(math_char{.kind = item_kind::ord, .char_code = prime_char_code + 2});
@@ -46,7 +46,7 @@ namespace mfl::parser
     {
         std::vector<noad> nucleus;
         auto noads = (state.lexer_token() == tokens::open_brace) ? parse_required_group(state) : parse_item(state);
-        std::move(noads.begin(), noads.end(), std::back_inserter(nucleus));
+        std::ranges::move(noads, std::back_inserter(nucleus));
 
         auto num_primes = parse_primes(state);
         auto [sub0, sup0] = parse_sub_sup(state);
@@ -58,21 +58,18 @@ namespace mfl::parser
 
         if (sup0 && sup1) state.set_error("Ambiguous superscripts. Use braces to group the superscripts unambiguously.");
 
-        optional_noads sub = sub0 ? sub0 : sub1;
+        const optional_noads sub = sub0 ? sub0 : sub1;
 
         optional_noads sup;
         if (num_primes > 0)
         {
             sup = get_nodes_for_primes(num_primes, state);
             if (sup0)
-                std::move(sup0->begin(), sup0->end(), std::back_inserter(*sup));
+                std::ranges::move(*sup0, std::back_inserter(*sup));
             else if (sup1)
-                std::move(sup1->begin(), sup1->end(), std::back_inserter(*sup));
+                std::ranges::move(*sup1, std::back_inserter(*sup));
         }
-        else
-        {
-            sup = sup0 ? sup0 : sup1;
-        }
+        else { sup = sup0 ? sup0 : sup1; }
 
         if (sub || sup) return {script{.nucleus = nucleus, .sub = sub, .sup = sup}};
 

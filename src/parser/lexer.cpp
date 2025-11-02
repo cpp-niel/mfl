@@ -2,7 +2,6 @@
 
 #include "parser/utf8.hpp"
 
-#include <array>
 #include <istream>
 #include <string_view>
 

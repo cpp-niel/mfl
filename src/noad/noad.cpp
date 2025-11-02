@@ -186,20 +186,20 @@ namespace mfl
             if (!iterms.empty())
             {
                 const auto& term = iterms.front();
-                auto tail = iterms.subspan(1);
-                item_kind kind = item_kind::none;
+                const auto tail = iterms.subspan(1);
+                auto kind = item_kind::none;
                 if (std::holds_alternative<inoad>(term))
                 {
-                    const auto& n = std::get<inoad>(term);
-                    kind = change_kind(prev_kind, n.kind, tail);
-                    const auto space = make_space(s, math_spacing(prev_kind, n.kind));
-                    result.nodes.insert(result.nodes.end(), space.nodes.begin(), space.nodes.end());
-                    result.nodes.insert(result.nodes.end(), n.translated_noad.nodes.begin(), n.translated_noad.nodes.end());
+                    const auto& [translated_noad, inoad_kind] = std::get<inoad>(term);
+                    kind = change_kind(prev_kind, inoad_kind, tail);
+                    const auto [space_nodes] = make_space(s, math_spacing(prev_kind, inoad_kind));
+                    result.nodes.insert(result.nodes.end(), space_nodes.begin(), space_nodes.end());
+                    result.nodes.insert(result.nodes.end(), translated_noad.nodes.begin(), translated_noad.nodes.end());
                 }
                 else if (std::holds_alternative<ispace>(term))
                 {
-                    const auto space = make_space(s, std::get<ispace>(term));
-                    result.nodes.insert(result.nodes.end(), space.nodes.begin(), space.nodes.end());
+                    const auto [space_nodes] = make_space(s, std::get<ispace>(term));
+                    result.nodes.insert(result.nodes.end(), space_nodes.begin(), space_nodes.end());
                 }
 
                 intermediate_terms_to_hlist(s, has_penalties, kind, tail, result);

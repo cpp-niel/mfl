@@ -52,7 +52,7 @@ namespace mfl::parser::utf8
         std::uint32_t state = 0;
         auto num_decoded = 0;
 
-        for (auto c : s)
+        for (const auto c : s)
         {
             if (decode(&state, &result, c) == accept_utf8_decoding) ++num_decoded;
         }

@@ -22,7 +22,7 @@ namespace mfl
         auto radical_symbol = make_auto_height_glyph(s, font_family::roman, radical_char_code, requested_height).first;
         const auto shift =
             height(radical_symbol) - (content_box.dims.height + vertical_gap + radical_rule_thickness(s));
-        constexpr auto percent_divisor = dist_t(100);
+        constexpr auto percent_divisor = dist_t{100};
         degree_box.shift = -degree_box.dims.depth
                            - (height(radical_symbol) * radical_degree_bottom_raise_percent(s)) / percent_divisor;
         auto radical_box =

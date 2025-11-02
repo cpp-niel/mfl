@@ -46,8 +46,7 @@ namespace mfl::parser
                 return {};
             }
 
-            auto noads = create_script(state);
-            std::move(noads.begin(), noads.end(), std::back_inserter(result));
+            std::ranges::move(create_script(state), std::back_inserter(result));
         }
 
         state.consume_token(end_token);
@@ -59,11 +58,11 @@ namespace mfl::parser
         state.consume_token(tokens::open_brace);
         scoped_state s(state, {.font = state.get_font_choice()});
 
-        const auto noad_list = parse_until_token(state, tokens::close_brace);
+        const auto [noads] = parse_until_token(state, tokens::close_brace);
 
         state.consume_token(tokens::close_brace);
 
-        return noad_list.noads;
+        return noads;
     }
 
     std::pair<optional_noads, optional_noads> parse_sub_sup(parser_state& state)
@@ -86,14 +85,10 @@ namespace mfl::parser
     std::vector<noad> parse_item(parser_state& state)
     {
         std::vector<noad> result;
-        auto tok = state.lexer_token();
-        if (tok == tokens::symbol)
+        if (const auto tok = state.lexer_token(); tok == tokens::symbol)
             result.emplace_back(create_math_char(state));
         else if (tok == tokens::command)
-        {
-            auto noads = create_command(state);
-            std::move(noads.begin(), noads.end(), std::back_inserter(result));
-        }
+            std::ranges::move(create_command(state), std::back_inserter(result));
         else
             state.set_error("unexpected token.");
 
