@@ -13,7 +13,7 @@ namespace mfl
 {
     namespace
     {
-        dist_t sum_of_glue_by_order(const infinity_order order, glue_scale glue_spec::* scale,
+        dist_t sum_of_glue_by_order(const infinity_order order, glue_scale glue_spec::*scale,
                                     const std::vector<node_variant>& nodes)
         {
             dist_t glue_sum = 0;
@@ -30,7 +30,7 @@ namespace mfl
             return glue_sum;
         }
 
-        auto highest_order_total_glue(glue_scale glue_spec::* scale, const std::vector<node_variant>& nodes)
+        auto highest_order_total_glue(glue_scale glue_spec::*scale, const std::vector<node_variant>& nodes)
         {
             using enum infinity_order;
             for (const auto order : {filll, fill, fil, normal})
@@ -43,7 +43,7 @@ namespace mfl
         }
 
         glue_param calculate_glue_param(const dist_t width_diff, const std::vector<node_variant>& nodes,
-                                        glue_scale glue_spec::* scale_direction, const double sign)
+                                        glue_scale glue_spec::*scale_direction, const double sign)
         {
             const auto [order, sum] = highest_order_total_glue(scale_direction, nodes);
             if (sum == 0) return {};
