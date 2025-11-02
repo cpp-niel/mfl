@@ -4,6 +4,8 @@
 #include "node/hlist.hpp"
 #include "settings.hpp"
 
+#include <algorithm>
+
 namespace mfl
 {
     namespace
