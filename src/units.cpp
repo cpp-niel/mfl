@@ -16,6 +16,7 @@ namespace mfl
     {
         return points{pixels_to_inches(x, dpi).value() * points_per_inch};
     }
+    
     pixels points_to_pixels(const points x, const dots_per_inch dpi)
     {
         return inches_to_pixels(points_to_inches(x), dpi);

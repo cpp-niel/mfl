@@ -19,28 +19,29 @@ namespace mfl
 
     namespace units_literals
     {
-        constexpr inches operator""_in(long double x) { return inches{static_cast<double>(x)}; }
-        constexpr inches operator""_in(unsigned long long x) { return inches{static_cast<double>(x)}; }
+        constexpr inches operator""_in(const long double x) { return inches{static_cast<double>(x)}; }
+        constexpr inches operator""_in(const unsigned long long x) { return inches{static_cast<double>(x)}; }
 
-        constexpr dots_per_inch operator""_dpi(long double x) { return dots_per_inch{static_cast<double>(x)}; }
-        constexpr dots_per_inch operator""_dpi(unsigned long long x) { return dots_per_inch{static_cast<double>(x)}; }
+        constexpr dots_per_inch operator""_dpi(const long double x) { return dots_per_inch{static_cast<double>(x)}; }
+        constexpr dots_per_inch operator""_dpi(const unsigned long long x)
+        { return dots_per_inch{static_cast<double>(x)}; }
 
-        constexpr pixels operator""_px(long double x) { return pixels{static_cast<double>(x)}; }
-        constexpr pixels operator""_px(unsigned long long x) { return pixels{static_cast<double>(x)}; }
+        constexpr pixels operator""_px(const long double x) { return pixels{static_cast<double>(x)}; }
+        constexpr pixels operator""_px(const unsigned long long x) { return pixels{static_cast<double>(x)}; }
 
-        constexpr points operator""_pt(long double x) { return points{static_cast<double>(x)}; }
-        constexpr points operator""_pt(unsigned long long x) { return points{static_cast<double>(x)}; }
+        constexpr points operator""_pt(const long double x) { return points{static_cast<double>(x)}; }
+        constexpr points operator""_pt(const unsigned long long x) { return points{static_cast<double>(x)}; }
     }
 
     template <typename Unit, char c0 = 0, char c1 = 0, char c2 = 0>
     struct unit_formatter
     {
-        constexpr auto parse(fmt::format_parse_context& ctx) { return ctx.begin(); }
+        constexpr auto parse(const fmt::format_parse_context& ctx) { return ctx.begin(); }
 
         template <typename FormatContext>
-        auto format(const Unit x, FormatContext& ctx)
+        constexpr auto format(const Unit x, FormatContext& ctx) const
         {
-            constexpr auto suffix = std::array<char, 4>{c0, c1, c2, '\0'};
+            constexpr auto suffix = std::array{c0, c1, c2, '\0'};
             return fmt::format_to(ctx.out(), "{}{}", x.value(), suffix.data());
         }
     };

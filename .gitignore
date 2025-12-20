@@ -112,3 +112,7 @@ cmake-*
 # ========
 vcpkg
 vcpkg_installed
+vcpkg-configuration.json
+vcpkg-overlay
+
+
