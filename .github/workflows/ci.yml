@@ -68,6 +68,13 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-${{ matrix.compiler }}-${{ hashFiles('./vcpkg.json') }}-
 
+      - name: Install apt packages (Ubuntu only)
+        if: ${{ contains(matrix.os, 'ubuntu') }}
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y --no-install-recommends autoconf autoconf-archive automake libtool
+          sudo apt-get clean
+
       - name: Setup Cpp
         uses: aminya/setup-cpp@v1
         with:
