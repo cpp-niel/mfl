@@ -2,8 +2,7 @@
 
 #include "framework/doctest.hpp"
 
-#include <fmt/format.h>
-
+#include <format>
 #include <sstream>
 
 namespace mfl
@@ -92,30 +91,30 @@ namespace mfl
 
         TEST_CASE("formatting inches")
         {
-            CHECK(fmt::format("{}", 42_in) == "42\"");
-            CHECK(fmt::format("{}", -42_in) == "-42\"");
-            CHECK(fmt::format("{}", 42.42_in) == "42.42\"");
+            CHECK(std::format("{}", 42_in) == "42\"");
+            CHECK(std::format("{}", -42_in) == "-42\"");
+            CHECK(std::format("{}", 42.42_in) == "42.42\"");
         }
 
         TEST_CASE("formatting dots per inch")
         {
-            CHECK(fmt::format("{}", 42_dpi) == "42dpi");
-            CHECK(fmt::format("{}", -42_dpi) == "-42dpi");
-            CHECK(fmt::format("{}", 42.42_dpi) == "42.42dpi");
+            CHECK(std::format("{}", 42_dpi) == "42dpi");
+            CHECK(std::format("{}", -42_dpi) == "-42dpi");
+            CHECK(std::format("{}", 42.42_dpi) == "42.42dpi");
         }
 
         TEST_CASE("formatting pixels")
         {
-            CHECK(fmt::format("{}", 42_px) == "42px");
-            CHECK(fmt::format("{}", -42_px) == "-42px");
-            CHECK(fmt::format("{}", 42.42_px) == "42.42px");
+            CHECK(std::format("{}", 42_px) == "42px");
+            CHECK(std::format("{}", -42_px) == "-42px");
+            CHECK(std::format("{}", 42.42_px) == "42.42px");
         }
 
         TEST_CASE("formatting points")
         {
-            CHECK(fmt::format("{}", 42_pt) == "42pt");
-            CHECK(fmt::format("{}", -42_pt) == "-42pt");
-            CHECK(fmt::format("{}", 42.42_pt) == "42.42pt");
+            CHECK(std::format("{}", 42_pt) == "42pt");
+            CHECK(std::format("{}", -42_pt) == "-42pt");
+            CHECK(std::format("{}", 42.42_pt) == "42.42pt");
         }
 
         TEST_CASE("stream output inches")

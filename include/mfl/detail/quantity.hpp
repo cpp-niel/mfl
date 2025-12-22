@@ -1,7 +1,6 @@
 #pragma once
 
-#include <fmt/format.h>
-
+#include <format>
 #include <iostream>
 
 namespace mfl::detail
@@ -41,13 +40,15 @@ namespace mfl::detail
         friend constexpr quantity operator+(const quantity x0, const quantity x1)
         {
             auto result = x0;
-            return result += x1;
+            result += x1;
+            return result;
         }
 
         friend constexpr quantity operator-(const quantity x0, const quantity x1)
         {
             auto result = x0;
-            return result -= x1;
+            result -= x1;
+            return result;
         }
 
         friend constexpr quantity operator-(const quantity x) { return quantity(-x.value()); }
@@ -55,19 +56,22 @@ namespace mfl::detail
         friend constexpr quantity operator*(const quantity x, const double scalar)
         {
             auto result = x;
-            return result *= scalar;
+            result *= scalar;
+            return result;
         }
 
         friend constexpr quantity operator*(const double scalar, const quantity x)
         {
             auto result = x;
-            return result *= scalar;
+            result *= scalar;
+            return result;
         }
 
         friend constexpr quantity operator/(const quantity x, const double scalar)
         {
             auto result = x;
-            return result /= scalar;
+            result /= scalar;
+            return result;
         }
 
         friend constexpr double operator/(const quantity x0, const quantity x1) { return x0.value_ / x1.value_; }
@@ -81,7 +85,5 @@ namespace mfl::detail
 
     template <typename Tag>
     std::ostream& operator<<(std::ostream& os, const quantity<Tag>& p)
-    {
-        return os << fmt::format("{}", p);
-    }
+    { return os << std::format("{}", p); }
 }

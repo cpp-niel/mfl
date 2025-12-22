@@ -1,6 +1,5 @@
 {
   "dependencies": [
-    "fmt",
     "cairo",
     "doctest",
     "freetype",

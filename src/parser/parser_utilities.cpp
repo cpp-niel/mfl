@@ -5,11 +5,8 @@
 #include "parser/parser_state.hpp"
 #include "parser/script.hpp"
 
-#include <fmt/format.h>
-
 #include <algorithm>
-#include <charconv>
-#include <cstdlib>
+#include <format>
 
 namespace mfl::parser
 {
@@ -27,7 +24,7 @@ namespace mfl::parser
             }
 
             auto noads = create_script(state);
-            std::move(noads.begin(), noads.end(), std::back_inserter(result.noads));
+            std::ranges::move(noads, std::back_inserter(result.noads));
             tok = state.lexer_token();
         }
 
@@ -42,7 +39,7 @@ namespace mfl::parser
         {
             if (state.lexer_token() == tokens::eof)
             {
-                state.set_error(fmt::format("expected token not found: '{}'.", value));
+                state.set_error(std::format("expected token not found: '{}'.", value));
                 return {};
             }
 
@@ -114,17 +111,12 @@ namespace mfl::parser
 
         state.consume_token(tokens::close_brace);
 
-        char* str_end = nullptr;
-        const auto value = std::strtod(number_string.c_str(), &str_end);
-        // using the C function std::strtod until from_chars is available, so we have to do some pointer arithmetic
-        // NOLINTNEXTLINE(cppcoreguidelines-pro-bounds-pointer-arithmetic)
-        if (str_end != number_string.data() + number_string.size())
-            state.set_error(fmt::format("'{}' does not represent a valid floating point value.", number_string));
+        double value = 0.0;
+        const auto [remaining, ec] =
+            std::from_chars(number_string.data(), number_string.data() + number_string.size(), value);
 
-        // TODO - do this instead when from_chars becomes available ...
-        // const auto result = std::from_chars(number_string.data(), number_string.data() + number_string.size(),
-        // &value); if (result.ec == std::errc::invalid_argument)
-        //    state.set_error(fmt::format("'{}' does not represent a valid floating point value.", number_string));
+        if ((ec == std::errc::invalid_argument) || !std::string(remaining).empty())
+            state.set_error(std::format("'{}' does not represent a valid floating point value.", number_string));
 
         return value;
     }

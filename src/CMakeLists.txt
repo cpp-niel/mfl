@@ -1,6 +1,5 @@
-cmake_minimum_required (VERSION 3.14)
+cmake_minimum_required(VERSION 3.14)
 
-find_package(fmt REQUIRED)
 find_package(Threads)
 
 add_library(mfl
@@ -45,18 +44,17 @@ add_library(mfl
         parser/utf8.cpp
         settings.cpp
         units.cpp
-        )
+)
 
 target_include_directories(mfl PUBLIC
         $<BUILD_INTERFACE:${PROJECT_SOURCE_DIR}/include>
         $<INSTALL_INTERFACE:include>
-        )
+)
 target_include_directories(mfl PRIVATE ${PROJECT_SOURCE_DIR}/src)
 
 target_link_libraries(mfl
         PUBLIC
         mfl_options
         mfl_warnings
-        fmt::fmt
         ${CMAKE_THREAD_LIBS_INIT}
-        )
+)

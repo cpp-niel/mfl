@@ -27,7 +27,7 @@ namespace mfl::parser
         TEST_CASE("custom space with invalid number")
         {
             const auto [noads, error] = parse("\\hspace{3.14invalid}");
-            CHECK(*error == "Syntax error: '3.14invalid' does not represent a valid floating point value.");
+            CHECK(error.value() == "Syntax error: '3.14invalid' does not represent a valid floating point value.");
         }
     }
 }

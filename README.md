@@ -68,8 +68,7 @@ Using [vcpkg](https://github.com/microsoft/vcpkg):
 Manual installation:
 
 - Install CMake 3.14 or higher.
-- For the library, install the following packages so that CMake's `find_package` can find them:
-    * [fmt](https://github.com/fmtlib/fmt)
+- The library itself has no third party dependencies. Earlier versions required [fmt](https://github.com/fmtlib/fmt).
 - For the tests, install the following packages so that CMake's `find_package` can find them:
     * [cairo](https://www.cairographics.org)
     * [doctest](https://github.com/onqtam/doctest)
@@ -141,7 +140,7 @@ the principles behind the layout of most formula elements.
 Many thanks to the authors and contributors of the following third party libraries, fonts,
 tools and services with which *mfl* is developed, built and tested:
 
-- [**fmt**](https://github.com/fmtlib/fmt) for text formatting
+- [**fmt**](https://github.com/fmtlib/fmt) for text formatting (used in earlier versions, but now no longer needed)
 - [**Clang**](https://clang.llvm.org) for compilation, standard library, static analysis, sanitizers and code formatting
 - [**GCC**](https://gcc.gnu.org) for compilation, standard library
 - [**CMake**](https://cmake.org) for build automation

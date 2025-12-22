@@ -13,9 +13,8 @@
 #include "parser/symbols/relational_operators.hpp"
 #include "parser/utf8.hpp"
 
-#include <fmt/format.h>
-
 #include <array>
+#include <format>
 #include <span>
 #include <tuple>
 #include <utility>
@@ -67,7 +66,7 @@ namespace mfl::parser
             if (const auto result = check(negations, tex_name)) return result;
             if (const auto result = check(additional_negations, tex_name)) return result;
 
-            state.set_error(fmt::format("Unknown symbol name '\\{}'.", tex_name));
+            state.set_error(std::format("Unknown symbol name '\\{}'.", tex_name));
             return 0;
         }
 
@@ -212,7 +211,7 @@ namespace mfl::parser
         const auto result = utf8::to_ucs4(name);
         if (!result)
         {
-            state.set_error(fmt::format("'{}' does not represent a valid utf8 character.", name));
+            state.set_error(std::format("'{}' does not represent a valid utf8 character.", name));
             return 0;
         }
 

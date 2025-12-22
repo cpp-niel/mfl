@@ -14,8 +14,8 @@
 #include "parser/symbols/relational_operators.hpp"
 
 #include <doctest/doctest.h>
-#include <fmt/format.h>
 
+#include <format>
 #include <ranges>
 
 namespace mfl
@@ -34,14 +34,15 @@ namespace mfl
 
         auto render_symbols(const symbol_render_config& config, const std::ranges::range auto& symbols)
         {
-            const auto d = std::div(long(std::ranges::distance(symbols)), long(config.num_columns));
-            const auto num_rows = size_t(d.quot + ((d.rem > 0) ? 1 : 0));
-            const auto width = 720_px;
-            const auto height = double(num_rows) * config.line_height + 40_px;
+            const auto num_symbols = static_cast<long>(std::ranges::distance(symbols));
+            const auto [quot, rem] = std::div(num_symbols, static_cast<long>(config.num_columns));
+            const auto num_rows = static_cast<size_t>(quot + ((rem > 0) ? 1 : 0));
+            constexpr auto width = 720_px;
+            const auto height = static_cast<double>(num_rows) * config.line_height + 40_px;
             auto columns = std::vector<column_config>(config.num_columns);
             for (auto&& [i, col] : std::views::enumerate(columns))
             {
-                col.x = (double(i) * (width / double(config.num_columns))) + 10_px;
+                col.x = (static_cast<double>(i) * (width / static_cast<double>(config.num_columns))) + 10_px;
                 col.line_height = config.line_height;
                 col.num_rows = num_rows;
             }
@@ -183,9 +184,10 @@ namespace mfl
 
     TEST_CASE("accents")
     {
-        const auto formulas = parser::accents     //
-                              | std::views::keys  //
-                              | std::views::transform([](const char* name) { return fmt::format("{}{{a}}", name); });
+        constexpr auto formulas =
+            parser::accents     //
+            | std::views::keys  //
+            | std::views::transform([](const char* name) { return std::format("{}{{a}}", name); });
         const auto result = render_symbols({.num_columns = 5}, formulas);
 
         approve_svg(result);
@@ -213,9 +215,10 @@ namespace mfl
     TEST_CASE("additional_accents")
     {
         // TODO - some additional accents are set in the wrong place
-        const auto formulas = parser::additional_accents  //
-                              | std::views::keys          //
-                              | std::views::transform([](const char* name) { return fmt::format("{}{{a}}", name); });
+        constexpr auto formulas =
+            parser::additional_accents  //
+            | std::views::keys          //
+            | std::views::transform([](const char* name) { return std::format("{}{{a}}", name); });
         const auto result = render_symbols({.num_columns = 3}, formulas);
 
         approve_svg(result);
@@ -310,10 +313,10 @@ namespace mfl
 
     TEST_CASE("delimiters")
     {
-        const auto formulas =
+        constexpr auto formulas =
             std::views::zip(parser::left_delimiters | std::views::keys, parser::right_delimiters | std::views::keys)
             | std::views::transform(
-                [](const auto delims) { return fmt::format("{} x \\{}", std::get<0>(delims), std::get<1>(delims)); });
+                [](const auto delims) { return std::format("{} x \\{}", std::get<0>(delims), std::get<1>(delims)); });
         const auto result = render_symbols({.num_columns = 2, .input_offset = 40_px}, formulas);
 
         approve_svg(result);
@@ -420,9 +423,9 @@ namespace mfl
 
     TEST_CASE("combining_symbols")
     {
-        const auto formulas = parser::combining_symbols  //
-                              | std::views::keys         //
-                              | std::views::transform([](const char* name) { return fmt::format("c \\{}", name); });
+        constexpr auto formulas = parser::combining_symbols  //
+                                  | std::views::keys         //
+                                  | std::views::transform([](const char* name) { return std::format("c \\{}", name); });
         const auto result = render_formulas({.width = 720_px,
                                              .height = 100_px,
                                              .render_input = true,

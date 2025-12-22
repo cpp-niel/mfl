@@ -2,9 +2,8 @@
 
 #include "freetype_error.hpp"
 
-#include <fmt/format.h>
-
 #include <filesystem>
+#include <format>
 
 namespace mfl::fft
 {
@@ -24,7 +23,7 @@ namespace mfl::fft
             const auto file_path = std::filesystem::path(MFL_FONT_DIR) / name;
             if (const auto err = FT_New_Face(ft_library, file_path.string().c_str(), 0, &result); err != 0)
                 throw std::invalid_argument(
-                    fmt::format("Could not load tt font {}. {}", file_path.string(), ft_error_string(err)));
+                    std::format("Could not load tt font {}. {}", file_path.string(), ft_error_string(err)));
 
             return result;
         }

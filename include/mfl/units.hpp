@@ -2,9 +2,8 @@
 
 #include "mfl/detail/quantity.hpp"
 
-#include <fmt/core.h>
-
 #include <array>
+#include <format>
 
 namespace mfl
 {
@@ -36,18 +35,18 @@ namespace mfl
     template <typename Unit, char c0 = 0, char c1 = 0, char c2 = 0>
     struct unit_formatter
     {
-        constexpr auto parse(const fmt::format_parse_context& ctx) { return ctx.begin(); }
+        constexpr auto parse(const std::format_parse_context& ctx) { return ctx.begin(); }
 
         template <typename FormatContext>
         constexpr auto format(const Unit x, FormatContext& ctx) const
         {
             constexpr auto suffix = std::array{c0, c1, c2, '\0'};
-            return fmt::format_to(ctx.out(), "{}{}", x.value(), suffix.data());
+            return std::format_to(ctx.out(), "{}{}", x.value(), suffix.data());
         }
     };
 }
 
-namespace fmt
+namespace std
 {
     template <>
     struct [[maybe_unused]] formatter<mfl::inches> : mfl::unit_formatter<mfl::inches, '\"'>

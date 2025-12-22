@@ -1,6 +1,6 @@
 #include "parser/parser_state.hpp"
 
-#include <fmt/format.h>
+#include <format>
 
 namespace mfl::parser
 {
@@ -17,7 +17,7 @@ namespace mfl::parser
         if (lexer_token() == tokens::eof)
             set_error("unexpected end of input.");
         else if (lexer_token() != tok)
-            set_error(fmt::format("unexpected {} while expecting {}.", to_string(lexer_token()), to_string(tok)));
+            set_error(std::format("unexpected {} while expecting {}.", to_string(lexer_token()), to_string(tok)));
         else
             lexer_.move_to_next_token();
     }
@@ -43,7 +43,7 @@ namespace mfl::parser
 
     void parser_state::set_error(const std::string& error_text)
     {
-        error_ = fmt::format("Syntax error: {}", error_text);
+        error_ = std::format("Syntax error: {}", error_text);
 
         while (lexer_token() != tokens::eof)
             lexer_.move_to_next_token();

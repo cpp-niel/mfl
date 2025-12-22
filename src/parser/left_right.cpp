@@ -3,9 +3,8 @@
 #include "parser/parser_state.hpp"
 #include "parser/parser_utilities.hpp"
 
-#include <fmt/format.h>
-
 #include <algorithm>
+#include <format>
 #include <string>
 
 namespace mfl::parser
@@ -61,7 +60,7 @@ namespace mfl::parser
                 const auto full_name = ((tok == tokens::command) ? "\\"s : ""s) + name;
                 if (const auto type = get_delimiter_type(full_name); !is_valid_token or (type == delimiter_type::none))
                 {
-                    state.set_error(fmt::format("'{}' is not a valid delimiter.", full_name));
+                    state.set_error(std::format("'{}' is not a valid delimiter.", full_name));
                     return 0;
                 }
 
