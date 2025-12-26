@@ -1,13 +1,13 @@
-cmake_minimum_required (VERSION 3.14)
+cmake_minimum_required(VERSION 3.14)
 
-project (unit_tests)
+project(unit_tests)
 
 find_package(doctest CONFIG REQUIRED)
 
 add_compile_options("$<$<C_COMPILER_ID:MSVC>:/utf-8>")
 add_compile_options("$<$<CXX_COMPILER_ID:MSVC>:/utf-8>")
 
-add_executable (unit_tests
+add_executable(unit_tests
         dist.cpp
         framework/mock_font_face.cpp
         layout.cpp
@@ -38,13 +38,14 @@ add_executable (unit_tests
         parser/line.cpp
         parser/math_char.cpp
         parser/math_space.cpp
+        parser/matrix.cpp
         parser/parse.cpp
         parser/radical.cpp
         parser/script.cpp
         parser/tokens.cpp
         parser/unicode_index.cpp
         units.cpp
-        )
+)
 
 set_property(TARGET unit_tests PROPERTY CXX_STANDARD 20)
 
