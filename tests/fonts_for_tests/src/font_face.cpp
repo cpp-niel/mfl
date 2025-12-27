@@ -18,7 +18,7 @@ namespace mfl::fft
 
         std::vector<size_variant> get_size_variants(hb_font_t* font, const size_t glyph_index, const hb_direction_t dir)
         {
-            const auto max_number_of_variants = 20;
+            constexpr auto max_number_of_variants = 20;
             auto variants = std::array<hb_ot_math_glyph_variant_t, max_number_of_variants>{};
             std::uint32_t num_variants = max_number_of_variants;
             const auto glyph_codepoint = static_cast<hb_codepoint_t>(glyph_index);
@@ -37,13 +37,10 @@ namespace mfl::fft
                 return size_variant{.glyph_index = v.glyph, .size = font_units_to_dist(std::abs(size))};
             };
 
-            // todo: should be std::ranges::to, but not yet available on CI compilers
-            auto result = std::vector<size_variant>(num_variants);
-            std::ranges::copy(variants                              //
-                                  | std::views::take(num_variants)  //
-                                  | std::views::transform(to_size_variant),
-                              result.begin());
-            return result;
+            return variants                                  //
+                   | std::views::take(num_variants)          //
+                   | std::views::transform(to_size_variant)  //
+                   | std::ranges::to<std::vector>();
         }
     }
 

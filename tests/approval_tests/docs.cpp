@@ -144,6 +144,29 @@ namespace mfl
         approve_svg(result);
     }
 
+    TEST_CASE("matrices")
+    {
+        const auto formula = std::vector<std::string>{
+            R"(M = \left(\matrix{a & b \\ c & d}\right))",
+            R"(J = \left(\matrix{
+\frac{\partial f_1}{\partial x_1} & \frac{\partial f_1}{\partial x_2} & \cdots & \frac{\partial f_1}{\partial x_n} \cr
+\frac{\partial f_2}{\partial x_1} & \frac{\partial f_2}{\partial x_2} & \cdots & \frac{\partial f_2}{\partial x_n} \cr
+\vdots                            & \vdots                            & \ddots & \vdots                            \cr
+\frac{\partial f_m}{\partial x_1} & \frac{\partial f_m}{\partial x_2} & \cdots & \frac{\partial f_m}{\partial x_n} }\right))",
+        };
+        const auto result = render_formulas({.width = 800_px,
+                                             .height = 220_px,
+                                             .render_input = false,
+                                             .input_offset = 200_px,
+                                             .columns =
+                                                 {
+                                                     {.line_height = 90_px, .x = 10_px, .num_rows = 3},
+                                                 }},
+                                            formula);
+
+        approve_svg(result);
+    }
+
     TEST_CASE("big_ops")
     {
         const auto result =
