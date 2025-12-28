@@ -48,9 +48,9 @@ namespace mfl::fft
             constexpr auto max_number_of_parts = 8;
             auto parts = std::array<hb_ot_math_glyph_part_t, max_number_of_parts>{};
             std::uint32_t num_parts = max_number_of_parts;
-            hb_bool_t is_extensible = false;
+            hb_position_t italic_correction = 0;
             const auto glyph_codepoint = static_cast<hb_codepoint_t>(glyph_index);
-            hb_ot_math_get_glyph_assembly(font, glyph_codepoint, dir, 0, &num_parts, parts.data(), &is_extensible);
+            hb_ot_math_get_glyph_assembly(font, glyph_codepoint, dir, 0, &num_parts, parts.data(), &italic_correction);
 
             if (num_parts == 0) return std::nullopt;
 
@@ -67,7 +67,7 @@ namespace mfl::fft
                                            | std::views::transform(to_part)  //
                                            | std::views::reverse             //
                                            | std::ranges::to<std::vector>(),
-                                  .is_extensible = is_extensible != 0};
+                                  .italic_correction = font_units_to_dist(italic_correction)};
         }
     }
 

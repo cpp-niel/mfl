@@ -30,31 +30,31 @@ namespace mfl
         std::pair<glyph, horizontal_correction> make_glyph(const settings s, const font_family family,
                                                            const abstract_font_face& face, const size_t glyph_index)
         {
-            using namespace units_literals;
-            const auto size = font_size(s);
             auto glyph_info = face.glyph_info(glyph_index);
             return {glyph{.family = family,
                           .index = glyph_info.glyph_index,
-                          .size = size,
+                          .size = font_size(s),
                           .width = glyph_info.width,
                           .height = glyph_info.height,
                           .depth = glyph_info.depth},
                     {glyph_info.accent_hpos, glyph_info.italic_correction}};
         }
 
-        box boxed_glyph(const settings s, const font_family family, const abstract_font_face& face,
-                        const size_t glyph_index)
-        { return make_hbox(hlist{.nodes = {make_glyph(s, family, face, glyph_index).first}}); }
-
-        box assemble_vertical_glyph(const settings s, const font_family family, const abstract_font_face& face,
-                                    const glyph_assembly& assembly, const dist_t requested_height)
+        const glyph_part& find_extender_part(const glyph_assembly& assembly)
         {
-            const auto is_extender = [](const glyph_part& p) { return p.is_extender; };
-            const auto extender_it = std::ranges::find_if(assembly.parts, is_extender);
-            if (extender_it == assembly.parts.end()) throw;  // todo!!! What to do here???
+            const auto extender_it =
+                std::ranges::find_if(assembly.parts, [](const glyph_part& p) { return p.is_extender; });
+            if (extender_it == assembly.parts.end())
+            {
+                throw std::invalid_argument(
+                    "The provided glyph assembly is marked as extensible, but does not contain an extender part.");
+            }
 
-            const auto& extender = *extender_it;
+            return *extender_it;
+        }
 
+        auto find_fixed_parts(const glyph_assembly& assembly)
+        {
             const auto& front_part = assembly.parts.front();
             const auto fixed_top = front_part.is_extender ? std::nullopt : std::optional{front_part};
 
@@ -68,23 +68,42 @@ namespace mfl
                 const auto parts_to_search = assembly.parts                                  //
                                              | std::views::drop(1)                           //
                                              | std::views::take(assembly.parts.size() - 2);  //
-                const auto middle_it = std::ranges::find_if(parts_to_search, std::not_fn(is_extender));
+                const auto middle_it =
+                    std::ranges::find_if(parts_to_search, [](const glyph_part& p) { return !p.is_extender; });
+
                 if (middle_it != parts_to_search.end()) fixed_middle = *middle_it;
             }
+
+            return std::array{fixed_top, fixed_middle, fixed_bottom};
+        }
+
+        box boxed_glyph(const settings s, const font_family family, const abstract_font_face& face,
+                        const size_t glyph_index)
+        { return make_hbox(hlist{.nodes = {make_glyph(s, family, face, glyph_index).first}}); }
+
+        box assemble_vertical_glyph(const settings s, const font_family family, const abstract_font_face& face,
+                                    const glyph_assembly& assembly, const dist_t requested_height)
+        {
+            const auto& extender = find_extender_part(assembly);
+            const auto [fixed_top, fixed_middle, fixed_bottom] = find_fixed_parts(assembly);
 
             const auto fixed_height = (fixed_top ? fixed_top->full_advance : 0)
                                       + (fixed_middle ? fixed_middle->full_advance : 0)
                                       + (fixed_bottom ? fixed_bottom->full_advance : 0);
 
+            // We want to know half the extension height to fill with the extender because if the assembly
+            // has a middle part (like a curly brace), then there will be two separate sequences of extenders.
             const auto half_extension_height = std::max(requested_height - fixed_height, dist_t{0}) / 2;
 
-            const auto num_top_extenders = (half_extension_height + extender.full_advance - 1) / extender.full_advance;
-            const auto extender_height = (half_extension_height + 1) / num_top_extenders;
+            // This is the number of extenders in one of the two sequences
+            const auto num_extenders = (half_extension_height + extender.full_advance - 1) / extender.full_advance;
+            const auto extender_height = (half_extension_height + 1) / num_extenders;
 
             auto glyph_box0 = boxed_glyph(s, family, face, fixed_top ? fixed_top->glyph_index : extender.glyph_index);
             auto vbox_width = glyph_box0.dims.width;
             auto glyph_boxes = vlist{};
-            for (auto i = fixed_top ? 0 : 1; i < num_top_extenders; ++i)
+            // If there is no fixed top, then glyph_box0 already represents the first extender
+            for (auto i = fixed_top ? 0 : 1; i < num_extenders; ++i)
             {
                 auto glyph_box = boxed_glyph(s, family, face, extender.glyph_index);
                 glyph_box.dims.height = extender_height;
@@ -99,7 +118,7 @@ namespace mfl
                 vbox_width = std::max(vbox_width, glyph_box.dims.width);
             }
 
-            for (auto i = 0; i < num_top_extenders; ++i)
+            for (auto i = 0; i < num_extenders; ++i)
             {
                 auto glyph_box = boxed_glyph(s, family, face, extender.glyph_index);
                 glyph_box.dims.height = extender_height;
@@ -145,7 +164,8 @@ namespace mfl
         auto [glyph, correction] = make_glyph(s, family, face, glyph_index);
         if (((glyph.height + glyph.depth) > requested_height) || !assembly.has_value()) return {glyph, correction};
 
-        return {assemble_vertical_glyph(s, family, face, assembly.value(), requested_height), horizontal_correction{}};
+        return {assemble_vertical_glyph(s, family, face, assembly.value(), requested_height),
+                horizontal_correction{.italic_correction = assembly->italic_correction}};
     }
 
     hlist math_char_to_hlist(const settings s, const math_char& mc)

@@ -79,7 +79,7 @@ namespace mfl
     struct glyph_assembly
     {
         std::vector<glyph_part> parts;
-        bool is_extensible;
+        std::int32_t italic_correction;
     };
 
     struct abstract_font_face
