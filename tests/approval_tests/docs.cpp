@@ -148,11 +148,11 @@ namespace mfl
     {
         const auto formula = std::vector<std::string>{
             R"(M = \left(\matrix{a & b \\ c & d}\right))",
-            R"(J = \left(\matrix{
+            R"(J = \left\lfloor\matrix{
 \frac{\partial f_1}{\partial x_1} & \frac{\partial f_1}{\partial x_2} & \cdots & \frac{\partial f_1}{\partial x_n} \cr
 \frac{\partial f_2}{\partial x_1} & \frac{\partial f_2}{\partial x_2} & \cdots & \frac{\partial f_2}{\partial x_n} \cr
 \vdots                            & \vdots                            & \ddots & \vdots                            \cr
-\frac{\partial f_m}{\partial x_1} & \frac{\partial f_m}{\partial x_2} & \cdots & \frac{\partial f_m}{\partial x_n} }\right))",
+\frac{\partial f_m}{\partial x_1} & \frac{\partial f_m}{\partial x_2} & \cdots & \frac{\partial f_m}{\partial x_n} }\right\rceil)",
         };
         const auto result = render_formulas({.width = 800_px,
                                              .height = 220_px,
