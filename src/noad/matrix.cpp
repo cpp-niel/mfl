@@ -16,8 +16,7 @@ namespace mfl
         return {.style = formula_style::script_script, .fonts = s.fonts};
     }
 
-    // todo cramp should probably influence the glue sizes?
-    hlist matrix_to_hlist(const settings s, [[maybe_unused]] const cramping cramp, const matrix& m)
+    hlist matrix_to_hlist(const settings s, const cramping, const matrix& m)
     {
         const auto cell_settings = matrix_settings(s);
         auto cell_box_rows = std::vector<std::vector<box>>{};
@@ -61,13 +60,17 @@ namespace mfl
 
         const auto width = hlist_width(row_hlists.front());
         auto stacked_rows = vlist{};
+        auto top_row_box = make_hbox(std::move(row_hlists.front()));
+        auto prev_row_depth = top_row_box.dims.depth;
         for (auto&& row_hlist : row_hlists | std::views::drop(1))
         {
-            stacked_rows.nodes.push_back(glue_spec{.size = atop_min_gap(s)});
-            stacked_rows.nodes.push_back(make_hbox(std::move(row_hlist)));
+            auto row_box = make_hbox(std::move(row_hlist));
+            const auto glue_size = std::max(x_height(s), x_height(s) * 3 - prev_row_depth - row_box.dims.height);
+            prev_row_depth = row_box.dims.depth;
+            stacked_rows.nodes.push_back(glue_spec{.size = glue_size});
+            stacked_rows.nodes.push_back(std::move(row_box));
         }
 
-        return make_hlist(center_on_axis(
-            s, make_down_vbox(width, make_hbox(std::move(row_hlists.front())), std::move(stacked_rows))));
+        return make_hlist(center_on_axis(s, make_down_vbox(width, std::move(top_row_box), std::move(stacked_rows))));
     }
 }

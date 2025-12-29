@@ -87,6 +87,7 @@ namespace mfl
             const auto& extender = find_extender_part(assembly);
             const auto [fixed_top, fixed_middle, fixed_bottom] = find_fixed_parts(assembly);
 
+            // The fixed height is the total height of all the non-extender parts
             const auto fixed_height = (fixed_top ? fixed_top->full_advance : 0)
                                       + (fixed_middle ? fixed_middle->full_advance : 0)
                                       + (fixed_bottom ? fixed_bottom->full_advance : 0);
@@ -99,41 +100,40 @@ namespace mfl
             const auto num_extenders = (half_extension_height + extender.full_advance - 1) / extender.full_advance;
             const auto extender_height = (half_extension_height + 1) / num_extenders;
 
-            auto glyph_box0 = boxed_glyph(s, family, face, fixed_top ? fixed_top->glyph_index : extender.glyph_index);
-            auto vbox_width = glyph_box0.dims.width;
+            // All the glyph parts are put into boxes stacked one on top of the other with the top_box
+            // being the reference box that the other boxes are positioned below.
+            auto top_box = boxed_glyph(s, family, face, fixed_top ? fixed_top->glyph_index : extender.glyph_index);
+            auto vbox_width = top_box.dims.width;
             auto glyph_boxes = vlist{};
-            // If there is no fixed top, then glyph_box0 already represents the first extender
+
+            const auto add_part = [&](const std::optional<glyph_part>& part) {
+                if (part.has_value())
+                {
+                    auto glyph_box = boxed_glyph(s, family, face, part->glyph_index);
+                    if (part->glyph_index == extender.glyph_index) glyph_box.dims.height = extender_height;
+
+                    vbox_width = std::max(vbox_width, glyph_box.dims.width);
+                    glyph_boxes.nodes.emplace_back(std::move(glyph_box));
+                }
+            };
+
+            // After the top box, we have the first extender sequence. If there is no fixed top, then top_box
+            // already represents the first extender, and we need one extender fewer here.
             for (auto i = fixed_top ? 0 : 1; i < num_extenders; ++i)
-            {
-                auto glyph_box = boxed_glyph(s, family, face, extender.glyph_index);
-                glyph_box.dims.height = extender_height;
-                vbox_width = std::max(vbox_width, glyph_box.dims.width);
-                glyph_boxes.nodes.emplace_back(std::move(glyph_box));
-            }
+                add_part(extender);
 
-            if (fixed_middle.has_value())
-            {
-                auto glyph_box = boxed_glyph(s, family, face, fixed_middle->glyph_index);
-                glyph_boxes.nodes.emplace_back(std::move(glyph_box));
-                vbox_width = std::max(vbox_width, glyph_box.dims.width);
-            }
+            // Then comes the middle part (if it exists)
+            add_part(fixed_middle);
 
+            // Then the second extender sequence
             for (auto i = 0; i < num_extenders; ++i)
-            {
-                auto glyph_box = boxed_glyph(s, family, face, extender.glyph_index);
-                glyph_box.dims.height = extender_height;
-                vbox_width = std::max(vbox_width, glyph_box.dims.width);
-                glyph_boxes.nodes.emplace_back(std::move(glyph_box));
-            }
+                add_part(extender);
 
-            if (fixed_bottom.has_value())
-            {
-                auto glyph_box = boxed_glyph(s, family, face, fixed_bottom->glyph_index);
-                glyph_boxes.nodes.emplace_back(std::move(glyph_box));
-                vbox_width = std::max(vbox_width, glyph_box.dims.width);
-            }
+            // Then comes the bottom part (if it exists)
+            add_part(fixed_bottom);
 
-            return center_on_axis(s, make_down_vbox(vbox_width, std::move(glyph_box0), std::move(glyph_boxes)));
+            // Stack the boxes containing the parts and center the resulting box on the current axis
+            return center_on_axis(s, make_down_vbox(vbox_width, std::move(top_box), std::move(glyph_boxes)));
         }
     }
 

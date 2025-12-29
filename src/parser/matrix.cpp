@@ -47,7 +47,6 @@ namespace mfl::parser
     {
         state.consume_token(tokens::command);
         state.consume_token(tokens::open_brace);
-        scoped_state s(state, {.font = state.get_font_choice()});
         auto result = matrix{};
         auto tok = state.lexer_token();
         while (tok != tokens::close_brace)
