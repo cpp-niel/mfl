@@ -14,6 +14,7 @@ of approval tests used to help test the library for regressions.
 - [Subscripts and Superscripts](#subscripts-and-superscripts)
 - [Fractions](#fractions)
 - [Radicals](#radicals)
+- [Matrices](#matrices)
 - [Big Operators](#big-operators)
 - [Accents](#accents)
 - [Overlining and Underlining](#overlining-and-underlining)
@@ -29,7 +30,6 @@ of approval tests used to help test the library for regressions.
     - [Punctuation](#punctuation)
     - [Others](#others)
 - [Spaces](#spaces)
-    
 
 ## Subscripts and Superscripts
 
@@ -37,21 +37,19 @@ Subscripts and superscripts including all levels of nesting are supported:
 
 ![](./../tests/approval_tests/approved_files/docs.subscripts_and_superscripts.approved.svg)
 
-
 ## Fractions
 
 There is full support for the standard `\frac` command - again, including all levels of nesting:
 
 ![](./../tests/approval_tests/approved_files/docs.fractions.approved.svg)
 
-The `\binom` command is also supported and anything that is not covered by either `\frac` or 
+The `\binom` command is also supported and anything that is not covered by either `\frac` or
 `\binom` can be achieved using the generalized fraction command `\genfrac`:
 
 ![](./../tests/approval_tests/approved_files/docs.genfrac.approved.svg)
 
-Note that in generalized fractions the third argument - the line thickness - is always in points and that currently 
+Note that in generalized fractions the third argument - the line thickness - is always in points and that currently
 the fourth argument - the style - is ignored and treated as if `\displaystyle` was set.
-
 
 ## Radicals
 
@@ -59,6 +57,22 @@ the fourth argument - the style - is ignored and treated as if `\displaystyle` w
 
 ![](./../tests/approval_tests/approved_files/docs.radicals.approved.svg)
 
+## Matrices
+
+TeX-style matrices are supported via the `\matrix` command:
+
+![](./../tests/approval_tests/approved_files/docs.matrix.approved.svg)
+
+For example, *J* in the second row above is defined as follows:
+
+```
+J = \left(\matrix{
+        \frac{\partial f_1}{\partial x_1} & \frac{\partial f_1}{\partial x_2} & \cdots & \frac{\partial f_1}{\partial x_n} \cr
+        \frac{\partial f_2}{\partial x_1} & \frac{\partial f_2}{\partial x_2} & \cdots & \frac{\partial f_2}{\partial x_n} \cr
+        \vdots                            & \vdots                            & \ddots & \vdots                            \cr
+        \frac{\partial f_m}{\partial x_1} & \frac{\partial f_m}{\partial x_2} & \cdots & \frac{\partial f_m}{\partial x_n}
+    }\right)
+```
 
 ## Big Operators
 
@@ -75,7 +89,6 @@ The extended integral symbols are also considered big operators:
 
 ![](./../tests/approval_tests/approved_files/docs.big_ops_integrals.approved.svg)
 
-
 ## Accents
 
 There is support for the common mathematical accents:
@@ -90,13 +103,11 @@ There is also support for some additional mathematical accents:
 
 ![](./../tests/approval_tests/approved_files/docs.additional_accents.approved.svg)
 
-
 ## Overlining and Underlining
 
 The automatic positioning and sizing of overlines and underlines is fully supported:
 
 ![](./../tests/approval_tests/approved_files/docs.lines.approved.svg)
-
 
 ## Functions and User Defined Operators
 
@@ -110,7 +121,6 @@ behave like built-in functions:
 
 ![](./../tests/approval_tests/approved_files/docs.operatorname.approved.svg)
 
-
 ## Delimiters
 
 The following symbols are recognized as opening and closing delimiters:
@@ -122,16 +132,19 @@ available, and the dot variants `\left.` and `\right.` can be used to omit one o
 
 ![](./../tests/approval_tests/approved_files/docs.sized_delimiters.approved.svg)
 
+If supported by the font, *mfl* will also assemble delimiters from "parts" allowing the use of
+oversized - and effectively arbitrarily sized - delimiters:
+
+![](./../tests/approval_tests/approved_files/docs.extra_large_delimiters.approved.svg)
 
 ## Fonts
 
 *mfl* only supports the scoped font switches (like `\mathrm`, `\mathit` etc.) and not the
 deprecated state switches (like `\rm`, `\it` etc.). *mfl* recognises the font
-commands in the examples below. Availability and appearance of glyphs will of course 
+commands in the examples below. Availability and appearance of glyphs will of course
 depend on the actual fonts that are being used. This is what the *Stix2* fonts look like:
 
 ![](./../tests/approval_tests/approved_files/docs.fonts.approved.svg)
-
 
 ## Symbols
 
@@ -142,11 +155,10 @@ for reference.
 
 ![](./../tests/approval_tests/approved_files/docs.greek_alphabet_lowercase.approved.svg)
 
-As per mathematical convention, Greek capitals are automatically set in roman font and 
+As per mathematical convention, Greek capitals are automatically set in roman font and
 not in italics.
 
 ![](./../tests/approval_tests/approved_files/docs.greek_alphabet_uppercase.approved.svg)
-
 
 ### Binary Operators
 
@@ -158,7 +170,6 @@ as well as various binary operators from additional packages like the AMS packag
 
 ![](./../tests/approval_tests/approved_files/docs.additional_binary_operators.approved.svg)
 
-
 ### Relational Operators
 
 Similarly to the binary operators, *mfl* supports the fundamental relational operators:
@@ -168,7 +179,6 @@ Similarly to the binary operators, *mfl* supports the fundamental relational ope
 but also recognises many others:
 
 ![](./../tests/approval_tests/approved_files/docs.additional_relational_operators.approved.svg)
-
 
 #### Negations
 
@@ -180,7 +190,6 @@ and some further negated relational operators are also supported:
 
 ![](./../tests/approval_tests/approved_files/docs.additional_negations.approved.svg)
 
-
 ### Arrows
 
 The TeX arrow symbols are supported:
@@ -191,13 +200,11 @@ and *mfl* will also recognise the following extended set of arrow symbols:
 
 ![](./../tests/approval_tests/approved_files/docs.additional_arrows.approved.svg)
 
-
 ### Punctuation
 
 *mfl* recognises the following symbols as punctuation:
 
 ![](./../tests/approval_tests/approved_files/docs.punctuation.approved.svg)
-
 
 ### Others
 
@@ -206,7 +213,6 @@ For completeness, the following tables show the remaining supported symbols:
 ![](./../tests/approval_tests/approved_files/docs.letterlike.approved.svg)
 ![](./../tests/approval_tests/approved_files/docs.combining_symbols.approved.svg)
 ![](./../tests/approval_tests/approved_files/docs.dots.approved.svg)
-
 
 ## Spaces
 

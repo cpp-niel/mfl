@@ -144,7 +144,7 @@ namespace mfl
         approve_svg(result);
     }
 
-    TEST_CASE("Extra large delimiters")
+    TEST_CASE("extra large delimiters")
     {
         const auto formula = std::vector<std::string>{
             R"(\left\lceil \quad \left\lfloor \quad \left[ \quad \left\{ \quad \left( \matrix{a \\ b \\ c \\ d \\ \vdots \\ x \\ y \\ z } \right) \quad \right\} \quad \right] \quad \right\rfloor \quad \right\rceil)",
@@ -163,7 +163,7 @@ namespace mfl
         approve_svg(result);
     }
 
-    TEST_CASE("matrices")
+    TEST_CASE("matrix")
     {
         const auto formula = std::vector<std::string>{
             R"(M = \left(\matrix{ a & b & c \\ d & e & f \\ g & h & i \\ j & k & l }\right))",
