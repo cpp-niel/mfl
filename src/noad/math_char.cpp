@@ -22,7 +22,7 @@ namespace mfl
             if (variants.empty()) return face.glyph_index_from_code_point(char_code, false);
 
             const auto it =
-                std::ranges::find_if(variants, [&](const size_variant& v) { return v.size > requested_size; });
+                std::ranges::find_if(variants, [&](const size_variant& v) { return v.size >= requested_size; });
 
             return (it == variants.end()) ? variants.front().glyph_index : it->glyph_index;
         }

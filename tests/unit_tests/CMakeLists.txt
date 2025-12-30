@@ -17,6 +17,7 @@ add_executable(unit_tests
         noad/fraction.cpp
         noad/left_right.cpp
         noad/math_char.cpp
+        noad/matrix.cpp
         noad/noad.cpp
         noad/overline.cpp
         noad/radical.cpp

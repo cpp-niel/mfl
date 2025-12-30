@@ -75,7 +75,7 @@ namespace mfl
             CHECK(node_types_are<glyph, box, glyph>(b.nodes));
             const auto& left_glyph = std::get<glyph>(b.nodes[0]);
             const auto& right_glyph = std::get<glyph>(b.nodes[2]);
-            CHECK(left_glyph.index == 4);
+            CHECK(left_glyph.index == 3);
             CHECK(right_glyph.index == 5);
         }
 
