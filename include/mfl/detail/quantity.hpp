@@ -85,5 +85,7 @@ namespace mfl::detail
 
     template <typename Tag>
     std::ostream& operator<<(std::ostream& os, const quantity<Tag>& p)
-    { return os << std::format("{}", p); }
+    {
+        return os << std::format("{}", p);
+    }
 }

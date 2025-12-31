@@ -18,7 +18,7 @@ namespace mfl::fft
 
         std::vector<size_variant> get_size_variants(hb_font_t* font, const size_t glyph_index, const hb_direction_t dir)
         {
-            const auto max_number_of_variants = 20;
+            constexpr auto max_number_of_variants = 20;
             auto variants = std::array<hb_ot_math_glyph_variant_t, max_number_of_variants>{};
             std::uint32_t num_variants = max_number_of_variants;
             const auto glyph_codepoint = static_cast<hb_codepoint_t>(glyph_index);
@@ -32,18 +32,42 @@ namespace mfl::fft
 
             const auto to_size_variant = [&](const hb_ot_math_glyph_variant_t& v) {
                 hb_glyph_extents_t extents;
-                hb_font_get_glyph_extents_for_origin(font, v.glyph, HB_DIRECTION_LTR, &extents);
+                hb_font_get_glyph_extents(font, v.glyph, &extents);
                 const auto size = (dir == HB_DIRECTION_LTR) ? extents.width : extents.height;
                 return size_variant{.glyph_index = v.glyph, .size = font_units_to_dist(std::abs(size))};
             };
 
-            // todo: should be std::ranges::to, but not yet available on CI compilers
-            auto result = std::vector<size_variant>(num_variants);
-            std::ranges::copy(variants                              //
-                                  | std::views::take(num_variants)  //
-                                  | std::views::transform(to_size_variant),
-                              result.begin());
-            return result;
+            return variants                                  //
+                   | std::views::take(num_variants)          //
+                   | std::views::transform(to_size_variant)  //
+                   | std::ranges::to<std::vector>();
+        }
+
+        std::optional<glyph_assembly> get_assembly(hb_font_t* font, const size_t glyph_index, const hb_direction_t dir)
+        {
+            constexpr auto max_number_of_parts = 8;
+            auto parts = std::array<hb_ot_math_glyph_part_t, max_number_of_parts>{};
+            std::uint32_t num_parts = max_number_of_parts;
+            hb_position_t italic_correction = 0;
+            const auto glyph_codepoint = static_cast<hb_codepoint_t>(glyph_index);
+            hb_ot_math_get_glyph_assembly(font, glyph_codepoint, dir, 0, &num_parts, parts.data(), &italic_correction);
+
+            if (num_parts == 0) return std::nullopt;
+
+            const auto to_part = [&](const hb_ot_math_glyph_part_t& p) {
+                return glyph_part{.glyph_index = p.glyph,
+                                  .start_connector_length = font_units_to_dist(p.start_connector_length),
+                                  .end_connector_length = font_units_to_dist(p.end_connector_length),
+                                  .full_advance = font_units_to_dist(p.full_advance),
+                                  .is_extender = (p.flags & HB_OT_MATH_GLYPH_PART_FLAG_EXTENDER) != 0};
+            };
+
+            return glyph_assembly{.parts = parts                             //
+                                           | std::views::take(num_parts)     //
+                                           | std::views::transform(to_part)  //
+                                           | std::views::reverse             //
+                                           | std::ranges::to<std::vector>(),
+                                  .italic_correction = font_units_to_dist(italic_correction)};
         }
     }
 
@@ -179,6 +203,22 @@ namespace mfl::fft
                                                                        hb_font_destroy);
         const auto glyph_index = glyph_index_from_code_point(char_code, false);
         return get_size_variants(hb_font.get(), glyph_index, HB_DIRECTION_BTT);
+    }
+
+    std::optional<glyph_assembly> font_face::horizontal_assembly(const code_point char_code) const
+    {
+        std::unique_ptr<hb_font_t, decltype(&hb_font_destroy)> hb_font(hb_ft_font_create(ft_face_, nullptr),
+                                                                       hb_font_destroy);
+        const auto glyph_index = glyph_index_from_code_point(char_code, false);
+        return get_assembly(hb_font.get(), glyph_index, HB_DIRECTION_LTR);
+    }
+
+    std::optional<glyph_assembly> font_face::vertical_assembly(const code_point char_code) const
+    {
+        std::unique_ptr<hb_font_t, decltype(&hb_font_destroy)> hb_font(hb_ft_font_create(ft_face_, nullptr),
+                                                                       hb_font_destroy);
+        const auto glyph_index = glyph_index_from_code_point(char_code, false);
+        return get_assembly(hb_font.get(), glyph_index, HB_DIRECTION_BTT);
     }
 
     void font_face::set_size(const points size) { ft_set_size(ft_face_, size); }

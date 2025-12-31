@@ -4,10 +4,9 @@
 #include "mfl/font_family.hpp"
 #include "mfl/units.hpp"
 
-#include <cstddef>
-#include <cstdint>
 #include <functional>
 #include <memory>
+#include <optional>
 #include <vector>
 
 namespace mfl
@@ -68,6 +67,21 @@ namespace mfl
         std::int32_t size = 0;
     };
 
+    struct glyph_part
+    {
+        size_t glyph_index = 0;
+        std::int32_t start_connector_length = 0;
+        std::int32_t end_connector_length = 0;
+        std::int32_t full_advance = 0;
+        bool is_extender;
+    };
+
+    struct glyph_assembly
+    {
+        std::vector<glyph_part> parts;
+        std::int32_t italic_correction;
+    };
+
     struct abstract_font_face
     {
         virtual ~abstract_font_face() = default;
@@ -77,6 +91,8 @@ namespace mfl
                                                                  const bool use_large_variant) const = 0;
         [[nodiscard]] virtual std::vector<size_variant> horizontal_size_variants(const code_point char_code) const = 0;
         [[nodiscard]] virtual std::vector<size_variant> vertical_size_variants(const code_point char_code) const = 0;
+        [[nodiscard]] virtual std::optional<glyph_assembly> horizontal_assembly(const code_point char_code) const = 0;
+        [[nodiscard]] virtual std::optional<glyph_assembly> vertical_assembly(const code_point char_code) const = 0;
         virtual void set_size(const points size) = 0;
     };
 

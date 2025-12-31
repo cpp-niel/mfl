@@ -23,7 +23,9 @@ namespace mfl
 
         constexpr dots_per_inch operator""_dpi(const long double x) { return dots_per_inch{static_cast<double>(x)}; }
         constexpr dots_per_inch operator""_dpi(const unsigned long long x)
-        { return dots_per_inch{static_cast<double>(x)}; }
+        {
+            return dots_per_inch{static_cast<double>(x)};
+        }
 
         constexpr pixels operator""_px(const long double x) { return pixels{static_cast<double>(x)}; }
         constexpr pixels operator""_px(const unsigned long long x) { return pixels{static_cast<double>(x)}; }

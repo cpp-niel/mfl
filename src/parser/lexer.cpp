@@ -27,6 +27,8 @@ namespace mfl::parser
 
             if (c == '\'') return {true, tokens::prime};
 
+            if (c == '&') return {true, tokens::alignment_tab};
+
             return {false, tokens::unknown};
         }
 

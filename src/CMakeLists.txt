@@ -11,6 +11,7 @@ add_library(mfl
         noad/gen_script.cpp
         noad/left_right.cpp
         noad/math_char.cpp
+        noad/matrix.cpp
         noad/noad.cpp
         noad/overline.cpp
         noad/radical.cpp
@@ -33,6 +34,7 @@ add_library(mfl
         parser/line.cpp
         parser/math_char.cpp
         parser/math_space.cpp
+        parser/matrix.cpp
         parser/parse.cpp
         parser/parser_state.cpp
         parser/parser_utilities.cpp

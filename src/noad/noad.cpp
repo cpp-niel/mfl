@@ -5,6 +5,7 @@
 #include "noad/big_op.hpp"
 #include "noad/fraction.hpp"
 #include "noad/left_right.hpp"
+#include "noad/matrix.hpp"
 #include "noad/mlist.hpp"
 #include "noad/overline.hpp"
 #include "noad/radical.hpp"
@@ -47,6 +48,7 @@ namespace mfl
                                        [&](const underline& u) { return underline_to_hlist(s, cramp, u); },
                                        [&](const fraction& f) { return fraction_to_hlist(s, cramp, f); },
                                        [&](const left_right& l) { return left_right_to_hlist(s, cramp, l); },
+                                       [&](const matrix& f) { return matrix_to_hlist(s, cramp, f); },
                                        [&](const script& sc) { return script_to_hlist(s, cramp, sc); },
                                        [&](const big_op& b) { return big_op_to_hlist(s, cramp, b); },
                                        [](const math_space&) { return hlist{}; },
@@ -234,15 +236,22 @@ namespace mfl
 
     item_kind kind(const noad& n)
     {
-        return std::visit(
-            overload{[](const math_char& c) { return c.kind; }, [](const radical&) { return item_kind::ord; },
-                     [](const accent&) { return item_kind::ord; }, [](const vcenter&) { return item_kind::ord; },
-                     [](const overline&) { return item_kind::ord; }, [](const underline&) { return item_kind::ord; },
-                     [](const fraction&) { return item_kind::inner; },
-                     [](const left_right&) { return item_kind::inner; },
-                     [](const script& s) { return nucleus_kind(s); }, [](const big_op&) { return item_kind::op; },
-                     [](const math_space&) { return item_kind::none; }, [](const mlist&) { return item_kind::ord; },
-                     [](const mlist_with_kind& m) { return m.kind; }},
-            n);
+        return std::visit(overload{
+                              [](const math_char& c) { return c.kind; },
+                              [](const radical&) { return item_kind::ord; },
+                              [](const accent&) { return item_kind::ord; },
+                              [](const vcenter&) { return item_kind::ord; },
+                              [](const overline&) { return item_kind::ord; },
+                              [](const underline&) { return item_kind::ord; },
+                              [](const fraction&) { return item_kind::inner; },
+                              [](const left_right&) { return item_kind::inner; },
+                              [](const matrix&) { return item_kind::inner; },
+                              [](const script& s) { return nucleus_kind(s); },
+                              [](const big_op&) { return item_kind::op; },
+                              [](const math_space&) { return item_kind::none; },
+                              [](const mlist&) { return item_kind::ord; },
+                              [](const mlist_with_kind& m) { return m.kind; },
+                          },
+                          n);
     }
 }

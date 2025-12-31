@@ -11,11 +11,11 @@ namespace mfl
         [[nodiscard]] math_constants constants() const override;
         [[nodiscard]] math_glyph_info glyph_info(const size_t glyph_index) const override;
         [[nodiscard]] size_t glyph_index_from_code_point(const code_point char_code, const bool) const override
-        {
-            return size_t(char_code);
-        }
+        { return size_t(char_code); }
         [[nodiscard]] std::vector<size_variant> horizontal_size_variants(const code_point char_code) const override;
         [[nodiscard]] std::vector<size_variant> vertical_size_variants(const code_point char_code) const override;
+        [[nodiscard]] std::optional<glyph_assembly> horizontal_assembly(const code_point char_code) const override;
+        [[nodiscard]] std::optional<glyph_assembly> vertical_assembly(const code_point char_code) const override;
         void set_size(const points) override {}
     };
 

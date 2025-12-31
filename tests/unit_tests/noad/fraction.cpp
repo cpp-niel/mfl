@@ -67,7 +67,7 @@ namespace mfl
         SUBCASE("fraction with delimiters has correct glyph on each side")
         {
             // we specify that the delimiters are codepoints 1 and 2 and then check that
-            // the mock size variants have been chosen (4 and 5)
+            // the mock size variants have been chosen (4 and 6)
             const auto result = fraction_to_hlist(
                 display_style, cramping::off,
                 {.left_delim_code = 1, .numerator = {x_noad}, .denominator = {x_noad}, .right_delim_code = 2});
@@ -76,7 +76,7 @@ namespace mfl
             const auto& left_glyph = std::get<glyph>(b.nodes[0]);
             const auto& right_glyph = std::get<glyph>(b.nodes[2]);
             CHECK(left_glyph.index == 4);
-            CHECK(right_glyph.index == 5);
+            CHECK(right_glyph.index == 6);
         }
 
         SUBCASE("glue is used to center the narrower of numerator and denominator")

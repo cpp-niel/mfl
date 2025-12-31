@@ -26,6 +26,7 @@ namespace mfl
         const font_library* fonts;
     };
 
+    [[nodiscard]] dist_t base_line_skip(const settings s);
     [[nodiscard]] dist_t x_height(const settings s);
     [[nodiscard]] dist_t quad(const settings s);
     [[nodiscard]] dist_t math_unit(const settings s);

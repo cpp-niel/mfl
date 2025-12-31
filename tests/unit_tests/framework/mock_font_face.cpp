@@ -60,7 +60,7 @@ namespace mfl
     {
         if (char_code == 1) return {{3, 12}, {4, 24}};
 
-        if (char_code == 2) return {{5, 12}, {5, 24}};
+        if (char_code == 2) return {{5, 12}, {6, 24}};
 
         return {};
     }
@@ -69,13 +69,29 @@ namespace mfl
     {
         if (char_code == 1) return {{3, 12}, {4, 24}};
 
-        if (char_code == 2) return {{5, 12}, {5, 24}};
+        if (char_code == 2) return {{5, 12}, {6, 24}};
+
+        return {};
+    }
+
+    std::optional<glyph_assembly> mock_font_face::horizontal_assembly([[maybe_unused]] const code_point char_code) const
+    { return {}; }
+
+    std::optional<glyph_assembly> mock_font_face::vertical_assembly([[maybe_unused]] const code_point char_code) const
+    {
+        if (char_code == 41)
+        {
+            return glyph_assembly{.parts = {
+                                      glyph_part{.glyph_index = 42, .full_advance = 100'000},
+                                      glyph_part{.glyph_index = 43, .full_advance = 100'000},
+                                      glyph_part{.glyph_index = 44, .full_advance = 100'000, .is_extender = true},
+                                      glyph_part{.glyph_index = 45, .full_advance = 100'000},
+                                  }};
+        }
 
         return {};
     }
 
     std::unique_ptr<abstract_font_face> create_mock_font_face(font_family)
-    {
-        return std::make_unique<mock_font_face>();
-    }
+    { return std::make_unique<mock_font_face>(); }
 }

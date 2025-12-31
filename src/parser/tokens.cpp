@@ -24,6 +24,8 @@ namespace mfl::parser
             return "superscript '^'";
         case tokens::prime:
             return "apostrophe";
+        case tokens::alignment_tab:
+            return "alignment tab";
         }
 
         return "invalid token";

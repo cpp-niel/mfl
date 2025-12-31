@@ -9,6 +9,7 @@
 #include "parser/line.hpp"
 #include "parser/math_char.hpp"
 #include "parser/math_space.hpp"
+#include "parser/matrix.hpp"
 #include "parser/parser_state.hpp"
 #include "parser/radical.hpp"
 
@@ -34,6 +35,8 @@ namespace mfl::parser
 
         if (state.lexer_value() == "underline") return {create_underline(state)};
 
+        if (state.lexer_value() == "matrix") return {create_matrix(state)};
+
         if (is_font_choice(state.lexer_value())) return {create_font_group(state)};
 
         if (is_accent(state.lexer_value())) return {create_accent(state)};
@@ -46,5 +49,4 @@ namespace mfl::parser
 
         return {create_math_char(state.get_font_choice(), "\\" + state.consume_lexer_value(), state)};
     }
-
 }

@@ -15,6 +15,7 @@ namespace mfl::parser
         subscript,
         superscript,
         prime,
+        alignment_tab,
     };
 
     [[nodiscard]] std::string to_string(tokens t);

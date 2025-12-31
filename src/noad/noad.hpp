@@ -4,7 +4,6 @@
 #include "noad/math_space.hpp"
 #include "utils.hpp"
 
-#include <utility>
 #include <variant>
 #include <vector>
 
@@ -42,6 +41,9 @@ namespace mfl
     struct big_op;
     using big_op_wrapper = recursive_wrapper<big_op>;
 
+    struct matrix;
+    using matrix_wrapper = recursive_wrapper<matrix>;
+
     struct mlist;
     using mlist_wrapper = recursive_wrapper<mlist>;
 
@@ -50,7 +52,7 @@ namespace mfl
 
     using noad = std::variant<math_char, radical_wrapper, accent_wrapper, vcenter_wrapper, overline_wrapper,
                               underline_wrapper, fraction_wrapper, left_right_wrapper, script_wrapper, big_op_wrapper,
-                              math_space, mlist_wrapper, mlist_with_kind_wrapper>;
+                              matrix_wrapper, math_space, mlist_wrapper, mlist_with_kind_wrapper>;
 
     [[nodiscard]] box clean_box(const settings s, const cramping cramp, const std::vector<noad>& noads);
     [[nodiscard]] hlist to_hlist(const settings s, const cramping cramp, const bool has_penalties,

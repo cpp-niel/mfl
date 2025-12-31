@@ -144,6 +144,49 @@ namespace mfl
         approve_svg(result);
     }
 
+    TEST_CASE("extra large delimiters")
+    {
+        const auto formula = std::vector<std::string>{
+            R"(\left\lceil \quad \left\lfloor \quad \left[ \quad \left\{ \quad \left( \matrix{a \\ b \\ c \\ d \\ \vdots \\ x \\ y \\ z } \right) \quad \right\} \quad \right] \quad \right\rfloor \quad \right\rceil)",
+        };
+        const auto result =
+            render_formulas({.width = 420_px,
+                             .height = 220_px,
+                             .render_input = false,
+                             .input_offset = 200_px,
+                             .columns =
+                                 {
+                                     {.initial_offset = 120_px, .line_height = 90_px, .x = 10_px, .num_rows = 3},
+                                 }},
+                            formula);
+
+        approve_svg(result);
+    }
+
+    TEST_CASE("matrix")
+    {
+        const auto formula = std::vector<std::string>{
+            R"(M = \left(\matrix{ a & b & c \\ d & e & f \\ g & h & i \\ j & k & l }\right))",
+            R"(J = \left(\matrix{
+\frac{\partial f_1}{\partial x_1} & \frac{\partial f_1}{\partial x_2} & \cdots & \frac{\partial f_1}{\partial x_n} \cr
+\frac{\partial f_2}{\partial x_1} & \frac{\partial f_2}{\partial x_2} & \cdots & \frac{\partial f_2}{\partial x_n} \cr
+\vdots                            & \vdots                            & \ddots & \vdots                            \cr
+\frac{\partial f_m}{\partial x_1} & \frac{\partial f_m}{\partial x_2} & \cdots & \frac{\partial f_m}{\partial x_n} }\right))",
+            R"(T = \left(\matrix{ \left(\matrix{ a_0 & b_0 \\ c_0 & d_0 }\right) & \left(\matrix{ a_1 & b_1 \\ c_1 & d_1 }\right) \\ \left(\matrix{ a_2 & b_2 \\ c_2 & d_2 }\right) & \left(\matrix{ a_3 & b_3 \\ c_3 & d_3 }\right) \\ \left(\matrix{ a_4 & b_4 \\ c_4 & d_4 }\right) & \left(\matrix{ a_5 & b_5 \\ c_5 & d_5 }\right) }\right))"};
+        const auto result =
+            render_formulas({.width = 300_px,
+                             .height = 480_px,
+                             .render_input = false,
+                             .input_offset = 200_px,
+                             .columns =
+                                 {
+                                     {.initial_offset = 60_px, .line_height = 160_px, .x = 10_px, .num_rows = 3},
+                                 }},
+                            formula);
+
+        approve_svg(result);
+    }
+
     TEST_CASE("big_ops")
     {
         const auto result =

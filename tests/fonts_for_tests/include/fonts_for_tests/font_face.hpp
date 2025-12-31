@@ -22,6 +22,8 @@ namespace mfl::fft
                                                          const bool use_large_variant) const override;
         [[nodiscard]] std::vector<size_variant> horizontal_size_variants(const code_point char_code) const override;
         [[nodiscard]] std::vector<size_variant> vertical_size_variants(const code_point char_code) const override;
+        [[nodiscard]] std::optional<glyph_assembly> horizontal_assembly(const code_point char_code) const override;
+        [[nodiscard]] std::optional<glyph_assembly> vertical_assembly(const code_point char_code) const override;
         void set_size(const points size) override;
 
     private:
