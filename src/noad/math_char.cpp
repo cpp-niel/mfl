@@ -87,7 +87,9 @@ namespace mfl
 
         box boxed_glyph(const settings s, const font_family family, const abstract_font_face& face,
                         const size_t glyph_index)
-        { return make_hbox(hlist{.nodes = {make_glyph(s, family, face, glyph_index).first}}); }
+        {
+            return make_hbox(hlist{.nodes = {make_glyph(s, family, face, glyph_index).first}});
+        }
 
         [[maybe_unused]] box assemble_vertical_glyph(const settings s, const font_family family,
                                                      const abstract_font_face& face, const glyph_assembly& assembly,
@@ -180,5 +182,7 @@ namespace mfl
     }
 
     hlist math_char_to_hlist(const settings s, const math_char& mc)
-    { return make_hlist(make_glyph(s, mc.family, mc.char_code, false).first); }
+    {
+        return make_hlist(make_glyph(s, mc.family, mc.char_code, false).first);
+    }
 }

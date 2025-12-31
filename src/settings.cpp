@@ -91,10 +91,14 @@ namespace mfl
     dist_t subscript_shift(const settings s) { return params(script_base_style(s)).math_info.subscript_shift_down; }
 
     dist_t minimum_dual_script_gap(const settings s)
-    { return params(script_base_style(s)).math_info.minimum_dual_script_gap; }
+    {
+        return params(script_base_style(s)).math_info.minimum_dual_script_gap;
+    }
 
     dist_t maximum_superscript_bottom_in_dual_script(const settings s)
-    { return params(script_base_style(s)).math_info.maximum_superscript_bottom_in_dual_script; }
+    {
+        return params(script_base_style(s)).math_info.maximum_superscript_bottom_in_dual_script;
+    }
 
     dist_t subscript_drop(const settings s) { return params(script_base_style(s)).math_info.subscript_drop; }
 
@@ -119,5 +123,7 @@ namespace mfl
     dist_t radical_kern_after_degree(const settings s) { return params(s).math_info.radical_kern_after_degree; }
 
     dist_t radical_degree_bottom_raise_percent(const settings s)
-    { return params(s).math_info.radical_degree_bottom_raise_percent; }
+    {
+        return params(s).math_info.radical_degree_bottom_raise_percent;
+    }
 }

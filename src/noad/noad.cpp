@@ -224,7 +224,9 @@ namespace mfl
     }
 
     box clean_box(const settings s, const cramping cramp, const std::vector<noad>& noads)
-    { return make_hbox(to_hlist(s, cramp, false, noads)); }
+    {
+        return make_hbox(to_hlist(s, cramp, false, noads));
+    }
 
     hlist to_hlist(const settings s, const cramping cramp, const bool has_penalties, const std::vector<noad>& noads)
     {
