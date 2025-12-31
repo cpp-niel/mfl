@@ -12,19 +12,27 @@ namespace mfl
 {
     namespace
     {
-        std::size_t find_best_size_glyph_index(const abstract_font_face& face, const code_point char_code,
-                                               const dist_t requested_size, const bool is_horizontal)
+        struct best_size_result
+        {
+            std::size_t glyph_index = 0;
+            bool prefer_assembly = false;
+        };
+
+        best_size_result find_best_size_glyph_index(const abstract_font_face& face, const code_point char_code,
+                                                    const dist_t requested_size, const bool is_horizontal)
         {
             using namespace units_literals;
             const auto variants =
                 is_horizontal ? face.horizontal_size_variants(char_code) : face.vertical_size_variants(char_code);
 
-            if (variants.empty()) return face.glyph_index_from_code_point(char_code, false);
+            if (variants.empty()) return {face.glyph_index_from_code_point(char_code, false), true};
 
+            // The required size is 90% of the requested size, but never more than 5 points smaller
+            const auto required_size = std::max(requested_size * 901 / 1000, requested_size - points_to_dist(5_pt));
             const auto it =
-                std::ranges::find_if(variants, [&](const size_variant& v) { return v.size >= requested_size; });
-
-            return (it == variants.end()) ? variants.front().glyph_index : it->glyph_index;
+                std::ranges::find_if(variants, [&](const size_variant& v) { return v.size >= required_size; });
+            return (it == variants.end()) ? best_size_result{variants.back().glyph_index, true}
+                                          : best_size_result{it->glyph_index, false};
         }
 
         std::pair<glyph, horizontal_correction> make_glyph(const settings s, const font_family family,
@@ -81,8 +89,9 @@ namespace mfl
                         const size_t glyph_index)
         { return make_hbox(hlist{.nodes = {make_glyph(s, family, face, glyph_index).first}}); }
 
-        box assemble_vertical_glyph(const settings s, const font_family family, const abstract_font_face& face,
-                                    const glyph_assembly& assembly, const dist_t requested_height)
+        [[maybe_unused]] box assemble_vertical_glyph(const settings s, const font_family family,
+                                                     const abstract_font_face& face, const glyph_assembly& assembly,
+                                                     const dist_t requested_height)
         {
             const auto& extender = find_extender_part(assembly);
             const auto [fixed_top, fixed_middle, fixed_bottom] = find_fixed_parts(assembly);
@@ -98,7 +107,7 @@ namespace mfl
 
             // This is the number of extenders in one of the two sequences
             const auto num_extenders = (half_extension_height + extender.full_advance - 1) / extender.full_advance;
-            const auto extender_height = (half_extension_height + 1) / num_extenders;
+            const auto extender_height = (num_extenders > 0) ? ((half_extension_height + 1) / num_extenders) : 0;
 
             // All the glyph parts are put into boxes stacked one on top of the other with the top_box
             // being the reference box that the other boxes are positioned below.
@@ -150,7 +159,7 @@ namespace mfl
                                                                   const dist_t requested_width)
     {
         const auto& face = s.fonts->get_face(family, font_size(s));
-        const auto glyph_index = find_best_size_glyph_index(face, char_code, requested_width, true);
+        const auto [glyph_index, _] = find_best_size_glyph_index(face, char_code, requested_width, true);
         return make_glyph(s, family, face, glyph_index);
     }
 
@@ -159,13 +168,15 @@ namespace mfl
                                                                           const dist_t requested_height)
     {
         const auto& face = s.fonts->get_face(family, font_size(s));
-        const auto assembly = face.vertical_assembly(char_code);
-        const auto glyph_index = find_best_size_glyph_index(face, char_code, requested_height, false);
-        auto [glyph, correction] = make_glyph(s, family, face, glyph_index);
-        if (((glyph.height + glyph.depth) > requested_height) || !assembly.has_value()) return {glyph, correction};
+        const auto [glyph_index, prefer_assembly] =
+            find_best_size_glyph_index(face, char_code, requested_height, false);
+        if (const auto assembly = face.vertical_assembly(char_code); prefer_assembly && assembly.has_value())
+        {
+            return {assemble_vertical_glyph(s, family, face, assembly.value(), requested_height),
+                    horizontal_correction{.italic_correction = assembly->italic_correction}};
+        }
 
-        return {assemble_vertical_glyph(s, family, face, assembly.value(), requested_height),
-                horizontal_correction{.italic_correction = assembly->italic_correction}};
+        return make_glyph(s, family, face, glyph_index);
     }
 
     hlist math_char_to_hlist(const settings s, const math_char& mc)

@@ -135,7 +135,7 @@ namespace mfl
         const auto result = render_formulas({.width = 1200_px,
                                              .height = 1000_px,
                                              .columns = {{.line_height = 60_px, .x = 10_px, .num_rows = 17},
-                                                         {.line_height = 60_px, .x = 410_px, .num_rows = 17}}},
+                                                         {.line_height = 60_px, .x = 420_px, .num_rows = 17}}},
                                             formulas);
 
         approve_svg(result);
