@@ -24,11 +24,7 @@ namespace mfl::fft
             const auto glyph_codepoint = static_cast<hb_codepoint_t>(glyph_index);
             hb_ot_math_get_glyph_variants(font, glyph_codepoint, dir, 0, &num_variants, variants.data());
 
-            if (num_variants == 0)
-            {
-                num_variants = 1;
-                variants[0].glyph = glyph_codepoint;
-            }
+            if (num_variants == 0) return {};
 
             const auto to_size_variant = [&](const hb_ot_math_glyph_variant_t& v) {
                 hb_glyph_extents_t extents;
@@ -37,10 +33,19 @@ namespace mfl::fft
                 return size_variant{.glyph_index = v.glyph, .size = font_units_to_dist(std::abs(size))};
             };
 
-            return variants                                  //
-                   | std::views::take(num_variants)          //
-                   | std::views::transform(to_size_variant)  //
-                   | std::ranges::to<std::vector>();
+            // todo: clang on ubuntu 24.04 cannot compile this correctly ...
+            // return variants                                  //
+            //       | std::views::take(num_variants)          //
+            //       | std::views::transform(to_size_variant)  //
+            //       | std::ranges::to<std::vector>();
+
+            // ...so we have to do this instead:
+            auto result = std::vector<size_variant>(num_variants);
+            std::ranges::copy(variants                              //
+                                  | std::views::take(num_variants)  //
+                                  | std::views::transform(to_size_variant),
+                              result.begin());
+            return result;
         }
 
         std::optional<glyph_assembly> get_assembly(hb_font_t* font, const size_t glyph_index, const hb_direction_t dir)
@@ -62,12 +67,22 @@ namespace mfl::fft
                                   .is_extender = (p.flags & HB_OT_MATH_GLYPH_PART_FLAG_EXTENDER) != 0};
             };
 
-            return glyph_assembly{.parts = parts                             //
-                                           | std::views::take(num_parts)     //
-                                           | std::views::transform(to_part)  //
-                                           | std::views::reverse             //
-                                           | std::ranges::to<std::vector>(),
-                                  .italic_correction = font_units_to_dist(italic_correction)};
+            // todo: clang on ubuntu 24.04 cannot compile this correctly ...
+            // return glyph_assembly{.parts = parts                             //
+            //                               | std::views::take(num_parts)     //
+            //                               | std::views::transform(to_part)  //
+            //                               | std::views::reverse             //
+            //                               | std::ranges::to<std::vector>(),
+            //                      .italic_correction = font_units_to_dist(italic_correction)};
+
+            // ...so we have to do this instead:
+            auto assembly_parts = std::vector<glyph_part>(num_parts);
+            std::ranges::copy(parts                                 //
+                                  | std::views::take(num_parts)     //
+                                  | std::views::transform(to_part)  //
+                                  | std::views::reverse,
+                              assembly_parts.begin());
+            return glyph_assembly{.parts = assembly_parts, .italic_correction = font_units_to_dist(italic_correction)};
         }
     }
 
