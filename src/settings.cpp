@@ -42,8 +42,6 @@ namespace mfl
 
     points font_size(const settings s) { return params(s).size; }
 
-    dist_t base_line_skip(const settings) { return points_to_dist(12_pt); }
-
     dist_t x_height(const settings s) { return params(s).x_height; }
 
     dist_t quad(const settings s) { return params(s).capital_m_width; }

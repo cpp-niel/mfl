@@ -36,7 +36,10 @@ namespace mfl::parser
             }
             else
             {
-                cell.append_range(create_script(state));
+                // todo: This should be a one-liner using append_range
+                // cell.append_range(create_script(state));
+                auto script = create_script(state);
+                cell.insert(cell.end(), std::move_iterator(script.begin()), std::move_iterator(script.end()));
             }
         }
 
