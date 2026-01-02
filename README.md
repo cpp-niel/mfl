@@ -95,8 +95,6 @@ target_link_libraries(main PRIVATE mfl::mfl)
 
 ## License
 
-<img align="right" src="http://opensource.org/trademarks/opensource/OSI-Approved-License-100x137.png">
-
 The library is licensed under the [MIT License](http://opensource.org/licenses/MIT):
 
 Copyright &copy; 2020 Niel Waldren
